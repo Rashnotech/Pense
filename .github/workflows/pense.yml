@@ -31,15 +31,6 @@ jobs:
         with:
           python-version: '3.8'
 
-      # Install dependencies for the project
-      - name: Cache Dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
@@ -47,5 +38,5 @@ jobs:
 
       - name: Run Flask App
         run: |
-          time python -m api.v1.app
+          gunicorn -w 4 api:v1:app
          # python -m pytest tests/
