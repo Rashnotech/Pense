@@ -38,5 +38,5 @@ jobs:
 
       - name: Run Flask App
         run: |
-          gunicorn -w 4 api:v1:app
+          gunicorn -w 4 'api.v1.app:app'
          # python -m pytest tests/
