@@ -47,10 +47,7 @@ jobs:
         run: | 
          python -m unittest discover tests/
       
-    # Package Pense App     
-      - name: Package Pense Application
-        run: python setup.py sdist bdist_wheel
-
+         
     # upload an artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v2
