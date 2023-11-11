@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - test_dev/
   pull_request:
     branches:
       - test_dev/*
@@ -46,5 +47,13 @@ jobs:
         run: | 
          python -m unittest discover tests/
       
-     # - name: Test web_pense
-      #  run: |
+    # Package Pense App     
+      - name: Package Pense Application
+        run: python setup.py sdist bdist_wheel
+
+    # upload an artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pense-app
+          path: dist/
