@@ -46,11 +46,3 @@ jobs:
       - name: Test Api
         run: | 
          python -m unittest discover tests/
-      
-         
-    # upload an artifact
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: pense-app
-          path: dist/
