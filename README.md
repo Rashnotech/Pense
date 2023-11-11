@@ -11,7 +11,7 @@ Pense will not solve every possible problem related to content creation or publi
 ### Problem the Portfolio Project is Intended to Solve
 Pense (blog app) is intended to solve the problem of providing individuals and organisations with a platform to create, publish, and manage their written content in an organised and user-friendly manner. The project aims to simplify the process of content creation, publication, and engagement, making it easier for users to reach their target audience.
 
-**Note**
+# Notice
 > ### What the Portfolio Project Will Not Solve
 > Pense (blog app) as a portfolio project, will not solve every possible problem related to content creation or publishing. It will not address issues beyond content management, such as e-commerce, social networking, or multimedia content management, two factor authentication.
 
@@ -40,3 +40,5 @@ Pense (blog app), in general, is not inherently tied to a specific locale or loc
 **Differences:** Users can’t follow other users who write about topics that interest them.
 Users can’t make money from their stories and they can’t set up a paywall for their stories, which means that all members can access their blog.
 We want to focus on the core functionality of creating and sharing content. We also want to avoid the complexity and cost of implementing these features. Therefore, our project is different from Medium in these aspects
+
+## Authors
