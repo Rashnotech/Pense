@@ -4,7 +4,7 @@ on:
     pull_request:
         branches:
             - main
-
+            
 jobs:
     deploy:
         runs-on: ubuntu-latest
