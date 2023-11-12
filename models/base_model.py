@@ -14,7 +14,6 @@ class BaseModel:
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    id = 0
     def __init__(self, **kwargs) -> None:
         """ Initialization method """
         if kwargs:
@@ -27,7 +26,8 @@ class BaseModel:
                 else:
                     setattr(self, key, value)
         else:
-            self.id += 1
+            self.id = BaseModel.id
+            BaseModel.id += 1
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
 

@@ -30,17 +30,16 @@ class DBStorage:
                 dict: A dictionary with keys in the format below
                 <class-name>.<object-id>
         """
-        classes = {}
-        
+        classes = {cls.__name__: cls for cls in Base.__subclasses__()}
         obj_dict = {}
         if cls:
-            name = modules[__name__]
-            cls = getattr(name, cls.__name__)
+            cls = getattr(modules[__name__], cls.__name__)
             result = self.__session.query(cls).all()
         else:
             result = []
             for class_name in classes:
                 result.extend(self.__session.query(classes[class_name]).all())
+        
         for obj in result:
             key = '{}.{}'.format(type(obj).__name__, obj.id)
             obj_dict[key] = obj
@@ -80,4 +79,4 @@ class DBStorage:
 
     def close(self):
         """a method that callremove method"""
-        self.__session.close()
+        self.__session.remove()
