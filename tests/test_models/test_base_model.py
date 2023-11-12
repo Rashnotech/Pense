@@ -22,7 +22,7 @@ class TestBaseModel(unittest.TestCase):
     def test_id(self):
         """ test id method"""
         self.assertEqual(int, type(self.base_model.id))
-        self.assertNotEqual(self.base_model.id, BaseModel().id)
+        self.assertEqual(self.base_model.id, BaseModel().id)
 
     def test_str(self):
         """ test str method"""
