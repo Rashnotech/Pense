@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ index """
-from api.v1.views import app_views
+from api.v1.routes import app_views
 
 
 @app_views.route('/', strict_slashes=False)
