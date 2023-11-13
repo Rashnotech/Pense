@@ -41,4 +41,48 @@ Pense (blog app), in general, is not inherently tied to a specific locale or loc
 Users can’t make money from their stories and they can’t set up a paywall for their stories, which means that all members can access their blog.
 We want to focus on the core functionality of creating and sharing content. We also want to avoid the complexity and cost of implementing these features. Therefore, our project is different from Medium in these aspects
 
-## Authors
+## Environment
+This project file consist of both the front and the backend to the pense app. The backend of this project was built in python using Flask framework to harness our development, while the frontend was designed using React and Redux. The views folder of this application consist of all what is install to get the dynamic content running.
+The run this application follow the steps below
+### Backend
+**Note:** This guide assume python is already installed on your machine. If it's not installed go to https://www.python.org/downloads/ follow the neccessary instructions.
+1. Create a virtual environment for the application to work
+```
+cd pense
+python3 -m venv .venv
+```
+2. Activate the virtual environment. This depends on your machine
+**windows**
+```
+. .venv/Scripts/activate
+```
+**Linux/macOs**
+```
+. .venv/bin/activate
+```
+**Note:** If you still don't understand visit https://flask.palletsprojects.com/en/3.0.x/installation/
+
+3. A requirements file is present in the parent folder. On your text editor terminal install pip
+```
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+4. You can run the backend service
+```
+python3 -m api.v1.app
+```
+
+### FrontEnd
+**Note:** This guide assume Node is already installed on your machine. If it's not installed go to https://nodejs.org/en/download/ follow the neccessary instructions.
+1. You need to change directory to the views folder
+```
+cd views/web_pense
+```
+2. Install dependencies
+```
+npm install
+```
+**Note:** This will install the necessary dependencies required for the front end to work perfectly.
+```
+npm run dev
+```
