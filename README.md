@@ -89,8 +89,4 @@ npm install
 **Note:** This will install the necessary dependencies required for the front end to work perfectly.
 ```
 npm run dev
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> main
