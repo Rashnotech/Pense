@@ -1,6 +1,7 @@
 # python virtual environment
 .venv
 
+node_modules
 # Byte-compiled / pycache
 api/__pycache__/
 api/v1/__pycache__/
