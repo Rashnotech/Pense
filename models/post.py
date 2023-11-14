@@ -5,24 +5,14 @@ from sqlalchemy import create_engine, Column, String, Text, Integer, ForeignKey,
 from sqlalchemy.orm import relationship
 
 
-# Create the engine and the session
-engine = create_engine('sqlite:///pense.db', echo=True)
-Session = sessionmaker(bind=engine)
-session = Session()
-
-class Post(BaseModel, Base):
-    """Create the post model"""
     __tablename__ = 'posts'
 
-    id = Column(Integer, primary_key=True)
     title = Column(String(100), nullable=False, unique=True)
     content = Column(Text, nullable=False)
     image = Column(String(100))
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     description = Column(Text, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
-    created_at = Column(DateTime, default=datetime.now)
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     # Define the relationships
     category = relationship('Category', backref='posts')
