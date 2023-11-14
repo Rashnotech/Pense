@@ -41,10 +41,6 @@ Pense (blog app), in general, is not inherently tied to a specific locale or loc
 Users can’t make money from their stories and they can’t set up a paywall for their stories, which means that all members can access their blog.
 We want to focus on the core functionality of creating and sharing content. We also want to avoid the complexity and cost of implementing these features. Therefore, our project is different from Medium in these aspects
 
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ## Environment
 This project file consist of both the front and the backend to the pense app. The backend of this project was built in python using Flask framework to harness our development, while the frontend was designed using React and Redux. The views folder of this application consist of all what is install to get the dynamic content running.
 The run this application follow the steps below

@@ -10,4 +10,4 @@ class Comment(BaseModel, Base):
     comment = Column(Text, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
-    users = relationship('User', backref='place')
+    users = relationship('User', backref='comments')
