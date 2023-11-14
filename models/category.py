@@ -9,5 +9,4 @@ class Category(BaseModel, Base):
     """category class"""
     __tablename__ = 'categories'
     name = Column(String(128), nullable=False)
-    post = relationship('Post', backref='posts')
-    
+    post = relationship('Post', backref='users')

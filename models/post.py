@@ -5,19 +5,20 @@ from sqlalchemy import create_engine, Column, String, Text, Integer, ForeignKey,
 from sqlalchemy.orm import relationship
 
 
+class Post(BaseModel, Base):
+    """Create the post model"""
     __tablename__ = 'posts'
 
     title = Column(String(100), nullable=False, unique=True)
     content = Column(Text, nullable=False)
-    image = Column(String(100))
+    post_cover = Column(String(100), nullable=False)
+    attachment = Column(String(100), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
-    description = Column(Text, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
 
     # Define the relationships
-    category = relationship('Category', backref='posts')
     user = relationship('User', backref='posts')
-    comments = relationship('Comment', backref='post')
+    comments = relationship('Comment', backref='posts')
 
      # Define the methods and properties
     @property
