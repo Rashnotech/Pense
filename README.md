@@ -64,7 +64,8 @@ python3 -m venv .venv
 
 3. A requirements file is present in the parent folder. On your text editor terminal install pip
 ```
-python -m pip install --upgrade pip
+ubuntu/macOs: sudo apt install python3-pip
+terminal: python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 4. You can run the backend service

@@ -3,6 +3,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session, Session
 from models.base_model import Base, BaseModel
+from models.user import User
+from models.post import Post
+from models.likes import Like
+from models.comment import Comment
+from models.category import Category
 from sys import modules
 
 
@@ -30,7 +35,8 @@ class DBStorage:
                 dict: A dictionary with keys in the format below
                 <class-name>.<object-id>
         """
-        classes = {cls.__name__: cls for cls in Base.__subclasses__()}
+        classes = {'User': User, 'Post': Post, 'likes': Like,
+                   'Comment': Comment, 'Category': Category}
         obj_dict = {}
         if cls:
             cls = getattr(modules[__name__], cls.__name__)
