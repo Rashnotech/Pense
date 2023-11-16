@@ -11,6 +11,10 @@ from models.category import Category
 from sys import modules
 
 
+classes = {'User': User, 'Post': Post, 'likes': Like,
+                   'Comment': Comment, 'Category': Category}
+
+
 class DBStorage:
     """
         DBStorage class that implements the storage in database
@@ -35,8 +39,6 @@ class DBStorage:
                 dict: A dictionary with keys in the format below
                 <class-name>.<object-id>
         """
-        classes = {'User': User, 'Post': Post, 'likes': Like,
-                   'Comment': Comment, 'Category': Category}
         obj_dict = {}
         if cls:
             cls = getattr(modules[__name__], cls.__name__)
@@ -86,3 +88,18 @@ class DBStorage:
     def close(self):
         """a method that callremove method"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """Retrieve objects from storage"""
+        objs = self.__session.query(cls).filter_by(id=id).first()
+        return objs
+
+    def count(self, cls=None):
+        """count the number of objects in storage """
+        if cls is None:
+            count = 0
+            for clss in classes.values():
+                count += self.__session.query(clss).count()
+        else:
+            count = self.__session.query(cls).count()
+
