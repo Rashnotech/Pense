@@ -3,14 +3,19 @@
 from flask import Flask, jsonify
 from flask_mail import Mail
 from flask_cors import CORS
-from api.v1.routes import app_views
 from models import storage
+from api.v1.config import Config
+from api.v1.routes import app_views
 
 
 app = Flask(__name__)
-mail = Mail(app)
+config_name = "development"
+app.config.from_object(Config)
+Config.init_app(app)
+mail = Mail()
+mail.init_app(app)
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
-CORS(app, resources={r"api/v1/*": {"origins": "*"}})
 
 @app.teardown_appcontext
 def teardown_appcontext(self):

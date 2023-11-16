@@ -3,6 +3,7 @@
 
 node_modules
 # Byte-compiled / pycache
+models/engine/__pycache__/
 api/__pycache__/
 api/v1/__pycache__/
 api/v1/views/__pycache__/
@@ -14,3 +15,4 @@ tests/test_v1/__pycache__/
 tests/test_api/__pycache__/
 tests/test_models/__pycache__/
 tests/test_models/test_engine/__pycache__/
+api/v1/routes/__pycache__/

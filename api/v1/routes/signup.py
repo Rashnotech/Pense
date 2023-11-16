@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """a module for user signup"""
-from api.v1.routes import app_views, jsonify, request, abort
+from api.v1.routes import app_views, jsonify, request, abort, app_views
+from api.v1.routes.email import send_mail
 from models import storage
-from api.v1.routes import Message
 from models.user import User
 
 
@@ -20,14 +20,14 @@ def signup():
         abort(400, 'Missing email')
     if 'password' not in data:
         abort(400, 'Missing password')
-    validate = storage.get(User, data['email'])
-    if validate is not None:
-        abort(400, 'User already exists')
-    user = User(**data)
-    storage.new(user)
-    storage.save()
-    msg = Message('Pense Verification', 'pense@gmail.com',
-                  recipients=[data.email])
-    msg.body = '<b>Testing</b>'
-    msg.send(msg)
-    return jsonify(user.to_dict()), 201
+    validate = storage.all(User)
+    for user in validate.values():
+        if user.email == data['email']:
+            abort(400, 'User already exists')
+    body = 'Welcome to Pense!'
+    response = send_mail(data['email'], body)
+    new_user = User(**data)
+    new_user.save()
+    if response.status == 500:
+        abort(400, 'Verification Failed')
+    return jsonify(new_user.to_dict()), 201

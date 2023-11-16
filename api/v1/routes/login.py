@@ -2,6 +2,7 @@
 """ a module for user login"""
 from api.v1.routes import request, abort, app_views, jsonify
 from models import storage
+from api.v1.routes.email import send_mail
 from models.user import User
 from hashlib import md5
 
@@ -20,6 +21,8 @@ def login():
         abort(400, 'User not found')
     if user.password != md5(data['password']).encode().hexdigest():
         abort(400, 'Incorrect password')
+    if user.verify is False:
+        abort(400, 'Email not verified')
     return jsonify(user.to_dict(), 201)
 
 
@@ -31,7 +34,13 @@ def forget():
         abort(400, 'Not a JSON')
     if 'email' not in data:
         abort(400, 'Missing email')
-    user = storage.get(User, data['email'])
-    if user is None:
-        abort(400, 'User not found')
-    return jsonify(user.to_dict(), 201)
+    body = '<p>Your password reset instruction goes here</p>'
+    users = storage.get(User)
+    for user in users.values():
+        if user.email == data['email']:
+            response = send_mail(user.email, body)
+            if response.status == 500:
+                abort(400, 'Email not sent')
+            return jsonify({'message': 'Email sent successfully'}), 201
+    if response.status == 500:
+        abort(400, 'Email not sent')
