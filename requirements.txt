@@ -2,3 +2,4 @@ Flask
 flask_cors
 pytest 
 SQLAlchemy
+Flask-mail

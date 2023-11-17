@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """ Pense Backend entry point """
 from flask import Flask, jsonify
+from flask_mail import Mail
 from flask_cors import CORS
 from api.v1.routes import app_views
 from models import storage
 
 
 app = Flask(__name__)
+mail = Mail(app)
 app.register_blueprint(app_views)
 CORS(app, resources={r"api/v1/*": {"origins": "*"}})
 
