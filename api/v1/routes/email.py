@@ -11,11 +11,11 @@ def send_mail(receiver, body):
     with mail.connect() as conn:
         msg = Message(
                 subject='Pense Verification',
+                sender='pense.blogpost@gmail.com',
                 recipients=[receiver],
                 html=body)
         try:
             mail.send(msg)
-            response = {'message': 'Email sent successfully', 'status': 200}
+            return jsonify({'message': 'Email sent successfully'}), 200
         except Exception as e:
-            response = {'message': f'Error sending email: {str(e)}', 'status': 500}
-    return jsonify(response), response['status']
+            return jsonify({'message': f'Error sending email: {str(e)}'}), 500

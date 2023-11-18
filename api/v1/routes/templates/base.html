@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock title %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% endblock %}  
+</head>
+<body class="bg-slate-200 flex flex-col items-center justify-center pt-5">
+    {% block body %}
+    <img src="{{ url_for('static', filename='images/logo.png') }}" class="w-20" />
+    {% endblock body %}
+</body>
+</html>

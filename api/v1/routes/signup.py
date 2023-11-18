@@ -3,6 +3,7 @@
 from api.v1.routes import app_views, jsonify, request, abort, app_views
 from api.v1.routes.email import send_mail
 from models import storage
+from flask import url_for, render_template
 from models.user import User
 
 
@@ -12,22 +13,36 @@ def signup():
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
-    if 'firstname' not in data:
-        abort(400, 'Missing firstname')
-    if 'lastname' not in data:
-        abort(400, 'Missing lastname')
-    if 'email' not in data:
-        abort(400, 'Missing email')
-    if 'password' not in data:
-        abort(400, 'Missing password')
+    require_fields = ['firstname', 'lastname', 'email', 'password']
+    for field in require_fields:
+        if field not in data:
+            abort(400, f'Missing {field}')
     validate = storage.all(User)
     for user in validate.values():
         if user.email == data['email']:
             abort(400, 'User already exists')
-    body = 'Welcome to Pense!'
-    response = send_mail(data['email'], body)
+    body = render_template('verify.html',
+                           verify_url=url_for('app_views.verify',
+                                              email=data['email'], _external=True),
+                                              fullname=data['lastname'],
+                                              email=data['email'])
+    response, status_code = send_mail(data['email'], body)
     new_user = User(**data)
     new_user.save()
-    if response.status == 500:
-        abort(400, 'Verification Failed')
+    if status_code == 500:
+        abort(400, response)
     return jsonify(new_user.to_dict()), 201
+
+
+@app_views.route('/verify?email=<email>', methods=['GET', 'PUT'], strict_slashes=False)
+def verify(email):
+    """signup verification"""
+    if not email:
+        abort(400, 'Missing email')
+    users = storage.all(User)
+    for user in users.values():
+        if user.email == email:
+            setattr(user, 'verify', True)
+            user.save()
+            return jsonify({'message': 'Verification successful'}), 200
+    abort(400, 'Verfication Failed')

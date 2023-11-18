@@ -8,7 +8,7 @@ class Config:
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USERNAME = 'pense.blogpost@gmail.com'
-    MAIL_PASSWORD = 'pense_blog_post_2023'
+    MAIL_PASSWORD = 'nigyjnsceqoooqty'
 
     @classmethod
     def init_app(cls, app):
