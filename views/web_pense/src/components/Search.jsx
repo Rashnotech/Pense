@@ -1,7 +1,7 @@
 import { Tab } from '@headlessui/react'
 function Search () {
     return (
-        <div className="absolute top-1/3 mx-auto w-3/5 md:w-2/5">
+        <div className="absolute top-1/4 mx-auto w-3/5 md:w-2/5">
             <input
                 id='search'
                 type="search"

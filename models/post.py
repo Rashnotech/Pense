@@ -16,12 +16,8 @@ class Post(BaseModel, Base):
     attachment = Column(String(100), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
-
-    # Define the relationships
     user = relationship('User', backref='posts')
-    comments = relationship('Comment', backref='posts')
 
-     # Define the methods and properties
     @property
     def slug(self):
         # Generate a URL-friendly slug from the title

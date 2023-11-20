@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """ Pense Post """
-from flask import Flask, render_template, request, abort
 from models import storage
+from api.v1.routes import request, abort, app_views, jsonify
+from flask import Flask, Blueprint, jsonify, request, abort
 from models.post import Post
-from api.v1.routes import app_views
 
-app = Flask(__name__)
+post_bp = Blueprint('post_bp', __name__, url_prefix='/posts')
 
-@post.route('/posts', methods=['POST'], strict_slashes=False)
+@post_bp.route('/', methods=['POST'], strict_slashes=False)
 def create_post():
     data = request.get_json()
     if not data:
@@ -18,9 +18,13 @@ def create_post():
             return jsonify({'error': f'Missing {field}'}), 400
     post = Post(**data)
     post.save()
-    return jsonify(post.to_dict()), 201
 
-@post.route('/posts/<int:id>', methods=['PUT'], strict_slashes=False)
+    response_data = post.to_dict()
+    response_data['link'] = post.link
+
+    return jsonify(response_data), 201
+
+@post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)
 def update_post(id):
     # Get the JSON data from the request
     data = request.get_json()
@@ -35,16 +39,16 @@ def update_post(id):
     post.save()
     return jsonify(post.to_dict()), 200
 
-@post.route('/posts/<int:id>', methods=['DELETE'])
+@post_bp.route('/<int:id>', methods=['DELETE'], strict_slashes=False)
 def delete_post(id):
     # Get the post object from the database by its id
     post = storage.get(Post, id)
     if not post:
         return jsonify({'error': 'Post not found'}), 404
-    post.delete()
+    storage.delete()
     return jsonify({'success': 'Post deleted'}), 200
 
-@post.route('/posts/<link>', methods=['GET'])
+@post_bp.route('/<link>', methods=['GET'], strict_slashes=False)
 def show_post(link):
     post = storage.get(Post, link)
     if post:
