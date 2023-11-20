@@ -1,12 +1,12 @@
 import { Tab } from '@headlessui/react'
 function Search () {
     return (
-        <div className="absolute top-1/3 mx-auto w-3/5 md:w-2/5">
+        <div className="absolute top-[58%] mx-auto w-3/5 md:w-2/5">
             <input
                 id='search'
                 type="search"
-                placeholder="Search" 
-                className="border px-8 outline-none text-sm focus:ring-1 focus:font-medium eas py-3 shadow-md rounded-xl w-full"
+                placeholder="Search all posts..." 
+                className="border px-8 outline-none text-sm focus:ring-1 ring-gray-50 focus:font-medium eas py-3 shadow-md rounded-xl w-full"
             />
         </div>
     )
@@ -18,7 +18,7 @@ function classNames(...classes) {
 
 export default function SearchDesign () {
     return (
-        <section className="px-10 font-sans">
+        <section className="px-10 font-sans relative">
             <div id='abstract' className="w-full h-[150px] rounded-3xl mt-20 bg-purple-500 flex items-center justify-center">
                 <h1 className="text-4xl font-bold text-slate-50">Blog</h1>
                 <Search />

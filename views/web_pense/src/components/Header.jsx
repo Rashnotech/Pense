@@ -10,7 +10,7 @@ let [isOpen, setIsOpen] = useState(false)
                 <img src={Logo} className="w-28"  alt="Pense Logo" />
                 <Navbar handleClick={() => setIsOpen(true)} />
             </header>
-            <Form isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+            <Form isOpen={isOpen} closeModal={() => setIsOpen(false)} openModel={() => setIsOpen(true) } />
         </>
     )
 }
