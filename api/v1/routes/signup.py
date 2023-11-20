@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """a module for user signup"""
-from api.v1.routes import app_views, jsonify, request, abort
+from api.v1.routes import app_views, jsonify, request, abort, app_views
+from api.v1.routes.email import send_mail
 from models import storage
-from api.v1.routes import Message
+from flask import url_for, render_template
 from models.user import User
 
 
@@ -12,22 +13,36 @@ def signup():
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
-    if 'firstname' not in data:
-        abort(400, 'Missing firstname')
-    if 'lastname' not in data:
-        abort(400, 'Missing lastname')
-    if 'email' not in data:
+    require_fields = ['firstname', 'lastname', 'email', 'password']
+    for field in require_fields:
+        if field not in data:
+            abort(400, f'Missing {field}')
+    validate = storage.all(User)
+    for user in validate.values():
+        if user.email == data['email']:
+            abort(400, 'User already exists')
+    body = render_template('verify.html',
+                           verify_url=url_for('app_views.verify',
+                                              email=data['email'], _external=True),
+                                              fullname=data['lastname'],
+                                              email=data['email'])
+    response, status_code = send_mail(data['email'], body)
+    new_user = User(**data)
+    new_user.save()
+    if status_code == 500:
+        abort(400, response)
+    return jsonify(new_user.to_dict()), 201
+
+
+@app_views.route('/verify?email=<email>', methods=['GET', 'PUT'], strict_slashes=False)
+def verify(email):
+    """signup verification"""
+    if not email:
         abort(400, 'Missing email')
-    if 'password' not in data:
-        abort(400, 'Missing password')
-    validate = storage.get(User, data['email'])
-    if validate is not None:
-        abort(400, 'User already exists')
-    user = User(**data)
-    storage.new(user)
-    storage.save()
-    msg = Message('Pense Verification', 'pense@gmail.com',
-                  recipients=[data.email])
-    msg.body = '<b>Testing</b>'
-    msg.send(msg)
-    return jsonify(user.to_dict()), 201
+    users = storage.all(User)
+    for user in users.values():
+        if user.email == email:
+            setattr(user, 'verify', True)
+            user.save()
+            return jsonify({'message': 'Verification successful'}), 200
+    abort(400, 'Verfication Failed')
