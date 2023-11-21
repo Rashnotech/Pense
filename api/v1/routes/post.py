@@ -2,10 +2,10 @@
 """ Pense Post """
 from models import storage
 from api.v1.routes import request, abort, app_views, jsonify
-from flask import Flask, Blueprint, jsonify, request, abort
+from flask import Flask, Blueprint, jsonify, request, abort, render_template
 from models.post import Post
 
-post_bp = Blueprint('post_bp', __name__, url_prefix='/posts')
+post_bp = Blueprint('post_bp', __name__, url_prefix='/posts', template_folder='v1/routes/templates')
 
 @post_bp.route('/', methods=['POST'], strict_slashes=False)
 def create_post():
@@ -48,10 +48,26 @@ def delete_post(id):
     storage.delete()
     return jsonify({'success': 'Post deleted'}), 200
 
-@post_bp.route('/<link>', methods=['GET'], strict_slashes=False)
-def show_post(link):
-    post = storage.get(Post, link)
+@post_bp.route('/', methods=['GET'], strict_slashes=False)
+def show_all_posts():
+    post = storage.all(Post)
     if post:
-        return render_template('post.html', post=post)
-    else:
-        abort(404)
+        posts = [val.to_dict() for val in post.values()]
+        return jsonify(posts), 200
+    abort(400, "Empty post")
+
+@post_bp.route('/search', methods=['POST'], strict_slashes=False)
+def search_posts():
+    data = request.get_json()
+    if not data:
+        abort(400, 'Not a JSON')
+    if 'search' not in data:
+        abort(400, 'Missing search term')
+    posts = storage.all(Post)
+    results = []
+    for post in posts.values():
+        if data['search'].lower() in post.title.lower() or data['search'].lower() in post.category.name.lower():
+            results.append(post.to_dict())
+    if results:
+        return jsonify(results), 200
+    abort(404, "No matching posts found")

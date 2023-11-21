@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """ Pense Post """
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, Blueprint, jsonify
 from models import storage
 from models.comment import Comment
 from api.v1.routes import app_views
 
-app = Flask(__name__)
+comment_bp = Blueprint('comment_bp', __name__, url_prefix='/comments')
 
 
-@app.route('/comments', methods=['POST'], strict_slashes=False)
+@comment_bp.route('/', methods=['POST'], strict_slashes=False)
 def create_comment():
     """
     Create a new comment from the request data and
@@ -24,7 +24,7 @@ def create_comment():
 
 
 # Endpoint to update an existing comment
-@app.route('/comments/<int:comment_id>', methods=['PUT'])
+@comment_bp.route('//<int:comment_id>', methods=['PUT'])
 def update_comment(comment_id):
     try:
         data = request.get_json()
@@ -44,7 +44,7 @@ def update_comment(comment_id):
 
 
 # Endpoint to delete an existing comment
-@app.route('/comments/<int:comment_id>', methods=['DELETE'])
+@comment_bp.route('/<int:comment_id>', methods=['DELETE'])
 def delete_comment(comment_id):
     try:
         comment = storage.get(Comment, comment_id)
@@ -52,7 +52,7 @@ def delete_comment(comment_id):
         if not comment:
             return jsonify({'error': 'Comment not found'}), 404
 
-        comment.delete()
+        storage.delete()
         return jsonify({'message': 'Comment deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
