@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Account Verification{% endblock %}
+{% block body %}
+<main class="w-3/4 rounded-md flex flex-col items-center justify-between bg-slate-50 px-8 py-4 space-y-8">
+    <h1 class="text-3xl text-center">Account Verification</h1>
+    <p class="text-sm"> Hi, {{ fullname }}</p>
+    <p class="text-sm xl:text-lg">Thank you for choosing Pense Blog! 
+        Please confirm your email address by clicking the link below. 
+        We'll communicate important updates with you from time to time via email, 
+        so it's essential that we have an up-to-date email address on file.</p>
+    <a class="text-center rounded-md px-6 py-4 bg-sky-600 text-slate-100 font-medium hover:bg-sky-700" href="{{ verify_url }}">VERIFY EMAIL</a>
+    <p class="text-sm xl:text-lg">If you did not sign up for a Pense Blog account, you can simply disregard this email.</p>
+    <p>Cheers. </pp> 
+    <p><strong>The Pense Team</strong></p>
+</main>
+<footer class="text-center text-slate-400 text-xs xl:text-base">
+    <p>Pense Blog Inc, Kigali Kenya</p>
+    <p>Don't like these emails? <a>Unsubscribe.</a></p>
+    <p>Powered by Rashnotech</p>
+</footer>
+{% endblock body %}
