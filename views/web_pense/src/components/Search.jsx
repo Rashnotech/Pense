@@ -31,9 +31,27 @@ export default function SearchDesign () {
                             ? 'bg-sky-400 text-slate-50 w-1/6 outline-none'
                             : 'bg-inherit text-slate-400' 
                         )}>All</Tab>
-                    <Tab>NFT</Tab>
-                    <Tab>Technology</Tab>
-                    <Tab>NFT</Tab>
+                    <Tab
+                        className= {({ selected }) =>
+                        classNames("rounded-full px-4 py-2 text-center",
+                        selected
+                            ? 'bg-sky-400 text-slate-50 w-1/6 outline-none'
+                            : 'bg-inherit text-slate-400' 
+                        )}>NFT</Tab>
+                    <Tab
+                        className= {({ selected }) =>
+                        classNames("rounded-full px-4 py-2 text-center",
+                        selected
+                            ? 'bg-sky-400 text-slate-50 w-1/6 outline-none'
+                            : 'bg-inherit text-slate-400' 
+                        )}>Technology</Tab>
+                    <Tab
+                        className= {({ selected }) =>
+                        classNames("rounded-full px-4 py-2 text-center",
+                        selected
+                            ? 'bg-sky-400 text-slate-50 w-1/6 outline-none'
+                            : 'bg-inherit text-slate-400' 
+                        )}>NFT</Tab>
                     <Tab>Technology</Tab>
                 </Tab.List>
             </Tab.Group>

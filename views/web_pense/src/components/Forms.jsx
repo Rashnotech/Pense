@@ -3,6 +3,16 @@ import { Fragment } from 'react'
 import { useState } from 'react'
 
 function Sigin ({isSignin, handleSignin, openModel}) {
+    const [formData, setFormData] = useState({
+        'email': '',
+        'password': ''
+    })
+
+    function handleChange (event) {
+        const {name, value} = event.target
+        setFormData(prev => ({...prev, [name]: value}))
+    }
+
     return (
         <>
             <Transition appear show={isSignin} as={Fragment}>
@@ -25,9 +35,9 @@ function Sigin ({isSignin, handleSignin, openModel}) {
                                 <div className="mt-4 w-full px-2">
                                     <form action="">
                                         <label className="text-sm font-medium text-gray-700">Email</label>
-                                        <input type="email" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Email' />
+                                        <input name='email' onChange={handleChange} value={formData.email} type="email" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Email' />
                                         <label className="text-sm font-medium text-gray-700">Password</label>
-                                        <input type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Password' />
+                                        <input name='password' onChange={handleChange} value={formData.password} type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Password' />
                                         <p className='font-medium text-blue-400 block text-right text-sm'><a href="">Forget password?</a></p>
                                         <button className='px-6 py-3 bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>Sign in</button>
     
@@ -50,6 +60,18 @@ function Sigin ({isSignin, handleSignin, openModel}) {
 }
 
 function Signup ({isOpen, closeModal, handleSignin}) {
+    const [formData, setFormData] = useState({
+        'firstname': '',
+        'lastname': '',
+        'email': '',
+        'password': ''
+    })
+
+    function handleChange (event) {
+        const {name, value} = event.target
+        setFormData(prev => ({...prev, [name]: value}))
+    }
+
     return (
     <>
         <Transition appear show={isOpen} as={Fragment}>
@@ -72,7 +94,7 @@ function Signup ({isOpen, closeModal, handleSignin}) {
                             <div className="mt-4 w-full px-2">
                                 <form action="">
                                     <label className="text-sm font-medium text-gray-700">First Name</label>
-                                    <input type="text" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter First Name' />
+                                    <input name='firstname' value={formData.firstname} onChange={handleChange} type="text" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter First Name' />
                                     <label className="text-sm font-medium text-gray-700">Last Name</label>
                                     <input type="text" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Last name' />
                                     <label className="text-sm font-medium text-gray-700">Email</label>
