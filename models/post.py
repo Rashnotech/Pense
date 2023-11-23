@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ a module for the post model"""
+from hashlib import md5
 from models.base_model import Base, BaseModel
 from sqlalchemy import create_engine, Column, String, Text, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
@@ -15,12 +16,8 @@ class Post(BaseModel, Base):
     attachment = Column(String(100), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
-
-    # Define the relationships
     user = relationship('User', backref='posts')
-    comments = relationship('Comment', backref='posts')
 
-     # Define the methods and properties
     @property
     def slug(self):
         # Generate a URL-friendly slug from the title
@@ -41,3 +38,5 @@ class Post(BaseModel, Base):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
+        # Generate the unique link for the post using the md5 hash
+        self.link = md5(self.title.encode()).hexdigest()

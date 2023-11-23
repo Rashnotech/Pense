@@ -11,3 +11,13 @@ class Comment(BaseModel, Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
     users = relationship('User', backref='comments')
+    posts = relationship('Post', backref='comments')
+
+    # Define the methods and properties
+    @property
+    def comment_length(self):
+        # Return the length of the comment
+        return len(self.comment.split())
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
