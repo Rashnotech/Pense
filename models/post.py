@@ -10,10 +10,10 @@ class Post(BaseModel, Base):
     """Create the post model"""
     __tablename__ = 'posts'
 
-    title = Column(String(100), nullable=False, unique=True)
+    title = Column(String(100), nullable=False)
     content = Column(Text, nullable=False)
-    post_cover = Column(String(100), nullable=False)
-    attachment = Column(String(100), nullable=False)
+    post_cover = Column(String(100), nullable=True)
+    attachment = Column(String(100), nullable=True)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref='posts')

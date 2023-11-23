@@ -20,7 +20,7 @@ def create_post():
     post.save()
 
     response_data = post.to_dict()
-    response_data['link'] = post.link()
+    response_data['link'] = post.link
 
     return jsonify(response_data), 201
 
