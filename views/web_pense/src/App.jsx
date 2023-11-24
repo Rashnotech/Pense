@@ -34,7 +34,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route index element={<Blog />} />          
         <Route path='write' element={<Write />} />
         <Route path=':name/:title' element={<PostDetails />} />
-        <Route path='me/:name' element={<Profile />}>
+        <Route path='me/:name' loader={ async () => await AuthLoader() } element={<Profile />}>
           <Route index element={<Accounts />} />
           <Route path='settings' element={<Settings />} />
         </Route>
