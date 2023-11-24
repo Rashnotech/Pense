@@ -4,6 +4,7 @@ from hashlib import md5
 from models.base_model import Base, BaseModel
 from sqlalchemy import create_engine, Column, String, Text, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
+from math import ceil
 
 
 class Post(BaseModel, Base):
@@ -17,6 +18,9 @@ class Post(BaseModel, Base):
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref='posts')
+    slug = Column(String(100), nullable=False, unique=True)
+    summary = Column(Text)
+    read_time = Column(Integer)
 
     @property
     def slug(self):
@@ -39,4 +43,8 @@ class Post(BaseModel, Base):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         # Generate the unique link for the post using the md5 hash
-        self.link = md5(self.title.encode()).hexdigest()
+        self.slug = md5(self.title.encode()).hexdigest()
+        self.summary = self.content[:100] + '...'
+        word_count = len(self.content.split())
+        reading_speed = 200
+        self.read_time = ceil(word_count / reading_speed)
