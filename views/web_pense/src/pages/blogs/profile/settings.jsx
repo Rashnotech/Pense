@@ -17,7 +17,7 @@ function Contents () {
     )
 }
 
-export default function Topics() {
+export default function Settings() {
     return (
         <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <div className="md:col-span-2 col-auto h-full relative overflow-x-hidden overflow-y-auto">

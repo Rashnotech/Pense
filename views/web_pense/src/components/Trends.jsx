@@ -18,7 +18,7 @@ function Posts () {
 
 export default function Trends () {
     return (
-        <section className="px-7 md:px-14 py-8 text-base">
+        <section className="px-7 md:px-14 py-8 text-base" id="trending">
             <h3 className="font-semibold text-lg">Trending on Pense</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <Posts />
