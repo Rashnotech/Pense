@@ -10,13 +10,25 @@ import Accounts from './pages/blogs/profile/account'
 import Settings from './pages/blogs/profile/settings'
 import { AuthLoader } from './pages/blogs/AuthLoader'
 import Profile from './pages/blogs/profile/Profile'
+import Login from './components/Login'
+import Register from './components/Register'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
-      <Route index element={<Home />} />
+      <Route path='/' element={<Home />} >
+        <Route
+          path='login'
+          element={<Login />}
+          />
+        <Route
+          path='register'
+          element={<Register />}
+          />
+      </Route>
       <Route path='/:name/:title' element={<PostDetails />} />
+      
       <Route path='*' element={<h2>404 Not found</h2>} />
-      <Route path='/forget' element='' />
+      <Route path='forget' element='' />
 
       <Route path='blog' loader={ async () => await AuthLoader() } element={<BlogLayout />}>
         <Route index element={<Blog />} />          

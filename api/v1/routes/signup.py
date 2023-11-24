@@ -3,7 +3,7 @@
 from api.v1.routes import app_views, jsonify, request, abort, app_views
 from api.v1.routes.email import send_mail
 from models import storage
-from flask import url_for, render_template
+from flask import url_for, render_template, redirect
 from models.user import User
 
 
@@ -44,5 +44,5 @@ def verify(email):
         if user.email == email:
             setattr(user, 'verify', True)
             user.save()
-            return jsonify({'message': 'Verification successful'}), 200
+            return redirect('/login')
     abort(400, 'Verfication Failed')

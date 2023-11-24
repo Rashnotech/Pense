@@ -3,7 +3,7 @@
 from api.v1.routes import request, abort, app_views, jsonify
 from models import storage
 from api.v1.routes.email import send_mail
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect
 from models.user import User
 from hashlib import md5
 
@@ -25,9 +25,9 @@ def login():
             if user.password != md5(data['password'].encode()).hexdigest():
                 abort(400, 'Incorrect password')
             if user.verify is False:
-                abort(400, 'Email not verified')
+                return jsonify({'message': 'Email not verified'}), 400
             return jsonify(user.to_dict(), 201)
-    abort(400, 'User not found')
+    return jsonify({'message': 'User not found'}), 400
 
 
 @app_views.route('/forget', methods=['POST'], strict_slashes=False)
@@ -68,5 +68,5 @@ def password_reset(email):
         if user.email == email:
             setattr(user, 'password', new_pass)
             user.save()
-            return jsonify({'message': 'Password updated successfully'}), 201
+            return redirect('/login')
     abort(400, 'An error occurred!')

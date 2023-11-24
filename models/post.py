@@ -2,8 +2,9 @@
 """ a module for the post model"""
 from hashlib import md5
 from models.base_model import Base, BaseModel
-from sqlalchemy import create_engine, Column, String, Text, Integer, ForeignKey, DateTime
+from sqlalchemy import Column, String, Text, Integer, ForeignKey
 from sqlalchemy.orm import relationship
+from math import ceil
 
 
 class Post(BaseModel, Base):
