@@ -23,7 +23,7 @@ export default function Register () {
     async function onSubmit (data) {
         setProcess(true)
         try {
-            const url = 'http://127.0.0.1:5000/api/v1/signup'
+            const url = 'https://pense-service.onrender.com/api/v1/signup'
             const res = await registerRequest(url ,data)
         } catch (error) {
             setError(error.message)

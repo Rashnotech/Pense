@@ -7,8 +7,8 @@ from models import storage
 from api.v1.config import Config
 from api.v1.routes import app_views
 
-
 app = Flask(__name__)
+
 config_name = "development"
 app.config.from_object(Config)
 Config.init_app(app)
@@ -29,4 +29,5 @@ def not_found_error(error):
 
 
 if __name__ == "__main__":
+    storage.reload()
     app.run()

@@ -71,3 +71,45 @@ npm install
 ```
 npm run dev
 ```
+
+
+# API ENDPOINT
+This will guide you on how to use the endpoints created for the pense application
+
+### Signup
+The signup supports just the `POST` request only. A verification email will be send to any email you use in registration for authentication. Email needs to be verified before you can login into the application.
+```
+https://pense-service.onrender.com/api/v1/signup
+
+{
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "johndoe@gmail.com"
+    "password": "2345f",
+}
+```
+
+### Login
+The login supports just the `POST` request only. After you must have verified your email it should redirect you to the login.
+```
+https://pense-service.onrender.com/api/v1/login
+{
+    "email": "johndoe@gmail.com",
+    "password": "2345f"
+}
+```
+
+### Email Verification
+This make use of a `GET, PUT` request for the purpose of verification, successfully verification returns a success.
+```
+https://pense-service.onrender.com/api/v1/verify?email=<email>
+{
+    "email": "johndoe@gmail.com"
+}
+```
+
+
+### Creating a Post
+```
+https://pense-service.onrender.com/api/v1/posts
+```

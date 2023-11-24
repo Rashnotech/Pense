@@ -25,7 +25,7 @@ export default function Login () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = 'http://127.0.0.1:5000/api/v1/login'
+        const url = 'https://pense-service.onrender.com/api/v1/login'
         try {
             const res = await loginRequest(url, data)
         } catch (err) {
