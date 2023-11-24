@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-export default function Navbar({handleClick}) {
+export default function Navbar() {
     const [state, setState] = useState(false)
     function toggle () {
         setState(prev => !prev)
@@ -10,9 +10,9 @@ export default function Navbar({handleClick}) {
     return (
         <nav className="w-2/5 py-4 font-medium">
             <ul className="text-sm w-full hidden md:flex items-center justify-end space-x-6">
-                <li><Link to='/'>Blog</Link></li>
-                <li><button onClick={() => handleClick()}>Sign in</button> </li>
-                <li><button onClick={() => handleClick()} className="rounded-full text-slate-100 font-medium bg-blue-500 hover:bg-blue-600 px-6 py-3">Get started</button></li>
+                <li><Link to='/blog'>Blog</Link></li>
+                <li><Link to='/login'>Sign in</Link> </li>
+                <li><Link to='/register' className="rounded-full text-slate-100 font-medium bg-blue-500 hover:bg-blue-600 px-6 py-3">Get started</Link></li>
             </ul>
             <button onClick={toggle} className="md:hidden float-right block rounded-full bg-slate-200 text-black p-4">
                 {state ?
