@@ -24,6 +24,27 @@ def create_post():
 
     return jsonify(response_data), 201
 
+@post_bp.route('/<slug>', methods=['GET'], strict_slashes=False)
+def get_post_by_slug(slug):
+    post = storage.find(Post, Post.slug_column == slug).first()
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify(post.to_dict()), 200
+
+@post_bp.route('/<int:id>/summary', methods=['GET'], strict_slashes=False)
+def get_post_summary(id):
+    post = storage.get(Post, id)
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify({'summary': post.summary_column}), 200
+
+@post_bp.route('/<int:id>/read_time', methods=['GET'], strict_slashes=False)
+def get_post_read_time(id):
+    post = storage.get(Post, id)
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify({'read_time': post.read_time_column}), 200
+
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)
 def update_post(id):
     # Get the JSON data from the request
