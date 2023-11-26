@@ -12,10 +12,13 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@uiw/react-md-editor": "^3.25.6",
+    "immer": "^10.0.3",
+    "logger": "^0.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
-    "react-router-dom": "^6.19.0"
+    "react-router-dom": "^6.19.0",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

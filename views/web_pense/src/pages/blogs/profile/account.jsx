@@ -1,17 +1,18 @@
-import  { Link } from 'react-router-dom'
+import  { Link, NavLink, Outlet } from 'react-router-dom'
 
 function Account () {
     return (
-        <section className="absolute flex flex-col items-start justify-start w-full">
+        <section className="flex flex-col items-start p-3 justify-start w-full h-full">
             <article className="space-y-2 w-full">
                 <h2 className="text-6xl font-medium">John Doe</h2>
-                <div className='w-4/5 border-b border-slate-300 mt-2'>
-                    <ul className='flex items-center space-x-6 py-2 text-sm'>
-                        <li>Home</li>
-                        <li>List</li>
-                        <li>About</li>
+                <div className='w-5/6 border-b border-slate-300 mt-2'>
+                    <ul className='flex items-center space-x-6 py-2 text-sm w-full'>
+                        <li><NavLink to='.' >Home</NavLink> </li>
+                        <li><NavLink to='list'>List</NavLink> </li>
+                        <li><NavLink to='about'>About</NavLink> </li>
                     </ul>
                 </div>
+                <Outlet />
             </article>
         </section>
     )

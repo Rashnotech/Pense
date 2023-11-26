@@ -2,12 +2,14 @@
 export async function fetchRequest (url) {
     try {
         const response = await fetch(url)
-        data = response.json()
+        const data = response.json()
         return data
     } catch (err) {
+        const resJson = await res.json()
         throw {
-            message: err.message,
-            status: err.status
+            message: resJson.message || 'Fetch error',
+            status: resJson.status,
+            statusText: resJson.statusText
         }
     }
 }

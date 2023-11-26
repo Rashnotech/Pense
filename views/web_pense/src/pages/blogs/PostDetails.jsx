@@ -1,6 +1,12 @@
 import { useParams, Link } from "react-router-dom";
 import Comments from "./Comment";
+import { fetchRequest } from "../api";
 
+export async function loader () {
+    const url = `api/v1/post`
+    //const data = await fetchRequest(url)
+    return "loaded"
+}
 
 export default function PostDetails () {
     const params = useParams()
