@@ -18,7 +18,7 @@ class Post(BaseModel, Base):
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref='posts')
-    slug_column = Column(String(100), nullable=False, unique=True)
+    slug_column = Column(String(100), nullable=False)
     summary_column = Column(Text)
     read_time_column = Column(Integer)
 
