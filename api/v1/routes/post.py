@@ -26,7 +26,7 @@ def create_post():
 
 @post_bp.route('/<slug>', methods=['GET'], strict_slashes=False)
 def get_post_by_slug(slug):
-    post = storage.find(Post, Post.slug_column == slug).first()
+    post = storage.get(Post, Post.slug_column == slug)
     if not post:
         return jsonify({'error': 'Post not found'}), 404
     return jsonify(post.to_dict()), 200
@@ -84,10 +84,11 @@ def search_posts():
         abort(400, 'Not a JSON')
     if 'search' not in data:
         abort(400, 'Missing search term')
+    search_term = data['search'].lower()
     posts = storage.all(Post)
     results = []
     for post in posts.values():
-        if data['search'].lower() in post.title.lower() or data['search'].lower() in post.category.name.lower():
+        if search_term in post.title.lower() or search_term in post.content.lower():
             results.append(post.to_dict())
     if results:
         return jsonify(results), 200
