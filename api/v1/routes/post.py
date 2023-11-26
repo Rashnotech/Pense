@@ -24,6 +24,27 @@ def create_post():
 
     return jsonify(response_data), 201
 
+@post_bp.route('/<slug>', methods=['GET'], strict_slashes=False)
+def get_post_by_slug(slug):
+    post = storage.get(Post, Post.slug_column == slug)
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify(post.to_dict()), 200
+
+@post_bp.route('/<int:id>/summary', methods=['GET'], strict_slashes=False)
+def get_post_summary(id):
+    post = storage.get(Post, id)
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify({'summary': post.summary_column}), 200
+
+@post_bp.route('/<int:id>/read_time', methods=['GET'], strict_slashes=False)
+def get_post_read_time(id):
+    post = storage.get(Post, id)
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify({'read_time': post.read_time_column}), 200
+
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)
 def update_post(id):
     # Get the JSON data from the request
@@ -63,10 +84,11 @@ def search_posts():
         abort(400, 'Not a JSON')
     if 'search' not in data:
         abort(400, 'Missing search term')
+    search_term = data['search'].lower()
     posts = storage.all(Post)
     results = []
     for post in posts.values():
-        if data['search'].lower() in post.title.lower() or data['search'].lower() in post.category.name.lower():
+        if search_term in post.title.lower() or search_term in post.content.lower():
             results.append(post.to_dict())
     if results:
         return jsonify(results), 200

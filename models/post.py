@@ -18,6 +18,9 @@ class Post(BaseModel, Base):
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref='posts')
+    slug_column = Column(String(100), nullable=False)
+    summary_column = Column(Text)
+    read_time_column = Column(Integer)
 
     @property
     def slug(self):
@@ -39,5 +42,7 @@ class Post(BaseModel, Base):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        # Generate the unique link for the post using the md5 hash
-        self.link = md5(self.title.encode()).hexdigest()
+        self.slug_column = self.slug
+        self.summary_column = self.content.split('.')[0] + '.'
+        word_count = len(self.content.split())
+        self.read_time_column = ceil(word_count / reading_speed)
