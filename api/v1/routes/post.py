@@ -20,7 +20,6 @@ def create_post():
     post.save()
 
     response_data = post.to_dict()
-    response_data['link'] = post.link
 
     return jsonify(response_data), 201
 
@@ -93,3 +92,10 @@ def search_posts():
     if results:
         return jsonify(results), 200
     abort(404, "No matching posts found")
+
+@post_bp.route('/<int:user_id>/<int:post_id>', methods=['GET'], strict_slashes=False)
+def get_post_by_post_id(user_id, post_id):
+    post = storage.get(Post, (Post.user_id == user_id) & (Post.id == post_id))
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify(post.to_dict()), 200

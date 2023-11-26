@@ -11,7 +11,7 @@ class Post(BaseModel, Base):
     """Create the post model"""
     __tablename__ = 'posts'
 
-    title = Column(String(100), nullable=False, unique=True)
+    title = Column(String(100), nullable=False)
     content = Column(Text, nullable=False)
     post_cover = Column(String(100), nullable=False)
     attachment = Column(String(100), nullable=False)
@@ -45,4 +45,4 @@ class Post(BaseModel, Base):
         self.slug_column = self.slug
         self.summary_column = self.content.split('.')[0] + '.'
         word_count = len(self.content.split())
-        self.read_time_column = ceil(word_count / reading_speed)
+        self.read_time_column = ceil(word_count / 200)
