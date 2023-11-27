@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """ Pense Post """
 from models import storage
-from api.v1.routes import request, abort, app_views, jsonify
-from flask import Flask, Blueprint, jsonify, request, abort, render_template
+from api.v1.routes import request, abort, jsonify
+from flask import Blueprint, jsonify, request, abort
 from models.post import Post
+from models.category import Category
 
 post_bp = Blueprint('post_bp', __name__, url_prefix='/posts')
 
@@ -12,7 +13,7 @@ def create_post():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    required_fields = ['title', 'content', 'category_id', 'user_id']
+    required_fields = ['title', 'content', 'category_ids', 'user_id']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'Missing {field}'}), 400
@@ -20,6 +21,11 @@ def create_post():
     data['slug'] = post.slug(data['title'])
     data['summary'] = post.summary(data['content'])
     data['read_time'] = post.read_time(data['content'])
+    categories = [storage.get(Category, id) for id in data['category_ids']]
+    if None in categories:
+        return jsonify({'error': 'One or more category IDs are invalid'}), 400
+    post.categories = categories
+    
     new_post = Post(**data)
     new_post.save()
     return jsonify(new_post.to_dict()), 201
@@ -36,7 +42,7 @@ def update_post(id):
     if not post:
         return jsonify({'error': 'Post not found'}), 404
     for key, value in data.items():
-        if key not in ['id', 'created_at', 'updated_at', 'link']:
+        if key not in ['id', 'created_at', 'updated_at']:
             setattr(post, key, value)
     post.save()
     return jsonify(post.to_dict()), 200
@@ -74,3 +80,10 @@ def search_posts():
     if results:
         return jsonify(results), 200
     abort(404, "No matching posts found")
+
+@post_bp.route('/<int:user_id>/<int:post_id>', methods=['GET'], strict_slashes=False)
+def get_post_by_post_id(user_id, post_id):
+    post = storage.get(Post, (Post.user_id == user_id) & (Post.id == post_id))
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+    return jsonify(post.to_dict()), 200
