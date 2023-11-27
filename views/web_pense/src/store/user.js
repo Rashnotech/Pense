@@ -1,62 +1,41 @@
-import redux from 'redux'
-
-const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS'
-const FETCH_USER_FAILED = 'FETCH_USER_FAILED'
-const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     loading: false,
-    data: [],
+    users: [],
     error: ''
 }
 
-const fetchUserRequest = (users) => {
-    return {
-        type: FETCH_USER_REQUEST
+
+export const fetchUsers = createAsyncThunk('data/fetchData', async (url, credential) => {
+    const res = await fetch (url ,
+            {headers: new Headers({'Content-Type': 'application/json'}),
+            method: "POST", body: JSON.stringify(credential)})
+    const data = await res.json()
+    const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
+    sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id}))
+    return data
+});
+
+
+const userSlice = createSlice({
+    name: 'users',
+    initialState,
+    extraReducers: (builder) => {
+        builder.addCase(fetchUsers.pending, state => {
+            state.loading = true
+        })
+        builder.addCase(fetchUsers.fulfilled, (state, action) => {
+            state.loading = false,
+            users = action.payload,
+            state.error = ''
+        })
+        builder.addCase(fetchUsers.rejected, (state, action) => {
+            state.loading = false,
+            state.users = [],
+            state.error = action.error.message
+        })
     }
-}
+})
 
-const fetchUserSuccess = (users) => {
-    return {
-        type: FETCH_USER_SUCCESS,
-        payload: users,
-    }
-}
-
-const fetchUserFailure = (error) => {
-    return {
-        type: FETCH_USER_FAILED,
-        payload: error,
-    }
-}
-
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case FETCH_USER_REQUEST:
-            return {
-                ...state,
-                loading: true,
-            }
-
-        case FETCH_USER_SUCCESS:
-            return {
-                loading: false,
-                data: action.payload,
-                error: ''
-            }
-        
-        case FETCH_USER_FAILED:
-            return {
-                loading: false,
-                users: [],
-                error: action.payload
-            }
-    
-        default:
-            return state
-    }
-}
-
-const store = redux.legacy_createStore(reducer)
-
-store.dispatch( )
+export default userSlice.reducer
