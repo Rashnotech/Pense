@@ -49,20 +49,20 @@ def update_post(id):
 
 @post_bp.route('/<int:id>', methods=['DELETE'], strict_slashes=False)
 def delete_post(id):
-    # Get the post object from the database by its id
+    """ Get the post object from the database by its id """
     post = storage.get(Post, id)
     if not post:
         return jsonify({'error': 'Post not found'}), 404
     storage.delete(post)
     return jsonify({'success': 'Post deleted'}), 200
 
-@post_bp.route('/', methods=['GET'], strict_slashes=False)
-def show_all_posts():
+@post_bp.route('/<int:user_id>', methods=['GET'], strict_slashes=False)
+def show_all_posts(user_id):
     post = storage.all(Post)
     if post:
-        posts = [val.to_dict() for val in post.values()]
+        posts = [val.to_dict() for val in post.values() if val.user_id == user_id]
         return jsonify(posts), 200
-    abort(400, "Empty post")
+    abort(200, "Empty post")
 
 @post_bp.route('/search', methods=['GET'], strict_slashes=False)
 def search_posts():

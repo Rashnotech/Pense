@@ -22,12 +22,12 @@ class Post(BaseModel, Base):
     content = Column(Text, nullable=False)
     post_cover = Column(String(100), nullable=True)
     attachment = Column(String(100), nullable=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship('User', backref='posts')
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     slug = Column(String(100))
     summary = Column(Text)
     read_time = Column(Integer)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
+    user = relationship('User', backref='posts')
     categories = relationship('Category', secondary=post_category)
 
     reading_speed = 183
