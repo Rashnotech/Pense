@@ -10,6 +10,8 @@ from math import ceil
 class Post(BaseModel, Base):
     """Create the post model"""
     __tablename__ = 'posts'
+    
+    reading_speed = 120
 
     title = Column(String(100), nullable=False)
     content = Column(Text, nullable=False)
@@ -18,31 +20,24 @@ class Post(BaseModel, Base):
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref='posts')
-    slug_column = Column(String(100), nullable=False)
-    summary_column = Column(Text)
-    read_time_column = Column(Integer)
+    slug = Column(String(100))
+    summary = Column(Text)
+    read_time = Column(Integer)
 
-    @property
-    def slug(self):
-        # Generate a URL-friendly slug from the title
-        return self.title.lower().replace(' ', '-')
-
-    @property
-    def summary(self):
-        # Generate a short summary from the first 100 characters of the content
-        return self.content[:100] + '...'
-
-    @property
-    def read_time(self):
-        # Calculate the read time based on the word count and the average reading speed
-        word_count = len(self.content.split())
-        reading_speed = 200 # words per minute
-        read_time = ceil(word_count / reading_speed)
-        return read_time
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.slug_column = self.slug
-        self.summary_column = self.content.split('.')[0] + '.'
-        word_count = len(self.content.split())
-        self.read_time_column = ceil(word_count / reading_speed)
+
+    def slug(self, title):
+        # Generate a URL-friendly slug from the title
+        return title.lower().replace(' ', '-')
+ 
+    def summary(self, content):
+        # Generate a short summary from the first 100 characters of the content
+        return content[:100]
+
+    def read_time(self, content):
+        # Calculate the read time based on the word count and the average reading speed
+        word_count = len(content.split())
+        read_time = ceil(word_count / Post.reading_speed)
+        return read_time

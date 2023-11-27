@@ -16,34 +16,15 @@ def create_post():
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'Missing {field}'}), 400
-    post = Post(**data)
-    post.save()
+    post = Post()
+    data['slug'] = post.slug(data['title'])
+    data['summary'] = post.summary(data['content'])
+    data['read_time'] = post.read_time(data['content'])
+    new_post = Post(**data)
+    new_post.save()
+    return jsonify(new_post.to_dict()), 201
 
-    response_data = post.to_dict()
-    response_data['link'] = post.link
 
-    return jsonify(response_data), 201
-
-@post_bp.route('/<slug>', methods=['GET'], strict_slashes=False)
-def get_post_by_slug(slug):
-    post = storage.get(Post, Post.slug_column == slug)
-    if not post:
-        return jsonify({'error': 'Post not found'}), 404
-    return jsonify(post.to_dict()), 200
-
-@post_bp.route('/<int:id>/summary', methods=['GET'], strict_slashes=False)
-def get_post_summary(id):
-    post = storage.get(Post, id)
-    if not post:
-        return jsonify({'error': 'Post not found'}), 404
-    return jsonify({'summary': post.summary_column}), 200
-
-@post_bp.route('/<int:id>/read_time', methods=['GET'], strict_slashes=False)
-def get_post_read_time(id):
-    post = storage.get(Post, id)
-    if not post:
-        return jsonify({'error': 'Post not found'}), 404
-    return jsonify({'read_time': post.read_time_column}), 200
 
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)
 def update_post(id):
@@ -66,7 +47,7 @@ def delete_post(id):
     post = storage.get(Post, id)
     if not post:
         return jsonify({'error': 'Post not found'}), 404
-    storage.delete()
+    storage.delete(post)
     return jsonify({'success': 'Post deleted'}), 200
 
 @post_bp.route('/', methods=['GET'], strict_slashes=False)
@@ -77,7 +58,7 @@ def show_all_posts():
         return jsonify(posts), 200
     abort(400, "Empty post")
 
-@post_bp.route('/search', methods=['POST'], strict_slashes=False)
+@post_bp.route('/search', methods=['GET'], strict_slashes=False)
 def search_posts():
     data = request.get_json()
     if not data:
