@@ -77,5 +77,4 @@ def getdetails(user_id):
     users = storage.get(User, user_id)
     if users is None:
         abort(400, 'User not found')
-    user = [val.to_dict for val in users.values()]
-    return jsonify(user.to_dict(), 201)
+    return jsonify(users.to_dict(), 201)

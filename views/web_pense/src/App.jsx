@@ -14,6 +14,9 @@ import Login from './components/Login'
 import Register from './components/Register'
 import List from './pages/blogs/profile/List'
 import About from './pages/blogs/profile/About'
+import Information from './pages/blogs/profile/Information'
+import NotFound from './components/Notfound'
+import MyPost, {loader as MyPostLoader} from './pages/blogs/profile/Home'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
@@ -22,7 +25,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path='register' element={<Register />} />
       </Route>
       <Route path=':name/:title' loader={loadRead} element={<PostDetails />} />
-      <Route path='*' element={<h2>404 Not found</h2>} />
+      <Route path='*' element={<NotFound />} />
       <Route path='forget' element='' />
 
       <Route path='blog' loader={ async () => await AuthLoader() } element={<BlogLayout />}>
@@ -31,12 +34,14 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path=':name/:title' loader={loadRead} element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profile />}>
           <Route path=':name' element={<Accounts />} >
+            <Route index  loader={MyPostLoader} element={<MyPost />} />
             <Route path='list' element={<List />} />
             <Route path='about' element={<About />} />
+            <Route path='profile' element={<Information />} />
           </Route>
           <Route path='settings' element={<Settings />} />
         </Route>
-        <Route path='*' element={<h2>404 Not found</h2>} />
+        <Route path='*' element={<NotFound />} />
       </Route>
     </Route>
 ))

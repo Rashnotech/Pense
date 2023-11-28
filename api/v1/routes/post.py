@@ -58,11 +58,10 @@ def delete_post(id):
 
 @post_bp.route('/<int:user_id>', methods=['GET'], strict_slashes=False)
 def show_all_posts(user_id):
-    post = storage.all(Post)
-    if post:
-        posts = [val.to_dict() for val in post.values() if val.user_id == user_id]
-        return jsonify(posts), 200
-    abort(200, "Empty post")
+    posts = storage.get(Post, user_id)
+    if posts:
+        return jsonify(posts.to_dict()), 200
+    return jsonify({'success': "Empty post"}), 200
 
 @post_bp.route('/search', methods=['GET'], strict_slashes=False)
 def search_posts():

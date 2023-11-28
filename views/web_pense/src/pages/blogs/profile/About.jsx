@@ -1,7 +1,7 @@
 export default function About () {
     return (
         <>
-            <p>About is here</p>
+            <p className="text-gray-700 text-base">You have not written your bio</p>
         </>
     )
 }

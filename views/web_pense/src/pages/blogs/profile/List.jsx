@@ -1,7 +1,7 @@
 export default function List () {
     return (
         <>
-            <p>List is here</p>
+            <p>You have no list</p>
         </>
     )
 }

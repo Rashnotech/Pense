@@ -1,17 +1,17 @@
 
 export async function fetchRequest (url) {
-    try {
-        const response = await fetch(url)
-        const data = response.json()
-        return data
-    } catch (err) {
-        const resJson = await res.json()
+    const response = await fetch(url)
+    if (!response.ok) {
+        const resJson = await response.json()
         throw {
             message: resJson.message || 'Fetch error',
             status: resJson.status,
             statusText: resJson.statusText
         }
+
     }
+    const data = await response.json()
+    return data
 }
 
 export async function loginRequest (url, credential) {
