@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation, NavLink, useNavigation } from 'react-router-dom'
 import { registerRequest } from '../../api'
 import { useForm } from 'react-hook-form'
 
@@ -9,20 +9,18 @@ export default function Information () {
     const [process, setProcess] = useState(false)
     const [message, setMessage] = useState('')
     const [error, setError] = useState('')
-
     let location = useLocation()
     useEffect(() => {
-        if (location.pathname === '/profile' && !open) {
+        if (location.pathname.includes('profile')) {
             setIsOpen(true)
         }
     }, [location])
-
     const {handleSubmit, register, formState: { errors }} = useForm()
 
     async function onSubmit (data) {
         setProcess(true)
         try {
-            const url = 'http://127.0.0.1:5000/api/v1/signup'
+            const url = 'http://127.0.0.1:5000/api/v1/update'
             const res = await registerRequest(url ,data)
             if (res) {
                 setMessage('Account created successfully, redirecting...')
@@ -53,8 +51,8 @@ export default function Information () {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                            <Dialog.Title as="h3" className="text-2xl font-bold leading-6 text-center mt-4">
-                                Join Pense
+                            <Dialog.Title as="h3" className="text-2xl font-extrabold leading-6 mt-4">
+                                Profile Information
                             </Dialog.Title>
                             <div className="mt-4 w-full px-2">
                                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,31 +72,47 @@ export default function Information () {
                                         <p className="text-sm text-green-600 px-2">{message}</p>
                                     </div>
                                     }
-                                    <label className="text-sm font-medium text-gray-700">First Name</label>
-                                    <input 
-                                     {...register('firstname', {required: true})} type="text" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter First Name' />
-                                    {errors.firstname && (<span className='text-xs block text-pink-600'>This field is required</span>)}
-                                    <label className="text-sm font-medium text-gray-700">Last Name</label>
-                                    <input 
-                                    {...register('lastname', {required: true})}
-                                    type="text" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Last name' />
-                                    {errors.lastname && (<span className='text-xs block text-pink-600'>This field is required</span>)}
-                                    <label className="text-sm font-medium text-gray-700">Email</label>
-                                    <input 
-                                    {...register('email', {required: true})}
-                                    type="email" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Email' />
-                                    {errors.email && (<span className='text-xs block text-pink-600'>This field is required</span>)}
-                                    <label className="text-sm font-medium text-gray-700">Password</label>
-                                     <label className="text-sm font-medium text-gray-700">Confirm Password</label>
-                                     <button disabled={process} className='px-6 py-3 flex space-x-3 items-center bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>
-                                           {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg> }
-                                            <span>Sign up</span>
-                                    </button>
-                                    <p className='block text-sm text-gray-700 mt-2'>Already have an account? <NavLink to='/login' className='text-blue-500 font-medium text-sm' > Sign in</NavLink></p>
-                                    <p className='mt-4 block text-center text-slate-500 text-xs'>Click “Sign up” to agree to Pense’s Terms of Service and acknowledge that Pense’s Privacy Policy applies to you.</p>
+                                    <div className='my-6 flex items-center space-x-2'>
+                                        <div className='block w-1/3'>
+                                            <label className="text-sm font-medium text-gray-700 block">Photo</label>
+                                                <img src="" alt="" className='w-20 h-20 border rounded-full' />
+                                            <input type="file" className='hidden' name="" id="" />
+                                        </div>
+                                        <div className='flex flex-col w-full'>
+                                            <div className='flex font-medium text-sm space-x-3'>
+                                                <button className='text-green-700'>Update</button>
+                                                <button className='text-pink-700'>Remove</button>
+                                            </div>
+                                            <p className='text-xs text-gray-400'>Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels per side.</p>
+                                        </div>
+                                    </div>
+                                    <div className='my-6 block'>
+                                        <label className="text-sm font-medium text-gray-700">Name*</label>
+                                        <input 
+                                            {...register('firstname', {required: true})}
+                                            type="text" value='Abdulrasheed' className="pt-3 outline-none block w-full sm:text-sm border-b" />
+                                            {errors.firstname && (<span className='text-xs block text-pink-600'>This field is required</span>)}
+                                        <p className='text-xs text-gray-400'>Appears on your Profile page, as your byline, and in your responses.</p>
+                                    </div>
+                                    <div className='my-6 block'>
+                                        <label className="text-sm font-medium text-gray-700">Bio</label>
+                                        <input 
+                                        {...register('bio')}
+                                        type="bio" className="pt-3 outline-none block w-full sm:text-sm border-b" />
+                                        <p className='text-xs text-gray-400'>Appears on your Profile and next to your stories.</p>
+                                    </div>
+                                    <div className='flex items-center space-x-4'>
+                                        <button className='px-4 py-2 text-sm rounded-full outline-none border border-green-600'>
+                                            Cancel
+                                        </button>
+                                        <button disabled className='px-4 py-2 outline-none disabled:bg-green-400 flex space-x-3 items-center bg-green-500 font-medium text-sm text-slate-50 rounded-full'>
+                                            {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg> }
+                                                <span>Sign up</span>
+                                        </button>
+                                    </div>
                                 </form>
                             </div>                            
                             </Dialog.Panel>
