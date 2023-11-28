@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+const users = sessionStorage.getItem('Browser_session') ||
+                localStorage.getItem('Browser_session')
+const user_id = JSON.parse(users) 
+const url = `http://127.0.0.1:5000/api/v1/user${user_id.id}`
+
 const initialState = {
     loading: false,
     users: [],
@@ -7,13 +12,9 @@ const initialState = {
 }
 
 
-export const fetchUsers = createAsyncThunk('data/fetchData', async (url, credential) => {
-    const res = await fetch (url ,
-            {headers: new Headers({'Content-Type': 'application/json'}),
-            method: "POST", body: JSON.stringify(credential)})
+export const fetchUsers = createAsyncThunk('data/fetchData', async (url) => {
+    const res = await fetch (url , {headers: new Headers({'Content-Type': 'application/json'})})
     const data = await res.json()
-    const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
-    sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id}))
     return data
 });
 

@@ -27,11 +27,7 @@ export async function loginRequest (url, credential) {
         }
     }
     const data = await res.json()
-    const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
-    sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id}))
-    setTimeout(() => {
-        window.location = "/blog";
-    }, 3000);
+    return data
 }
 
 export async function registerRequest (url, credential) {
@@ -47,7 +43,5 @@ export async function registerRequest (url, credential) {
         }
     }
     const data = await res.json()
-    setTimeout(() => {
-        window.location = "/login";
-    }, 3000);
+    return data
 }

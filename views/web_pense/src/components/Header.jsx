@@ -61,7 +61,7 @@ export function BlogHeader () {
                                     <div className="px-1 py-1 ">
                                         <Menu.Item>
                                             {({ active }) => (
-                                            <NavLink to='account'
+                                            <NavLink to='me/:name'
                                                 className={`${
                                                 active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-2`}

@@ -70,3 +70,12 @@ def password_reset(email):
             user.save()
             return redirect('/login')
     abort(400, 'An error occurred!')
+
+
+@app_views.route('/user/<int:user_id>', methods=['GET'], strict_slashes=False)
+def getdetails(user_id):
+    users = storage.get(User, user_id)
+    if users is None:
+        abort(400, 'User not found')
+    user = [val.to_dict for val in users.values()]
+    return jsonify(user.to_dict(), 201)
