@@ -34,7 +34,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path=':name/:title' loader={loadRead} element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profile />}>
           <Route path=':name' element={<Accounts />} >
-            <Route index  loader={MyPostLoader} element={<MyPost />} />
+            <Route index loader={MyPostLoader} element={<MyPost />} />
             <Route path='list' element={<List />} />
             <Route path='about' element={<About />} />
             <Route path='profile' element={<Information />} />

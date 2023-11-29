@@ -27,9 +27,9 @@ function Details ({name}) {
             <img src="" className='rounded-full w-20 h-20 border' alt="" />
             <div className='space-y-0'>
                 <h1 className='font-medium text-lg'>{name}</h1>
-                <p className="text-slate-500">4 Followers</p>
+                <p className="text-slate-500">0 Followers</p>
             </div>
-            <Link to='profile' className='text-sm text-green-500 font-medium'>Edit Profile</Link>
+            <Link to='profile' className='text-sm text-green-500 font-medium w-1/2 border'>Edit Profile</Link>
 
             <div className=''>
                 <h2 className='text-base text-slate-500 font-medium'>Following</h2>

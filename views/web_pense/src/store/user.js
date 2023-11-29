@@ -6,16 +6,33 @@ const user_id = JSON.parse(users).userid
 const url = `http://127.0.0.1:5000/api/v1/user/${user_id}`
 
 const initialState = {
-    loading: false,
+    status: 'idle',
     users: [],
     error: ''
 }
 
 
-export const fetchUsers = createAsyncThunk('data/fetchData', async () => {
-    const res = await fetch (url)
-    const data = await res.json()
-    return data
+export const fetchUsers = createAsyncThunk('data/fetchData', async (_, { rejectWithValue }) => {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            const error = await res.json();
+
+            if (error.message === 'User not found') {
+                console.log(error.message);
+                sessionStorage.removeItem('Browser_session');
+                localStorage.removeItem('Browser_session');
+            }
+            // Instead of using setTimeout, reject the promise with the error value.
+            // This will trigger the 'rejected' state, and you can handle it in your reducer.
+            return rejectWithValue(error);
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        // Handle any other errors (e.g., network issues) by rejecting the promise.
+        return rejectWithValue({ message: 'An error occurred while fetching data' });
+    }
 });
 
 
@@ -25,17 +42,18 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchUsers.pending, (state) => {
-                state.loading = true;
+                state.status = 'loading';
             })
             .addCase(fetchUsers.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users = action.payload;  // Corrected assignment
+                state.status = 'succeeded';
+                state.users = action.payload;
                 state.error = '';
             })
             .addCase(fetchUsers.rejected, (state, action) => {
-                state.loading = false;
+                state.status = 'failed';
                 state.users = [];
-                state.error = action.error.message;
+                state.error = action.payload;
+                window.location = '/login';
             });
     },
 });

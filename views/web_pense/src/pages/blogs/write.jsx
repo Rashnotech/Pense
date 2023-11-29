@@ -68,11 +68,11 @@ export default function Write () {
     async function Publish () {
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_section')
         const userid = JSON.parse(user).userid
-        const url = 'http://127.0.0.1:5000/api/v1/post'
+        const url = 'http://127.0.0.1:5000/api/v1/posts'
         const credentials = {title: value.title, content: content, category_id: selected, user_id: userid}
         const res = await fetch(url,
                         {headers: new Headers({'Content-Type': 'application/json'}),
-                        method: "POST", body: JSON.stringify(category)})
+                        method: "POST", body: JSON.stringify(credentials)})
         if (!res.ok) {
             const error = res.json()
             throw {
@@ -86,7 +86,6 @@ export default function Write () {
             window.location.href = '/blog'
         }, 3000);
     }
-    console.log(category_list)
     return (
         <div className="flex flex-col md:flex-row items-start w-full h-full mt-28">
             <div className='w-full h-full p-2 space-y-10'>
