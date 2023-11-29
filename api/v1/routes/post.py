@@ -3,7 +3,7 @@
 from models import storage
 from api.v1.routes import request, abort, jsonify
 from flask import Blueprint, jsonify, request, abort
-from models.post import Post
+from models.post import Post, post_category
 from models.category import Category
 
 post_bp = Blueprint('post_bp', __name__, url_prefix='/posts')
@@ -13,7 +13,7 @@ def create_post():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    required_fields = ['title', 'content', 'category_ids', 'user_id']
+    required_fields = ['title', 'content', 'user_id']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'Missing {field}'}), 400
@@ -21,12 +21,13 @@ def create_post():
     data['slug'] = post.slug(data['title'])
     data['summary'] = post.summary(data['content'])
     data['read_time'] = post.read_time(data['content'])
-    categories = [storage.get(Category, id) for id in data['category_ids']]
-    if None in categories:
+    catList = [storage.get(Category, id) for id in data['category_id']]
+    if None in catList:
         return jsonify({'error': 'One or more category IDs are invalid'}), 400
-    post.categories = categories
-    
     new_post = Post(**data)
+    new_post.save() 
+    for category in catList:
+        new_post.categories.append(category)
     new_post.save()
     return jsonify(new_post.to_dict()), 201
 
