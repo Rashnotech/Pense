@@ -23,7 +23,7 @@ export function BlogHeader () {
     }
     return (
         <>
-            <header className="py-2 z-10 font-sans bg-slate-100 fixed top-0 px-4 md:px-10 w-full flex items-center justify-between">
+            <header className="z-10 font-sans bg-slate-100 fixed top-0 px-4 md:px-10 w-full flex items-center justify-between">
                 <Link to="."> <img src={Logo} className="w-28"  alt="Pense Logo" /></Link> 
                 <nav className="w-2/5 py-4">
                     <ul className="w-full hidden text-sm text-slate-600 md:flex items-center justify-end space-x-6">
@@ -61,7 +61,7 @@ export function BlogHeader () {
                                     <div className="px-1 py-1 ">
                                         <Menu.Item>
                                             {({ active }) => (
-                                            <NavLink to='account'
+                                            <NavLink to='me/:name'
                                                 className={`${
                                                 active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-2`}
@@ -129,6 +129,31 @@ export function BlogHeader () {
                     </button>
                 </nav>
             </header>
+            {state && <nav className="block absolute w-full mt-20 z-10 rounded-lg p-4 bg-slate-50 md:hidden">
+             <ul className="w-full p-4 text-slate-600 flex flex-col">
+                        <li className="p-2">
+                            <NavLink onClick={() => setState(false) }
+                                className={({isActive}) => isActive ? ' text-gray-700 font-medium flex items-center space-x-4': 'flex items-center space-x-4'} to='write'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                </svg> <span>Write</span> 
+                            </NavLink>
+                        </li>
+                        <li className="p-2">
+                            <NavLink className="flex items-start space-x-4" onClick={() => setState(false) }>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                </svg> <span>Message</span> 
+                            </NavLink>
+                        </li>
+                        <li className="p-2">
+                            <NavLink className="flex items-center space-x-4" to='me/:name' onClick={() => setState(false) } >
+                                <img src="" className="rounded-full w-5 h-5 border" alt="" />
+                                <span>Profile</span> 
+                            </NavLink>
+                        </li>
+                    </ul>
+            </nav>}
         </>
     )
 }

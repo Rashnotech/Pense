@@ -16,7 +16,6 @@ class TestDBStorage(unittest.TestCase):
         """ test type method"""
         self.assertTrue(isinstance(self.db_storage, DBStorage))
 
-
     def test_new(self):
         """ test new method"""
         obj = {'name': 'Rashnotech', 'email': 'test@gmail.com'}

@@ -24,7 +24,7 @@ def create_comment():
 
 
 # Endpoint to update an existing comment
-@comment_bp.route('//<int:comment_id>', methods=['PUT'])
+@comment_bp.route('/<int:comment_id>', methods=['PUT'])
 def update_comment(comment_id):
     try:
         data = request.get_json()
@@ -56,3 +56,15 @@ def delete_comment(comment_id):
         return jsonify({'message': 'Comment deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@comment_bp.route('/<int:post_id>', methods=['GET'], strict_slashes=False)
+def get_comments_for_post(post_id):
+    try:
+        comments = storage.all(Comment).values()
+        post_comments = [comment.to_dict() for comment in comments if comment.post_id == post_id]
+        if post_comments:
+            return jsonify(post_comments), 200
+        else:
+            return jsonify({'error': 'No comments found for the specified post'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

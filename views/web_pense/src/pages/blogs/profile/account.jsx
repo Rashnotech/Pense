@@ -1,31 +1,35 @@
-import  { Link } from 'react-router-dom'
+import  { Link, NavLink, Outlet } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchUsers } from '../../../store/user'
 
-function Account () {
+function Account ({name}) {
     return (
-        <section className="absolute flex flex-col items-start justify-start w-full">
+        <section className="flex flex-col items-start p-3 justify-start w-full h-full">
             <article className="space-y-2 w-full">
-                <h2 className="text-6xl font-medium">John Doe</h2>
-                <div className='w-4/5 border-b border-slate-300 mt-2'>
-                    <ul className='flex items-center space-x-6 py-2 text-sm'>
-                        <li>Home</li>
-                        <li>List</li>
-                        <li>About</li>
+                <h2 className="text-4xl md:text-6xl font-medium">{name}</h2>
+                <div className='w-5/6 border-b border-slate-300 mt-2'>
+                    <ul className='flex items-center space-x-6 py-2 text-sm w-full'>
+                        <li><NavLink to='.' end >Home</NavLink> </li>
+                        <li><NavLink to='list'>List</NavLink> </li>
+                        <li><NavLink to='about'>About</NavLink> </li>
                     </ul>
                 </div>
+                <Outlet />
             </article>
         </section>
     )
 }
 
-function Details () {
+function Details ({name}) {
     return (
         <>
             <img src="" className='rounded-full w-20 h-20 border' alt="" />
             <div className='space-y-0'>
-                <h1 className='font-medium text-lg'>John Doe</h1>
+                <h1 className='font-medium text-lg'>{name}</h1>
                 <p className="text-slate-500">4 Followers</p>
             </div>
-            <p className='text-sm text-green-500 font-medium'>Edit Profile</p>
+            <Link to='profile' className='text-sm text-green-500 font-medium'>Edit Profile</Link>
 
             <div className=''>
                 <h2 className='text-base text-slate-500 font-medium'>Following</h2>
@@ -38,13 +42,20 @@ function Details () {
 
 
 export default function Accounts () {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.users)
+
+    useEffect(() => {
+        dispatch(fetchUsers())
+    }, [dispatch])
+    const username = user.users[0] ? user.users[0].firstname : ''
     return (
         <>
                 <div className="md:col-span-2 col-auto h-full relative overflow-x-hidden overflow-y-auto">
-                    <Account />
+                    <Account name={username} />
                 </div>
                 <div className="flex flex-col space-y-4 static text-sm">
-                    <Details />
+                    <Details name={username} />
                     <div className="border-t mx-auto w-full py-4">
                         <ul className="flex text-sm flex-wrap w-3/4 items-end justify-between text-slate-500">
                             <li><Link to=''>Help</Link></li>

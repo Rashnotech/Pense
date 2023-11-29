@@ -1,15 +1,17 @@
 
 export async function fetchRequest (url) {
-    try {
-        const response = await fetch(url)
-        data = response.json()
-        return data
-    } catch (err) {
+    const response = await fetch(url)
+    if (!response.ok) {
+        const resJson = await response.json()
         throw {
-            message: err.message,
-            status: err.status
+            message: resJson.message || 'Fetch error',
+            status: resJson.status,
+            statusText: resJson.statusText
         }
+
     }
+    const data = await response.json()
+    return data
 }
 
 export async function loginRequest (url, credential) {
@@ -25,11 +27,7 @@ export async function loginRequest (url, credential) {
         }
     }
     const data = await res.json()
-    const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
-    sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id}))
-    setTimeout(() => {
-        window.location = "/blog";
-    }, 3000);
+    return data
 }
 
 export async function registerRequest (url, credential) {
@@ -45,7 +43,5 @@ export async function registerRequest (url, credential) {
         }
     }
     const data = await res.json()
-    setTimeout(() => {
-        window.location = "/login";
-    }, 3000);
+    return data
 }
