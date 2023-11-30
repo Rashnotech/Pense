@@ -10,7 +10,7 @@ export default function PostDetails () {
     useEffect(() => {
         const fetchData = async (name, title) => {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/api/v1/posts/read/${name}/${title}`);
+                const response = await fetch(`https://pense-service.onrender.com/api/v1/posts/read/${name}/${title}`);
                 const data = await response.json();
                 setPost(data);
             } catch (error) {
