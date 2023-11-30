@@ -4,7 +4,7 @@ import { fetchRequest } from "../../api"
 export async function loader () {
     const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
     const user_id = JSON.parse(user).userid
-    const url = `http://127.0.0.1:5000/api/v1/posts/${user_id}`
+    const url = `https://pense-service.onrender.com/api/v1/posts/${user_id}`
     const data = await fetchRequest(url)
     return data
 
