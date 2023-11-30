@@ -5,7 +5,7 @@ import Layout from './pages/Layout'
 import BlogLayout from './pages/blogs/BlogLayout'
 import Blog, {loader as blogLoader} from './pages/blogs/blog'
 import Write, {loader as writeLoader} from './pages/blogs/write'
-import PostDetails, {loader as loadRead} from './pages/blogs/PostDetails'
+import PostDetails from './pages/blogs/PostDetails'
 import Accounts from './pages/blogs/profile/account'
 import Settings from './pages/blogs/profile/settings'
 import { AuthLoader } from './pages/blogs/AuthLoader'
@@ -24,14 +24,14 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Route>
-      <Route path=':name/:title' loader={loadRead} element={<PostDetails />} />
+      <Route path=':name/:title' element={<PostDetails />} />
       <Route path='*' element={<NotFound />} />
       <Route path='forget' element='' />
 
       <Route path='blog' loader={ async () => await AuthLoader() } element={<BlogLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
         <Route path='write' loader={writeLoader} element={<Write />} />
-        <Route path=':name/:title' loader={loadRead} element={<PostDetails />} />
+        <Route path=':name/:title' loader={ async() => await AuthLoader() } element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profile />}>
           <Route path=':name' element={<Accounts />} >
             <Route index loader={MyPostLoader} element={<MyPost />} />

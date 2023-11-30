@@ -66,7 +66,7 @@ def show_all_posts(user_id):
         return jsonify(post_user), 200
     return jsonify({'success': "Empty post"}), 200
 
-@post_bp.route('/search', methods=['GET'], strict_slashes=False)
+@post_bp.route('/find', methods=['GET'], strict_slashes=False)
 def search_posts():
     data = request.get_json()
     if not data:
@@ -85,13 +85,54 @@ def search_posts():
 
 
 @post_bp.route('/search/<params>', methods=['GET'], strict_slashes=False)
-def filter_posts(params=None):
+def filter_posts(params):
     posts = storage.all(Post)
-    if params:
-        filter_post = [val.to_dict() for val in posts.values() if any(params == category.name for category in val.categories)]
+    if params != 'all':
+        filter_post = []
+        for val in posts.values():
+            if any(params == category.name for category in val.categories):
+                post_dict = val.to_dict()
+                user_dict = {
+                    'firstname': val.user.firstname,
+                    'lastname': val.user.lastname,
+                    'email': val.user.email
+                }
+                post_dict['user'] = user_dict
+                filter_post.append(post_dict)
         return jsonify(filter_post), 200
-    all_post = [val.to_dict() for val in posts.values()]
+    
+    all_post = []
+    for val in posts.values():
+        post_dict = val.to_dict()
+        user_dict = {
+            'firstname': val.user.firstname,
+            'lastname': val.user.lastname,
+            'email': val.user.email
+        }
+        post_dict['user'] = user_dict
+        all_post.append(post_dict)
     return jsonify(all_post), 200
+
+
+@post_bp.route('/read/<name>/<title>', methods=['GET'], strict_slashes=False)
+def read_post(name, title):
+    posts = storage.all(Post)
+    if name and title:
+        username = name[1:]
+        filter_post = []
+        for val in posts.values():
+            if val.slug == title and val.user.firstname.lower() == username:
+                post_dict = val.to_dict()
+                user_dict = {
+                    'firstname': val.user.firstname,
+                    'lastname': val.user.lastname,
+                    'email': val.user.email
+                }
+                post_dict['user'] = user_dict
+                filter_post.append(post_dict)
+        return jsonify(filter_post), 200
+    abort(400, 'No posts')
+
 
 @post_bp.route('/<int:user_id>/<int:post_id>', methods=['GET'], strict_slashes=False)
 def get_post_by_post_id(user_id, post_id):

@@ -16,13 +16,26 @@ export default function Blog () {
     const data = useLoaderData()
     const [post, setPost] = useState([])
 
-    function handleFilter (filter) {
-        const url = filter === 'all' ? `http://127.0.0.1:5000/api/v1/posts/search`
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/v1/posts/search/all');
+                const data = await response.json();
+                setPost(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                // Handle errors as needed
+            }
+        };
+        fetchData();
+    }, [])
+
+    async function handleFilter (filter) {
+        const url = filter === 'all' ? `http://127.0.0.1:5000/api/v1/posts/search/all`
                                         : `http://127.0.0.1:5000/api/v1/posts/search/${filter}`
-        const post = fetchRequest(url)
+        const post = await fetchRequest(url)
         setPost(post)
     }
-
     return (
         <>
             <SearchDesign tabs={data} func={handleFilter} />
