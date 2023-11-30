@@ -7,7 +7,7 @@ import { AuthLoader } from './AuthLoader'
 
 export async function loader () {
     await AuthLoader()
-    const url = 'http://127.0.0.1:5000/api/v1/category'
+    const url = 'https://pense-service.onrender.com/api/v1/category'
     const data = await fetchRequest(url)
     return data
 }
@@ -45,7 +45,7 @@ export default function Write () {
     }
     async function handleSubmit () {
         setMessage('');
-        const res = await fetch('http://127.0.0.1:5000/api/v1/category',
+        const res = await fetch('https://pense-service.onrender.com/api/v1/category',
                         {headers: new Headers({'Content-Type': 'application/json'}),
                         method: "POST", body: JSON.stringify(category)})
         if (!res.ok) {
@@ -68,7 +68,7 @@ export default function Write () {
     async function Publish () {
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_section')
         const userid = JSON.parse(user).userid
-        const url = 'http://127.0.0.1:5000/api/v1/posts'
+        const url = 'https://pense-service.onrender.com/api/v1/posts'
         const credentials = {title: value.title, content: content, category_id: selected, user_id: userid}
         const res = await fetch(url,
                         {headers: new Headers({'Content-Type': 'application/json'}),
