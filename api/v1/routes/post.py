@@ -5,6 +5,7 @@ from api.v1.routes import request, abort, jsonify
 from flask import Blueprint, jsonify, request, abort
 from models.post import Post, post_category
 from models.category import Category
+from math import ceil
 
 post_bp = Blueprint('post_bp', __name__, url_prefix='/posts')
 
@@ -17,10 +18,9 @@ def create_post():
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'Missing {field}'}), 400
-    post = Post()
-    data['slug'] = post.slug(data['title'])
-    data['summary'] = post.summary(data['content'])
-    data['read_time'] = post.read_time(data['content'])
+    data['slug'] = data['title'].lower().replace(' ', '-')
+    data['summary'] = data['content'][:100]
+    data['read_time'] = ceil(len(data['content']) / 183)
     catList = [storage.get(Category, id) for id in data['category_id']]
     if None in catList:
         return jsonify({'error': 'One or more category IDs are invalid'}), 400
@@ -59,12 +59,14 @@ def delete_post(id):
 
 @post_bp.route('/<int:user_id>', methods=['GET'], strict_slashes=False)
 def show_all_posts(user_id):
-    posts = storage.get(Post, user_id)
+    posts = storage.all(Post)
     if posts:
-        return jsonify(posts.to_dict()), 200
+        post_user = []
+        post_user = [val.to_dict() for val in posts.values() if val.user_id == user_id]
+        return jsonify(post_user), 200
     return jsonify({'success': "Empty post"}), 200
 
-@post_bp.route('/search', methods=['GET'], strict_slashes=False)
+@post_bp.route('/find', methods=['GET'], strict_slashes=False)
 def search_posts():
     data = request.get_json()
     if not data:
@@ -80,6 +82,57 @@ def search_posts():
     if results:
         return jsonify(results), 200
     abort(404, "No matching posts found")
+
+
+@post_bp.route('/search/<params>', methods=['GET'], strict_slashes=False)
+def filter_posts(params):
+    posts = storage.all(Post)
+    if params != 'all':
+        filter_post = []
+        for val in posts.values():
+            if any(params == category.name for category in val.categories):
+                post_dict = val.to_dict()
+                user_dict = {
+                    'firstname': val.user.firstname,
+                    'lastname': val.user.lastname,
+                    'email': val.user.email
+                }
+                post_dict['user'] = user_dict
+                filter_post.append(post_dict)
+        return jsonify(filter_post), 200
+    
+    all_post = []
+    for val in posts.values():
+        post_dict = val.to_dict()
+        user_dict = {
+            'firstname': val.user.firstname,
+            'lastname': val.user.lastname,
+            'email': val.user.email
+        }
+        post_dict['user'] = user_dict
+        all_post.append(post_dict)
+    return jsonify(all_post), 200
+
+
+@post_bp.route('/read/<name>/<title>', methods=['GET'], strict_slashes=False)
+def read_post(name, title):
+    posts = storage.all(Post)
+    if name and title:
+        username = name[1:]
+        filter_post = []
+        for val in posts.values():
+            if val.slug == title and val.user.firstname.lower() == username:
+                post_dict = val.to_dict()
+                user_dict = {
+                    'firstname': val.user.firstname,
+                    'lastname': val.user.lastname,
+                    'email': val.user.email
+                }
+                post_dict['user'] = user_dict
+                filter_post.append(post_dict)
+        return jsonify(filter_post), 200
+    abort(400, 'No posts')
+
 
 @post_bp.route('/<int:user_id>/<int:post_id>', methods=['GET'], strict_slashes=False)
 def get_post_by_post_id(user_id, post_id):

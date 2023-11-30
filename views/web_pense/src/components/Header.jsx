@@ -21,6 +21,13 @@ export function BlogHeader () {
     function toggle () {
         setState(prev => !prev)
     }
+    function logOut () {
+        sessionStorage.removeItem('Browser_session')
+        localStorage.removeItem('Browser_session')
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 2000);
+    }
     return (
         <>
             <header className="z-10 font-sans bg-slate-100 fixed top-0 px-4 md:px-10 w-full flex items-center justify-between">
@@ -96,7 +103,7 @@ export function BlogHeader () {
                                     <div className="px-1 py-1">
                                     <Menu.Item>
                                         {({ active }) => (
-                                        <button
+                                        <button onClick={logOut}
                                             className={`${
                                             active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-2`}
