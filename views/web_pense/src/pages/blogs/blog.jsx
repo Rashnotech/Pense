@@ -7,7 +7,7 @@ import {useLoaderData} from 'react-router-dom'
 
 export async function loader () {
     await AuthLoader();
-    const url = 'http://127.0.0.1:5000/api/v1/category'
+    const url = 'https://pense-service.onrender.com/api/v1/category'
     const data = await fetchRequest(url)
     return data
 }
