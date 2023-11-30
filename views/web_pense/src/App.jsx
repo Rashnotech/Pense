@@ -2,7 +2,7 @@ import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 import Home from './pages/Home'
 import Layout from './pages/Layout'
-import BlogLayout from './pages/blogs/bloglayout'
+import BlogLayout from './pages/blogs/BlogLayout'
 import Blog, {loader as blogLoader} from './pages/blogs/blog'
 import Write, {loader as writeLoader} from './pages/blogs/write'
 import PostDetails from './pages/blogs/PostDetails'
