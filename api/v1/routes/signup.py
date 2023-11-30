@@ -44,5 +44,5 @@ def verify(email):
         if user.email == email:
             setattr(user, 'verify', True)
             user.save()
-            return redirect('/login')
+            return redirect('https://pense-theta.vercel.app/login')
     abort(400, 'Verfication Failed')
