@@ -2,7 +2,7 @@ import MDEditor from '@uiw/react-md-editor'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { fetchRequest } from '../api'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import { AuthLoader } from './AuthLoader'
 
 export async function loader () {
@@ -13,6 +13,7 @@ export async function loader () {
 }
 
 export default function Write () {
+    const navigate = useNavigate();
     const user = useSelector(state => state.users)
     const category_list = useLoaderData()
     const [value, setValue] = useState({'title': ''})
@@ -83,7 +84,7 @@ export default function Write () {
         }
         const data = await res.json()
         setTimeout(() => {
-            window.location.href = '/blog'
+            navigate('/blog')
         }, 3000);
     }
     return (
@@ -113,7 +114,7 @@ export default function Write () {
             <div className='w-full md:w-2/5 p-2'>
                 <h1 className='text-slate-700 font-medium text-lg'>Categories</h1>
                 <ul className='flex text-xs w-full flex-wrap justify-between items-center'>
-                {category_list && !category_list.message ? 
+                {category_list && category_list.length > 0 ?
                     category_list.map(item =>
                     <li key={item.id} onClick={() => handleSelect(item.id)} className={`px-4 my-1 py-2 cursor-pointer hover:bg-slate-200 rounded-full ${selected.includes(item.id) ? 'bg-slate-200': 'bg-slate-100'}`}>{item.name}</li>)
                 : <li>No category</li>}
