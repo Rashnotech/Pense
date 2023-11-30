@@ -5,7 +5,7 @@ export async function AuthLoader () {
                     localStorage.getItem('Browser_session')
     const sess = JSON.parse(session)
     if (!sess) {
-        throw redirect('/login?message="You must be logged in."')
+        throw redirect('/login')
     }
     return null
 }
