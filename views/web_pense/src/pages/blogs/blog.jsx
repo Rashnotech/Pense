@@ -19,7 +19,7 @@ export default function Blog () {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:5000/api/v1/posts/search/all');
+                const response = await fetch('https://pense-service.onrender.com/api/v1/posts/search/all');
                 const data = await response.json();
                 setPost(data);
             } catch (error) {
@@ -31,8 +31,8 @@ export default function Blog () {
     }, [])
 
     async function handleFilter (filter) {
-        const url = filter === 'all' ? `http://127.0.0.1:5000/api/v1/posts/search/all`
-                                        : `http://127.0.0.1:5000/api/v1/posts/search/${filter}`
+        const url = filter === 'all' ? `https://pense-service.onrender.com/api/v1/posts/search/all`
+                                        : `https://pense-service.onrender.com/api/v1/posts/search/${filter}`
         const post = await fetchRequest(url)
         setPost(post)
     }
