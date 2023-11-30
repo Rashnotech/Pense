@@ -8,7 +8,6 @@ import PostDetails from './pages/blogs/PostDetails'
 import Accounts from './pages/blogs/profile/account'
 import Settings from './pages/blogs/profile/settings'
 import { AuthLoader } from './pages/blogs/AuthLoader'
-import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 import Login from './components/Login'
 import Register from './components/Register'
 import List from './pages/blogs/profile/List'
@@ -17,6 +16,7 @@ import Information from './pages/blogs/profile/Information'
 import NotFound from './components/Notfound'
 import MyPost, {loader as MyPostLoader} from './pages/blogs/profile/Home'
 import PageLayout from './pages/blogs/BlogLayout'
+import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>

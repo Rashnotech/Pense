@@ -1,10 +1,11 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation, NavLink, useNavigate } from 'react-router-dom'
 import { registerRequest } from '../pages/api'
 import { useForm } from 'react-hook-form'
 
 export default function Register () {
+    const navigate = useNavigate();
     const [open, setIsOpen] = useState(false)
     const [process, setProcess] = useState(false)
     const [message, setMessage] = useState('')
@@ -29,7 +30,7 @@ export default function Register () {
             if (res) {
                 setMessage('Account created successfully, redirecting...')
                 setTimeout(() => {
-                    window.location = "/login";
+                   navigate("/login");
                 }, 5000);
             }
         } catch (error) {

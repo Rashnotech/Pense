@@ -1,11 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { NavLink, useLocation, redirect } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { loginRequest } from '../pages/api';
 
 
-export default function Login () {    
+export default function Login () {
+    const navigate = useNavigate();
     const [open, setIsOpen] = useState(false);
     const [error, setError] = useState('');
     const [process, setProcess] = useState(false);
@@ -36,7 +37,7 @@ export default function Login () {
                 sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
                 localStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
                 setTimeout(() => {
-                    window.location = '/blog'
+                    navigate('/blog')
                 }, 5000);
             }
         } catch (err) {
