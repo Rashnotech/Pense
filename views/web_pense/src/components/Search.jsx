@@ -31,7 +31,7 @@ export default function SearchDesign ({tabs, func}) {
                             ? 'bg-sky-400 text-slate-50 w-1/6 outline-none'
                             : 'bg-inherit text-slate-400' 
                         )}>All</Tab>
-                    {tabs && tabs.map(tab => <Tab onClick={() => func(tab.name)} key={tab.id}
+                    {tabs.length == 0 && tabs.map(tab => <Tab onClick={() => func(tab.name)} key={tab.id}
                         className= {({ selected }) =>
                         classNames("rounded-full px-4 py-2 text-center",
                         selected
