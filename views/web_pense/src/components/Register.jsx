@@ -25,7 +25,7 @@ export default function Register () {
         setProcess(true)
         try {
             const url = 'https://pense-service.onrender.com/api/v1/signup'
-            const res = await registerRequest(url ,data)
+            const res = await registerRequest(url, data)
             if (res) {
                 setMessage('Account created successfully, redirecting...')
                 setTimeout(() => {
