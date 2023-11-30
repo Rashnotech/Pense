@@ -2,7 +2,6 @@ import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 import Home from './pages/Home'
 import Layout from './pages/Layout'
-import BlogLayout from './pages/blogs/BlogLayout'
 import Blog, {loader as blogLoader} from './pages/blogs/blog'
 import Write, {loader as writeLoader} from './pages/blogs/write'
 import PostDetails from './pages/blogs/PostDetails'
@@ -17,6 +16,7 @@ import About from './pages/blogs/profile/About'
 import Information from './pages/blogs/profile/Information'
 import NotFound from './components/Notfound'
 import MyPost, {loader as MyPostLoader} from './pages/blogs/profile/Home'
+import PageLayout from './pages/blogs/BlogLayout'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
@@ -28,7 +28,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
       <Route path='*' element={<NotFound />} />
       <Route path='forget' element='' />
 
-      <Route path='blog' loader={ async () => await AuthLoader() } element={<BlogLayout />}>
+      <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
         <Route path='write' loader={writeLoader} element={<Write />} />
         <Route path=':name/:title' loader={ async() => await AuthLoader() } element={<PostDetails />} />
