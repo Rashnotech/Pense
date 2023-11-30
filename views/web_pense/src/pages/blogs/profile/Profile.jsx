@@ -1,10 +1,9 @@
 import { Outlet } from "react-router-dom"
 import { AuthLoader } from "../AuthLoader"
-import { fetchRequest } from "../../api"
 
 export async function loader () {
-    AuthLoader()
-    return fetchRequest
+    await AuthLoader()
+    return null
 }
 
 export default function Profiled () {

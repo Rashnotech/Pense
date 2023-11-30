@@ -14,7 +14,7 @@ export default function MyPost () {
     const data = useLoaderData()
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
-        data[0] || data ? data.map(post =>
+        data[0] && data ? data.map(post =>
         <article key={post.id}> 
             <p className="text-slate-600 font-medium text-sm">{months[new Date(post.updated_at).getMonth()]} {new Date(post.updated_at).getDay() }</p>
             <div className='w-full font-sans flex flex-row items-center justify-between'>

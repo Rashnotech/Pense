@@ -12,7 +12,7 @@ const initialState = {
 }
 
 
-export const fetchUsers = createAsyncThunk('data/fetchData', async ({ rejectWithValue }) => {
+export const fetchUsers = createAsyncThunk('data/fetchData', async (_, { rejectWithValue }) => {
     try {
         const res = await fetch(url);
         if (!res.ok) {
