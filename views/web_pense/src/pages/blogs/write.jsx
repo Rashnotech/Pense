@@ -44,11 +44,12 @@ export default function Write () {
         const {name, value} = event.target
         setCategory(prev => ({...prev, [name]: value }))
     }
-    async function handleSubmit () {
+    async function handleSubmit (event) {
+        event.preventDefault();
         setMessage('');
         const res = await fetch('https://pense-service.onrender.com/api/v1/category',
-                        {headers: new Headers({'Content-Type': 'application/json'}),
-                        method: "POST", body: JSON.stringify(category)})
+                            {headers: new Headers({'Content-Type': 'application/json'}),
+                            method: "POST", body: JSON.stringify(category)})
         if (!res.ok) {
             const error = res.json()
             throw {
@@ -114,7 +115,7 @@ export default function Write () {
             <div className='w-full md:w-2/5 p-2'>
                 <h1 className='text-slate-700 font-medium text-lg'>Categories</h1>
                 <ul className='flex text-xs w-full flex-wrap justify-between items-center'>
-                {category_list && category_list.length > 0 ?
+                {!category_list.message && category_list ?
                     category_list.map(item =>
                     <li key={item.id} onClick={() => handleSelect(item.id)} className={`px-4 my-1 py-2 cursor-pointer hover:bg-slate-200 rounded-full ${selected.includes(item.id) ? 'bg-slate-200': 'bg-slate-100'}`}>{item.name}</li>)
                 : <li>No category</li>}
