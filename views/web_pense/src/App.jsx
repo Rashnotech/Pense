@@ -1,9 +1,9 @@
 import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
-import Home from './pages/Home'
+import Home, {loader as homeLoader} from './pages/Home'
 import Layout from './pages/Layout'
 import Blog, {loader as blogLoader} from './pages/blogs/blog'
-import Write, {loader as writeLoader} from './pages/blogs/write'
+import Write from './pages/blogs/write'
 import PostDetails from './pages/blogs/PostDetails'
 import Accounts from './pages/blogs/profile/account'
 import Settings from './pages/blogs/profile/settings'
@@ -20,7 +20,7 @@ import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
-      <Route path='/' element={<Home />} >
+      <Route path='/' loader={homeLoader} element={<Home />} >
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Route>
@@ -30,7 +30,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
 
       <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
-        <Route path='write' loader={writeLoader} element={<Write />} />
+        <Route path='write' loader={ async () => await AuthLoader() } element={<Write />} />
         <Route path=':name/:title' loader={ async() => await AuthLoader() } element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profiled />}>
           <Route path=':name' element={<Accounts />} >

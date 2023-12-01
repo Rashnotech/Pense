@@ -42,7 +42,6 @@ export default function Login () {
             }
         } catch (err) {
             setError(err.message)
-            console.log(err)
         }
         finally {
             setProcess(false);

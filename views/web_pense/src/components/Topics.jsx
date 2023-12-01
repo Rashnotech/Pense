@@ -17,7 +17,7 @@ function Contents () {
     )
 }
 
-export default function Topics() {
+export default function Topics({categoryList}) {
     return (
         <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <div className="md:col-span-2 col-auto h-full relative overflow-x-hidden overflow-y-auto">
@@ -26,7 +26,7 @@ export default function Topics() {
             <div className="flex flex-col space-y-4 static text-sm">
                 <h4 className="font-medium text-lg">Discover more of what matters to you</h4>
                 <div>
-                <a href="" className="rounded-full px-4 py-2 bg-slate-200">Categories</a>
+                {categoryList && categoryList.map(item => <a href="#" className="rounded-full px-4 py-2 bg-slate-200">{item.name}</a>) }
                 </div>
                 <a href="" className="text-green-600 font-medium">see more topics</a>
                 <div className="border-t mx-auto w-full py-4">

@@ -27,7 +27,7 @@ export default function Navbar() {
                     }
                 </button>
             </nav>
-            {state && <nav className="block absolute w-full mt-28 z-10 rounded-lg p-4 bg-slate-50 md:hidden">
+            {state && <nav className="block absolute w-4/5 top-24 rounded-lg p-4 bg-slate-50 md:hidden">
             <ul className="w-full p-4 text-slate-600 flex flex-col">
                     <li className="p-2">
                         <NavLink onClick={() => setState(false) }

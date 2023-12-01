@@ -1,21 +1,13 @@
 import MDEditor from '@uiw/react-md-editor'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { fetchRequest } from '../api'
-import { useLoaderData, useNavigate } from 'react-router-dom'
-import { AuthLoader } from './AuthLoader'
+import { useNavigate } from 'react-router-dom'
 
-export async function loader () {
-    await AuthLoader()
-    const url = 'https://pense-service.onrender.com/api/v1/category'
-    const data = await fetchRequest(url)
-    return data
-}
 
 export default function Write () {
     const navigate = useNavigate();
     const user = useSelector(state => state.users)
-    const category_list = useLoaderData()
+    const [categoryList, setCategoryList] = useState([])
     const [value, setValue] = useState({'title': ''})
     const [content, setContent] = useState('')
     const [category, setCategory] = useState({name: ''})
@@ -23,6 +15,23 @@ export default function Write () {
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
     
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+              const res = await fetch('https://pense-service.onrender.com/api/v1/category');
+              if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message);
+              }
+              const data = await res.json();
+              setCategoryList(data);
+            } catch (error) {
+              setError(error.message);
+            }
+          };
+          fetchCategories();
+    })
+
     const handleChange = (event) => {
         const {name, value} = event.target
         setValue(prev => ({...prev, [name]: value}))
@@ -60,6 +69,7 @@ export default function Write () {
             setError(error.message)
         }
         const data = await res.json()
+        setCategoryList(data)
         setCategory({name: ''});
         setMessage('Added successfully')
     }
@@ -115,8 +125,8 @@ export default function Write () {
             <div className='w-full md:w-2/5 p-2'>
                 <h1 className='text-slate-700 font-medium text-lg'>Categories</h1>
                 <ul className='flex text-xs w-full flex-wrap justify-between items-center'>
-                {!category_list.message && category_list ?
-                    category_list.map(item =>
+                {categoryList.length > 0 ?
+                    categoryList.map(item =>
                     <li key={item.id} onClick={() => handleSelect(item.id)} className={`px-4 my-1 py-2 cursor-pointer hover:bg-slate-200 rounded-full ${selected.includes(item.id) ? 'bg-slate-200': 'bg-slate-100'}`}>{item.name}</li>)
                 : <li>No category</li>}
                 </ul>
