@@ -1,6 +1,6 @@
 import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
-import Home, {loader as homeLoader} from './pages/Home'
+import Home from './pages/Home'
 import Layout from './pages/Layout'
 import Blog, {loader as blogLoader} from './pages/blogs/blog'
 import Write from './pages/blogs/write'
@@ -20,7 +20,7 @@ import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
-      <Route path='/' loader={homeLoader} element={<Home />} >
+      <Route path='/' element={<Home />} >
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Route>

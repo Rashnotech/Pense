@@ -1,9 +1,11 @@
 import { Fragment } from "react"
 import { Link, NavLink } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 import Navbar from "./Nav"
 import Logo from '/logo.png'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Menu, Transition } from "@headlessui/react"
+import { fetchUsers } from "../store/user"
 
 export default function Header() {
     return (
@@ -18,6 +20,14 @@ export default function Header() {
 
 export function BlogHeader () {
     const [state, setState] = useState(false)
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.users)
+
+    useEffect(() => {
+        dispatch(fetchUsers())
+    }, [dispatch])
+    const username = user.users[0] ? user.users[0].firstname : ''
+
     function toggle () {
         setState(prev => !prev)
     }
@@ -68,7 +78,7 @@ export function BlogHeader () {
                                     <div className="px-1 py-1 ">
                                         <Menu.Item>
                                             {({ active }) => (
-                                            <NavLink to='me/:name'
+                                            <NavLink to={`me/@${username}`}
                                                 className={`${
                                                 active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-2`}
@@ -154,7 +164,7 @@ export function BlogHeader () {
                             </NavLink>
                         </li>
                         <li className="p-2">
-                            <NavLink className="flex items-center space-x-4" to='me/:name' onClick={() => setState(false) } >
+                            <NavLink className="flex items-center space-x-4" to={`me/@${username}`} onClick={() => setState(false) } >
                                 <img src="" className="rounded-full w-5 h-5 border" alt="" />
                                 <span>Profile</span> 
                             </NavLink>

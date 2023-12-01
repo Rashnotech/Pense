@@ -30,6 +30,10 @@ export default function Blog () {
         fetchData();
     }, [])
 
+    async function handleSearch (value) {
+        console.log(value)
+    }
+
     async function handleFilter (filter) {
         const url = filter === 'all' ? `https://pense-service.onrender.com/api/v1/posts/search/all`
                                         : `https://pense-service.onrender.com/api/v1/posts/search/${filter}`
@@ -38,7 +42,7 @@ export default function Blog () {
     }
     return (
         <>
-            <SearchDesign tabs={data} func={handleFilter} />
+            <SearchDesign tabs={data} func={handleFilter} searchFunc={handleSearch}  />
             <BlogPost posts={post} />
         </>
     )

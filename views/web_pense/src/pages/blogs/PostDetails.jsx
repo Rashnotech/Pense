@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react'
 import { useParams, Link } from "react-router-dom";
 import Comments from "./Comment";
-import { fetchRequest } from "../api";
 
 export default function PostDetails () {
     const {name, title } = useParams()
