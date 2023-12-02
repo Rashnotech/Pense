@@ -19,9 +19,10 @@ export async function loginRequest (url, credential) {
             {headers: new Headers({'Content-Type': 'application/json'}),
             method: "POST", body: JSON.stringify(credential)})
     if (!res.ok) {
-        const resJson = await res.json()
+        const res_error = await res.json()
+        console.log(res_error)
         throw {
-            message: resJson.message || 'Unknown error',
+            message: res_error.message || 'Unknown error',
             status: res.status,
             statusText: res.statusText
         }
@@ -34,6 +35,22 @@ export async function registerRequest (url, credential) {
     const res = await fetch (url ,
             {headers: new Headers({'Content-Type': 'application/json'}),
             method: "POST", body: JSON.stringify(credential)})
+    if (!res.ok) {
+        const resJson = await res.json()
+        throw {
+            message: resJson.message || 'Unknown error',
+            status: res.status,
+            statusText: res.statusText
+        }
+    }
+    const data = await res.json()
+    return data
+}
+
+export async function searchPost (url, credential) {
+    const res = await fetch (url ,
+            {headers: new Headers({'Content-Type': 'application/json'}),
+            method: "GET", body: JSON.stringify(credential)})
     if (!res.ok) {
         const resJson = await res.json()
         throw {

@@ -12,9 +12,9 @@ def create():
     if not data:
         abort(400, 'Not JSON')
     if 'name' not in data:
-        abort(400, 'Category not found')
+        return jsonify({'message': 'Category not found'}), 400
     if data['name'] in [val.name for val in category.values()]:
-        abort(401, 'Category already exists')
+       return jsonify({'message': 'Category already exists'}), 400
     new_category = Category(**data)
     new_category.save()
     return jsonify(new_category.to_dict()), 201

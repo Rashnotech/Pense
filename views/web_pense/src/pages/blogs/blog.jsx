@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import BlogPost from '../../components/Blogpost'
 import SearchDesign from '../../components/Search'
-import { fetchRequest } from '../api'
+import { fetchRequest, searchPost } from '../api'
 import { AuthLoader } from './AuthLoader'
 import {useLoaderData} from 'react-router-dom'
 
@@ -31,6 +31,9 @@ export default function Blog () {
     }, [])
 
     async function handleSearch (value) {
+        //const url = `https://pense.pythonanywhere.com/api/v1/posts/find/`
+        //const post = await searchPost(url, value)
+        //setPost(post)
         console.log(value)
     }
 

@@ -30,7 +30,7 @@ export default function Write () {
             }
           };
           fetchCategories();
-    })
+    }, [])
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -86,11 +86,10 @@ export default function Write () {
                         {headers: new Headers({'Content-Type': 'application/json'}),
                         method: "POST", body: JSON.stringify(credentials)})
         if (!res.ok) {
-            const error = res.json()
             throw {
-                message: error.message,
-                statusText: error.statusText,
-                status: error.status
+                message: res.error,
+                statusText: res.statusText,
+                status: res.status
             }
         }
         const data = await res.json()
@@ -117,7 +116,7 @@ export default function Write () {
                     placeholder='Title' name="title"
                     value={value.title}
                     onChange={handleChange}
-                    className='text-2xl font-sans border-l-2 focus-within:ease-in-out border-l-gray-700 px-2 placeholder:text-slate-500 outline-none block my-2' />
+                    className='text-2xl font-sans border-l-2 focus-within:ease-in-out border-l-gray-700 px-2 placeholder:text-slate-500 outline-none w-full block my-2' />
                 <MDEditor name='content' value={content} onChange={setContent} />
             </div>
 
@@ -132,7 +131,8 @@ export default function Write () {
                 </ul>
         
                 <form onSubmit={handleSubmit}>
-                    <input required
+                    <input
+                        required
                         type="text"
                         name="name"
                         onChange={handleSetCategory}

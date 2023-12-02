@@ -66,18 +66,14 @@ def show_all_posts(user_id):
         return jsonify(post_user), 200
     return jsonify({'success': "Empty post"}), 200
 
-@post_bp.route('/find', methods=['GET'], strict_slashes=False)
-def search_posts():
-    data = request.get_json()
-    if not data:
-        abort(400, 'Not a JSON')
-    if 'search' not in data:
+@post_bp.route('/keyword/<str:param>', methods=['GET'], strict_slashes=False)
+def search_posts(param):
+    if not param:
         abort(400, 'Missing search term')
-    search_term = data['search'].lower()
     posts = storage.all(Post)
     results = []
     for post in posts.values():
-        if search_term in post.title.lower() or search_term in post.content.lower():
+        if param in post.title.lower() or param in post.content.lower():
             results.append(post.to_dict())
     if results:
         return jsonify(results), 200

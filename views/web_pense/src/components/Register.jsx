@@ -27,14 +27,17 @@ export default function Register () {
         try {
             const url = 'https://pense.pythonanywhere.com/api/v1/signup'
             const res = await registerRequest(url, data)
-            if (res) {
-                setMessage('Account created successfully, redirecting...')
-                setTimeout(() => {
-                   navigate("/login");
-                }, 5000);
+            if (!res.ok) {
+                const error = await res.json()
+                setError(error);
+                console.log(error)
             }
+            setMessage('Account created successfully, redirecting...')
+            setTimeout(() => {
+                navigate("/login");
+            }, 5000);
         } catch (error) {
-            setError(error.message)
+            console.error(error)
         }
         finally {
             setProcess(false)

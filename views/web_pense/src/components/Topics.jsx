@@ -1,32 +1,38 @@
 import { Link } from "react-router-dom"
 
-function Contents () {
+function Contents ({author, post}) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
+        
         <section className="absolute flex flex-row items-start justify-start w-full">
-            <article className="space-y-2">
-                <div className="flex flex-row items-start justify-start space-x-2">
-                    <img src="" alt="" className="w-5 h-5 rounded-full" />
-                    <p className="text-sm font-medium">author</p>
-                </div>
-                <h2 className="text-lg font-semibold">Titulo</h2>
-                <p className="text-slate-400 text-base">Contenido</p>
-                <p className="text-sm text-slate-300">Date . <span>time read</span> <a>Categories</a></p>
-            </article>
-            <img src="" alt="post cover" />
+            <Link to={`@/${post.user.firstname}/${post.slug}`}>
+                <article className="space-y-2">
+                    <div className="flex flex-row items-start justify-start space-x-2">
+                        <img src={`${post.post_cover}`} alt="" className="w-5 h-5 rounded-full" />
+                        <p className="text-sm font-medium">{author}</p>
+                    </div>
+                    <h2 className="text-lg font-semibold">{post.title}</h2>
+                    <p className="text-slate-400 text-base">{post.summary}</p>
+                    <p className="text-sm text-slate-300">{months[new Date(post.updated_at).getMonth()]} {new Date(post.updated_at).getFullYear % 2000 }
+                    . <span>{post.read_time}</span> {post.categories.map(cat => <a>{cat.name}</a>)}</p>
+                </article>
+                <img src={`${post.post_cover}`} alt="post cover" />
+            </Link>
         </section>
+
     )
 }
 
-export default function Topics({categoryList}) {
+export default function Topics({categoryList, contents}) {
     return (
         <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <div className="md:col-span-2 col-auto h-full relative overflow-x-hidden overflow-y-auto">
-                <Contents />
+                {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>
             <div className="flex flex-col space-y-4 static text-sm">
                 <h4 className="font-medium text-lg">Discover more of what matters to you</h4>
-                <div>
-                {categoryList && categoryList.map(item => <a href="#" className="rounded-full px-4 py-2 bg-slate-200">{item.name}</a>) }
+                <div className="flex items-center flex-wrap">
+                {categoryList && categoryList.map(item => <a href="#" key={item.id} className="rounded-full my-1 px-4 py-2 bg-slate-200">{item.name}</a>) }
                 </div>
                 <a href="" className="text-green-600 font-medium">see more topics</a>
                 <div className="border-t mx-auto w-full py-4">

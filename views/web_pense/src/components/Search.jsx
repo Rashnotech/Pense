@@ -2,22 +2,26 @@ import { Tab } from '@headlessui/react'
 import { useState } from 'react'
 
 function Search ({handleSearch}) {
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState({'search': ''})
 
     function handleChange (event) {
-        const {value} = event.target
-        setSearch(value)
+        const {name, value} = event.target
+        setSearch(prev => ({...prev, [name]: value}))
     }
     function handleSubmit (event) {
         event.preventDefault();
-        if (event.key === 'Enter') handleSearch(search)
+        if (event.key === 'Enter') {
+            handleSearch(search)
+            setSearch({'search': ''})
+        }
     }
     return (
         <div className="absolute top-[58%] mx-auto w-3/5 md:w-2/5">
             <input
                 onChange={handleChange}
-                value={search}
-                onKeyDown={handleSubmit}
+                value={search.search}
+                onKeyUpCapture={handleSubmit}
+                name='search'
                 id='search'
                 type="search"
                 placeholder="Search all posts..." 

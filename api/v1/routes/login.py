@@ -14,16 +14,16 @@ def login():
     if not data:
         abort(400, 'Not a JSON')
     if 'password' not in data:
-        abort(400, 'Missing password')
+        return jsonify({'message': 'Missing password'}), 400
     if 'email' not in data:
-        abort(400, 'Missing email')
+        return jsonify({'message': 'Missing email'}), 400
     users = storage.all(User)
     if users is None:
         abort(400, 'User not found')
     for user in users.values():
         if user.email == data['email']:
             if user.password != md5(data['password'].encode()).hexdigest():
-                abort(400, 'Incorrect password')
+                return jsonify({'message:': 'Incorrect password'}), 400
             if user.verify is False:
                 return jsonify({'message': 'Email not verified'}), 400
             return jsonify(user.to_dict(), 201)
@@ -76,5 +76,5 @@ def password_reset(email):
 def getdetails(user_id):
     users = storage.get(User, user_id)
     if users is None:
-        abort(400, 'User not found')
+       return jsonify({'message': 'User not found'}), 400
     return jsonify(users.to_dict(), 201)

@@ -1,4 +1,4 @@
-function Posts () {
+export function Posts () {
     return (
         <article className="flex flex-row w-full items-start justify-start space-x-4 font-sans">
             <div className="text-slate-200 font-semibold text-3xl"><h1>01</h1></div>

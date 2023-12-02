@@ -16,11 +16,11 @@ def signup():
     require_fields = ['firstname', 'lastname', 'email', 'password']
     for field in require_fields:
         if field not in data:
-            abort(400, f'Missing {field}')
+            return jsonify({'message': f'Missing {field}'}), 400
     validate = storage.all(User)
     for user in validate.values():
         if user.email == data['email']:
-            abort(400, 'User already exists')
+           return jsonify({'message': 'User already exists'}), 400
     body = render_template('verify.html',
                            verify_url=url_for('app_views.verify',
                                               email=data['email'], _external=True),
@@ -38,11 +38,11 @@ def signup():
 def verify(email):
     """signup verification"""
     if not email:
-        abort(400, 'Missing email')
+        return jsonify({'message': 'Missing email'}), 400
     users = storage.all(User)
     for user in users.values():
         if user.email == email:
             setattr(user, 'verify', True)
             user.save()
             return redirect('https://pense-theta.vercel.app')
-    abort(400, 'Verfication Failed')
+    jsonify({'message': 'Verfication Failed'}), 400
