@@ -27,7 +27,7 @@ export default function Login () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = 'https://pense-service.onrender.com/api/v1/login'
+        const url = 'https://pense.pythonanywhere.com/api/v1/login'
         try {
             const res = await loginRequest(url, data)
             if (res) {

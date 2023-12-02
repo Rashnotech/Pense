@@ -20,7 +20,7 @@ export default function Information () {
     async function onSubmit (data) {
         setProcess(true)
         try {
-            const url = 'https://pense-service.onrender.com/api/v1/update'
+            const url = 'https://pense.pythonanywhere.com/api/v1/update'
             const res = await registerRequest(url ,data)
             if (res) {
                 setMessage('Account created successfully, redirecting...')

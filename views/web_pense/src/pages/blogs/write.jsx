@@ -18,7 +18,7 @@ export default function Write () {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-              const res = await fetch('https://pense-service.onrender.com/api/v1/category');
+              const res = await fetch('https://pense.pythonanywhere.com/api/v1/category');
               if (!res.ok) {
                 const error = await res.json();
                 throw new Error(error.message);
@@ -56,7 +56,7 @@ export default function Write () {
     async function handleSubmit (event) {
         event.preventDefault();
         setMessage('');
-        const res = await fetch('https://pense-service.onrender.com/api/v1/category',
+        const res = await fetch('https://pense.pythonanywhere.com/api/v1/category',
                             {headers: new Headers({'Content-Type': 'application/json'}),
                             method: "POST", body: JSON.stringify(category)})
         if (!res.ok) {
@@ -80,7 +80,7 @@ export default function Write () {
     async function Publish () {
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_section')
         const userid = JSON.parse(user).userid
-        const url = 'https://pense-service.onrender.com/api/v1/posts'
+        const url = 'https://pense.pythonanywhere.com/api/v1/posts'
         const credentials = {title: value.title, content: content, category_id: selected, user_id: userid}
         const res = await fetch(url,
                         {headers: new Headers({'Content-Type': 'application/json'}),

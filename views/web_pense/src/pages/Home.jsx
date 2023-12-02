@@ -11,7 +11,7 @@ export default function Home () {
   useEffect(() => {
       const fetchCategories = async () => {
           try {
-            const res = await fetch('https://pense-service.onrender.com/api/v1/category');
+            const res = await fetch('https://pense.pythonanywhere.com/api/v1/category');
             if (!res.ok) {
               const error = await res.json();
               throw new Error(error.message);

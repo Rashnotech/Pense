@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const users = sessionStorage.getItem('Browser_session') ||
                 localStorage.getItem('Browser_session')
 const user_id = users && JSON.parse(users).userid
-const url = `https://pense-service.onrender.com/api/v1/user/${user_id}`
+const url = `https://pense.pythonanywhere.com/api/v1/user/${user_id}`
 
 const initialState = {
     status: 'idle',

@@ -9,7 +9,7 @@ export default function PostDetails () {
     useEffect(() => {
         const fetchData = async (name, title) => {
             try {
-                const response = await fetch(`https://pense-service.onrender.com/api/v1/posts/read/${name}/${title}`);
+                const response = await fetch(`https://pense.pythonanywhere.com/api/v1/posts/read/${name}/${title}`);
                 const data = await response.json();
                 setPost(data);
             } catch (error) {
