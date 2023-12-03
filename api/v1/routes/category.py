@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """a module that handles post categories"""
-from api.v1.routes import jsonify, app_views, abort, request, send_from_directory, current_app
+from api.v1.routes import jsonify, app_views, abort, request, current_app
 from models import storage
 from models.category import Category
 
@@ -31,5 +31,6 @@ def get_category():
 
 @app_views.route('/api/upload/images/<filename>')
 def uploaded_file(filename):
+    from flask import send_from_directory
     """fetch upload"""
     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
