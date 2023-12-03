@@ -20,7 +20,6 @@ export async function loginRequest (url, credential) {
             method: "POST", body: JSON.stringify(credential)})
     if (!res.ok) {
         const res_error = await res.json()
-        console.log(res_error)
         throw {
             message: res_error.message || 'Unknown error',
             status: res.status,

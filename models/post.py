@@ -18,7 +18,7 @@ class Post(BaseModel, Base):
     """Create the post model"""
     __tablename__ = 'posts'
 
-    title = Column(String(100), nullable=False)
+    title = Column(String(100), nullable=False, unique=True)
     content = Column(Text, nullable=False)
     post_cover = Column(String(100), nullable=True)
     attachment = Column(String(100), nullable=True)

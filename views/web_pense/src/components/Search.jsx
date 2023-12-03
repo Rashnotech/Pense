@@ -42,8 +42,8 @@ export default function SearchDesign ({tabs, func, searchFunc}) {
                 <h1 className="text-4xl font-bold text-slate-50">Blog</h1>
                 <Search handleSearch={searchFunc} />
             </div>
-            <Tab.Group className="w-full md:w-4/5 mx-auto my-8 overflow-y-hidden">
-                <Tab.List className="flex flex-row items-center justify-evenly text-sm text-slate-400 font-medium w-full">
+            <Tab.Group className="w-full md:w-5/6 mx-auto my-8 overflow-y-hidden">
+                <Tab.List className="flex flex-row items-center text-xs text-slate-400 w-full">
                     <Tab onClick={() => func('all')} className= {({ selected }) =>
                         classNames("rounded-full px-4 py-2 text-center",
                         selected

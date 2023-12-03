@@ -40,7 +40,7 @@ function Posts ({post}) {
                         <div className="flex flex-col items-start justify-evenly">
                             <h3 className="font-semibold text-base">{`${post.user.firstname} ${post.user.lastname}`}</h3>
                             <p className="text-gray-700 text-sm">{`${new Date(post.updated_at).getHours()}:${new Date(post.updated_at).getMinutes()} 
-                                                                    ${new Date(post.updated_at).getUTCDate()}-${new Date(post.updated_at).getUTCFullYear()}`} </p>
+                                                                    ${new Date(post.updated_at).getUTCDate()}-${new Date(post.updated_at).getUTCFullYear() % 2000}`} </p>
                         </div>
                     </div>
                 </div>

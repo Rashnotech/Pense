@@ -1,13 +1,24 @@
 #!/usr/bin/python3
 """ Pense Post """
 from models import storage
-from api.v1.routes import request, abort, jsonify
+from api.v1.routes import request, abort, jsonify, current_app
 from flask import Blueprint, jsonify, request, abort
 from models.post import Post, post_category
 from models.category import Category
 from math import ceil
+from werkzeug.utils import secure_filename
+import os
+
 
 post_bp = Blueprint('post_bp', __name__, url_prefix='/posts')
+
+
+allowed_extension = {'jpg', 'jpeg', 'png'}
+def allowed_file(filename):
+    """a function that check for allowed file"""
+    if '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension:
+        return True
+    return False
 
 @post_bp.route('/', methods=['POST'], strict_slashes=False)
 def create_post():
@@ -18,8 +29,13 @@ def create_post():
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'Missing {field}'}), 400
+    post_cover = request.files['post_cover']
+    if post_cover and not allowed_file(post_cover.filename):
+        abort(400, 'Invalid Format')
+    filename = secure_filename(post_cover.filename)
+    data['post_cover'] = filename
     data['slug'] = data['title'].lower().replace(' ', '-')
-    data['summary'] = data['content'][:100]
+    data['summary'] = data['content'][:150]
     data['read_time'] = ceil(len(data['content']) / 183)
     catList = [storage.get(Category, id) for id in data['category_id']]
     if None in catList:
@@ -29,8 +45,8 @@ def create_post():
     for category in catList:
         new_post.categories.append(category)
     new_post.save()
+    post_cover.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
     return jsonify(new_post.to_dict()), 201
-
 
 
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)

@@ -14,3 +14,4 @@ from api.v1.routes.email import *
 from api.v1.routes.post import *
 from api.v1.routes.comment import *
 from api.v1.routes.category import *
+from api.v1.routes.upload_user import *

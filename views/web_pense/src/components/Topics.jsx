@@ -3,9 +3,7 @@ import { Link } from "react-router-dom"
 function Contents ({author, post}) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
-        
-        <section className="absolute flex flex-row items-start justify-start w-full">
-            <Link to={`@/${post.user.firstname}/${post.slug}`}>
+            <Link to={`@/${post.user.firstname}/${post.slug}`} className="absolute flex flex-row items-center justify-start w-full">
                 <article className="space-y-2">
                     <div className="flex flex-row items-start justify-start space-x-2">
                         <img src={`${post.post_cover}`} alt="" className="w-5 h-5 rounded-full" />
@@ -13,13 +11,11 @@ function Contents ({author, post}) {
                     </div>
                     <h2 className="text-lg font-semibold">{post.title}</h2>
                     <p className="text-slate-400 text-base">{post.summary}</p>
-                    <p className="text-sm text-slate-300">{months[new Date(post.updated_at).getMonth()]} {new Date(post.updated_at).getFullYear % 2000 }
-                    . <span>{post.read_time}</span> {post.categories.map(cat => <a>{cat.name}</a>)}</p>
+                    <p className="text-sm text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
+                    . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1">{cat.name}</span>)}</p>
                 </article>
                 <img src={`${post.post_cover}`} alt="post cover" />
             </Link>
-        </section>
-
     )
 }
 

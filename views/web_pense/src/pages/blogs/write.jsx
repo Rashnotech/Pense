@@ -30,7 +30,7 @@ export default function Write () {
             }
           };
           fetchCategories();
-    }, [])
+    }, [message])
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -73,15 +73,16 @@ export default function Write () {
         setCategory({name: ''});
         setMessage('Added successfully')
     }
-    function uploadImage (event) {
-        event.preventDefault();
-        document.querySelector('#post_cover').click();
-    }
     async function Publish () {
+        const filename = document.querySelector('#post_cover').files[0]
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_section')
         const userid = JSON.parse(user).userid
         const url = 'https://pense.pythonanywhere.com/api/v1/posts'
-        const credentials = {title: value.title, content: content, category_id: selected, user_id: userid}
+        if (filename.name) {
+            const formData = new FormData()
+            formData.append('post_cover', filename)
+        }
+        const credentials = {title: value.title, content: content, category_id: selected, user_id: userid, formData}
         const res = await fetch(url,
                         {headers: new Headers({'Content-Type': 'application/json'}),
                         method: "POST", body: JSON.stringify(credentials)})
@@ -103,13 +104,9 @@ export default function Write () {
                 <div>
                     <button onClick={Publish} className="bg-green-500 float-right text-slate-100 block font-medium text-sm rounded-full px-4 py-2">Publish</button>
                 </div>
-                <div className='bg-sky-200/60 flex items-center flex-col w-full p-8 rounded-md' id="banner">
-                    <button className='text-slate-50 outline-none w-full flex flex-col items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                        </svg>
-                    </button>
-                    <input type="file" accept="image/*" name="post_cover" className='hidden' id="post_cover" />
+                <div className='bg-sky-200/60 flex flex-col w-full p-8 rounded-md' id="banner">
+                    <label htmlFor="post_cover">Post Cover</label>
+                    <input type="file" accept="image/*" name="post_cover" id="post_cover" />
                 </div>
                 <input
                     type="text"
