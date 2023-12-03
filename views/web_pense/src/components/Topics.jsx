@@ -6,7 +6,7 @@ function Contents ({author, post}) {
             <Link to={`@/${post.user.firstname}/${post.slug}`} className="absolute block md:flex flex-col-reverse md:flex-row items-start  h-full justify-start w-full">
                 <article className="space-y-2 block">
                     <div className="flex flex-row items-start justify-start space-x-2">
-                        <img src={`${post.post_cover}`} alt="" className="w-5 h-5 rounded-full" />
+                        <img src="" alt="" className="w-5 h-5 rounded-full" />
                         <p className="text-sm font-medium">{author}</p>
                     </div>
                     <h2 className="text-lg font-semibold">{post.title}</h2>
@@ -14,7 +14,7 @@ function Contents ({author, post}) {
                     <p className="text-sm text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
                     . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1">{cat.name}</span>)}</p>
                 </article>
-                <img src={`${post.post_cover}`} alt="post cover" />
+                <img src={`https://pense.pythonanywhere.com/api/upload/images/${post.post_cover}`} alt={post.post_cover} />
             </Link>
     )
 }
@@ -28,7 +28,7 @@ export default function Topics({categoryList, contents}) {
             <div className="flex flex-col space-y-4 static text-sm">
                 <h4 className="font-medium text-lg">Discover more of what matters to you</h4>
                 <div className="flex items-center flex-wrap">
-                {categoryList && categoryList.map(item => <a href="#" key={item.id} className="rounded-full my-1 px-4 py-2 bg-slate-200">{item.name}</a>) }
+                {categoryList && categoryList.map(item => <a href="#" key={item.id} className="rounded-full my-1 px-4 py-2 bg-slate-100">{item.name}</a>) }
                 </div>
                 <a href="" className="text-green-600 font-medium">see more topics</a>
                 <div className="border-t mx-auto w-full py-4">

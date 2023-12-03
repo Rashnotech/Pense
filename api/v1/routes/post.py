@@ -55,7 +55,7 @@ def create_post():
         return jsonify(new_post.to_dict()), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-
+    
 
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)
 def update_post(id):

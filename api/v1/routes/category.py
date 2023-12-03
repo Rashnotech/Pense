@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """a module that handles post categories"""
-from api.v1.routes import jsonify, app_views, abort, request
+from api.v1.routes import jsonify, app_views, abort, request, send_from_directory, current_app
 from models import storage
 from models.category import Category
 
@@ -28,3 +28,8 @@ def get_category():
         return jsonify({'message': 'Empty categories'}), 200
     categories = [val.to_dict() for val in cat_list.values()]
     return jsonify(categories), 200
+
+@app_views.route('/api/upload/images/<filename>')
+def uploaded_file(filename):
+    """fetch upload"""
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)

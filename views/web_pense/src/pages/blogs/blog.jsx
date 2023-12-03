@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import BlogPost from '../../components/Blogpost'
 import SearchDesign from '../../components/Search'
-import { fetchRequest, searchPost } from '../api'
+import { fetchRequest } from '../api'
 import { AuthLoader } from './AuthLoader'
 import {useLoaderData} from 'react-router-dom'
 

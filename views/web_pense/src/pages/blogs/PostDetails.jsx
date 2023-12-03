@@ -30,7 +30,7 @@ export default function PostDetails () {
                     <h2 className="text-2xl font-bold my-4">{tips.title}</h2>
                     <div className="flex flex-row items-center justify-between">
                         <div className="flex flex-row items-center space-x-4">
-                            <img src={`${tips.post_cover}`} alt="" className="w-10 h-10 rounded-full block border object-fill" />
+                            <img src="" alt="" className="w-10 h-10 rounded-full block border object-fill" />
                             <div className="flex flex-col items-start">
                                 <h3 className="font-semibold text-base">{`${tips.user.firstname} ${tips.user.lastname}`}</h3>
                                 <p className="text-gray-700 text-sm">{`${tips.read_time} min read. 
@@ -70,7 +70,7 @@ export default function PostDetails () {
 
                    <div className="space-y-6">
                         <div className="w-full h-32">
-                            <img src="" className="w-full h-full object-cover border rounded-lg" alt="post" />
+                            <img src={`https://pense.pythonanywhere.com/api/upload/images/${tips.post_cover}`} alt={tips.post_cover} className="w-full h-full object-cover border rounded-lg" />
                         </div>
                         <p className="text-gray-700"> {tips.content} </p>
                     </div> 

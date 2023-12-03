@@ -23,6 +23,7 @@ def teardown_appcontext(self):
     """ Teardown app context """
     storage.close()
 
+
 @app.errorhandler(404)
 def not_found_error(error):
     """ Not found error """
