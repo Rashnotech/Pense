@@ -66,7 +66,7 @@ def show_all_posts(user_id):
         return jsonify(post_user), 200
     return jsonify({'success': "Empty post"}), 200
 
-@post_bp.route('/keyword/<str:param>', methods=['GET'], strict_slashes=False)
+@post_bp.route('/keyword/<param>', methods=['GET'], strict_slashes=False)
 def search_posts(param):
     if not param:
         abort(400, 'Missing search term')

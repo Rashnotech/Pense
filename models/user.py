@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """a module that contain user attributes"""
 from models.base_model import Base, BaseModel
+from models.image import Image
 from sqlalchemy import Column, String, Boolean, ForeignKey, Integer, Table
 from sqlalchemy.orm import relationship
 from hashlib import md5
