@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Pense Backend entry point """
-from flask import Flask, jsonify, Blueprint
+from flask import Flask, jsonify
 from flask_mail import Mail
 from flask_cors import CORS
 from models import storage
@@ -30,4 +30,4 @@ def not_found_error(error):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

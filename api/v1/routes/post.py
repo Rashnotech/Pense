@@ -22,31 +22,39 @@ def allowed_file(filename):
 
 @post_bp.route('/', methods=['POST'], strict_slashes=False)
 def create_post():
-    data = request.get_json()
-    if not data:
-        return jsonify({'error': 'No data provided'}), 400
-    required_fields = ['title', 'content', 'user_id']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({'error': f'Missing {field}'}), 400
-    post_cover = request.files['post_cover']
-    if post_cover and not allowed_file(post_cover.filename):
-        abort(400, 'Invalid Format')
-    filename = secure_filename(post_cover.filename)
-    data['post_cover'] = filename
-    data['slug'] = data['title'].lower().replace(' ', '-')
-    data['summary'] = data['content'][:150]
-    data['read_time'] = ceil(len(data['content']) / 183)
-    catList = [storage.get(Category, id) for id in data['category_id']]
-    if None in catList:
-        return jsonify({'error': 'One or more category IDs are invalid'}), 400
-    new_post = Post(**data)
-    new_post.save() 
-    for category in catList:
-        new_post.categories.append(category)
-    new_post.save()
-    post_cover.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-    return jsonify(new_post.to_dict()), 201
+    try:
+        if request.headers['Content-Type'].startswith('application/json'):
+            data = request.get_json()
+        elif request.headers['Content-Type'].startswith('multipart/form-data'):
+            data = request.form.to_dict()
+            post_cover = request.files['post_cover']
+            if post_cover and not allowed_file(post_cover.filename):
+                abort(400, 'Invalid Format')
+            filename = secure_filename(post_cover.filename)
+            data['post_cover'] = filename
+            post_cover.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        else:
+            abort(415, 'Invalid Content-Type header')
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        required_fields = ['title', 'content', 'user_id']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing {field}'}), 400
+        data['slug'] = data['title'].lower().replace(' ', '-')
+        data['summary'] = data['content'][:150]
+        data['read_time'] = ceil(len(data['content']) / 183)
+        catList = [storage.get(Category, id) for id in data['category_id'].split(',')]
+        if None in catList:
+            return jsonify({'error': 'One or more category IDs are invalid'}), 400
+        new_post = Post(**data)
+        new_post.save() 
+        for category in catList:
+            new_post.categories.append(category)
+        new_post.save()
+        return jsonify(new_post.to_dict()), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)

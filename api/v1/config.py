@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-""" pense config file"""
-
+import os
 
 class Config:
     """ a class for config"""
@@ -9,8 +8,9 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = 'pense.blogpost@gmail.com'
     MAIL_PASSWORD = 'nigyjnsceqoooqty'
-    UPLOAD_FOLDER = '/api/v1/assets/uploads'
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'upload', 'images')
 
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     @classmethod
     def init_app(cls, app):
         pass

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 function Contents ({author, post}) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
-            <Link to={`@/${post.user.firstname}/${post.slug}`} className="absolute flex flex-row items-center justify-start w-full">
-                <article className="space-y-2">
+            <Link to={`@/${post.user.firstname}/${post.slug}`} className="absolute block md:flex flex-col-reverse md:flex-row items-start  h-full justify-start w-full">
+                <article className="space-y-2 block">
                     <div className="flex flex-row items-start justify-start space-x-2">
                         <img src={`${post.post_cover}`} alt="" className="w-5 h-5 rounded-full" />
                         <p className="text-sm font-medium">{author}</p>
@@ -22,7 +22,7 @@ function Contents ({author, post}) {
 export default function Topics({categoryList, contents}) {
     return (
         <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
-            <div className="md:col-span-2 col-auto h-full relative overflow-x-hidden overflow-y-auto">
+            <div className="md:col-span-2 min-h-full col w-full relative overflow-x-hidden">
                 {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>
             <div className="flex flex-col space-y-4 static text-sm">

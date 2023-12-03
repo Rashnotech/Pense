@@ -74,18 +74,29 @@ export default function Write () {
         setMessage('Added successfully')
     }
     async function Publish () {
-        const filename = document.querySelector('#post_cover').files[0]
+        const file = document.querySelector('#post_cover')
+        if (!file.files.length) {
+            throw new Error('Please select a file')
+        }
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_section')
         const userid = JSON.parse(user).userid
         const url = 'https://pense.pythonanywhere.com/api/v1/posts'
-        if (filename.name) {
-            const formData = new FormData()
-            formData.append('post_cover', filename)
-        }
-        const credentials = {title: value.title, content: content, category_id: selected, user_id: userid, formData}
-        const res = await fetch(url,
-                        {headers: new Headers({'Content-Type': 'application/json'}),
-                        method: "POST", body: JSON.stringify(credentials)})
+        const filename = file.files[0]
+        const formData = new FormData()
+        formData.append('post_cover', filename)
+        const credentials = {
+            title: value.title,
+            content: content,
+            category_id: selected,
+            user_id: userid
+        };
+        Object.entries(credentials).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        const res = await fetch(url, {
+                        method: "POST",
+                        body: formData
+                    });
         if (!res.ok) {
             throw {
                 message: res.error,
