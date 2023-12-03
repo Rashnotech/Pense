@@ -25,7 +25,7 @@ export default function PostDetails () {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
                 </svg>Back</Link>
-            {post.map(tips => <article className='w-full font-sans flex flex-col items-center justify-between'>
+            {post.map(tips => <article key={tips.id} className='w-full font-sans flex flex-col items-center justify-between'>
                 <div className='w-full px-6'>
                     <h2 className="text-2xl font-bold my-4">{tips.title}</h2>
                     <div className="flex flex-row items-center justify-between">
@@ -34,15 +34,23 @@ export default function PostDetails () {
                             <div className="flex flex-col items-start">
                                 <h3 className="font-semibold text-base">{`${tips.user.firstname} ${tips.user.lastname}`}</h3>
                                 <p className="text-gray-700 text-sm">{`${tips.read_time} min read. 
-                                        ${new Date(tips.updated_at).getHours()}:${new Date(tips.updated_at).getMinutes()} 
-                                        ${new Date(tips.updated_at).getUTCDate()}-${new Date(tips.updated_at).getUTCFullYear() % 2000}
+                                        ${new Date(tips.updated_at).getUTCMonth()}-${new Date(tips.updated_at).getUTCFullYear() % 2000}
                                 `}</p>
                             </div>
                         </div>
                         <button className="rounded-full px-4 py-2 border hover:bg-blue-600 bg-blue-500 text-slate-100 font-medium">Follow</button>
                     </div>
-                    <div className="mt-3 mb-6">
-                        <ul className="flex flex-row items-start space-x-4">
+                    <div className="mt-3 mb-6 flex border border-r-0 border-l-0 items-center w-full">
+                        <ul className='text-slate-400'>
+                            <li>
+                                <button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                        <ul className="flex items-center justify-end py-2 w-full text-slate-400 space-x-4">
                             <li>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

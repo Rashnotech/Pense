@@ -29,7 +29,7 @@ def get_category():
     categories = [val.to_dict() for val in cat_list.values()]
     return jsonify(categories), 200
 
-@app_views.route('/api/upload/images/<filename>')
+@app_views.route('/upload/images/<filename>')
 def uploaded_file(filename):
     from flask import send_from_directory
     """fetch upload"""
