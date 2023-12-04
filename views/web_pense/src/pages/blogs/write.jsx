@@ -63,11 +63,6 @@ export default function Write () {
                             method: "POST", body: JSON.stringify(category)})
         if (!res.ok) {
             const error = res.json()
-            throw {
-                message: error.message,
-                statusText: error.statusText,
-                status: error.status
-            }
             setError(error.message)
         }
         const data = await res.json()
@@ -81,7 +76,7 @@ export default function Write () {
         if (!file.files.length) {
             throw new Error('Please select a file')
         }
-        const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_section')
+        const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
         const userid = JSON.parse(user).userid
         const url = 'https://pense.pythonanywhere.com/api/v1/posts'
         const filename = file.files[0]
@@ -101,6 +96,7 @@ export default function Write () {
                         body: formData
                     });
         if (!res.ok) {
+            setProcess(false)
             throw {
                 message: res.error,
                 statusText: res.statusText,
@@ -116,12 +112,20 @@ export default function Write () {
     return (
         <div className="flex flex-col md:flex-row items-start w-full h-full mt-28">
             <div className='w-full h-full p-2 space-y-10'>
+                {error && <div className="flex px-4 py-2 items-center bg-yellow-100 rounded-md text-yellow-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                    </svg>
+                    <p className="text-sm text-amber-600 px-2">{error}</p>
+                </div>}
                 <div>
-                    {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>}
-                    <button disabled={process} onClick={Publish} className="bg-green-500 float-right text-slate-100 block font-medium text-sm rounded-full px-4 py-2">Publish</button>
+                    <button disabled={process} onClick={Publish} className="flex space-x-2 bg-green-500 hover:bg-green-600 disabled:bg-green-400 float-right text-slate-100 font-medium text-sm rounded-full px-4 py-2">
+                        {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg> }
+                        Publish
+                    </button>
                 </div>
                 <div className='bg-sky-200/60 flex flex-col w-full p-8 rounded-md' id="banner">
                     <label htmlFor="post_cover">Post Cover</label>
