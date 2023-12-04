@@ -1,5 +1,6 @@
 import MDEditor from '@uiw/react-md-editor'
 import { useState, useEffect } from 'react'
+import { set } from 'react-hook-form';
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +9,7 @@ export default function Write () {
     const navigate = useNavigate();
     const user = useSelector(state => state.users)
     const [categoryList, setCategoryList] = useState([])
+    const [process, setProcess] = useState(false)
     const [value, setValue] = useState({'title': ''})
     const [content, setContent] = useState('')
     const [category, setCategory] = useState({name: ''})
@@ -74,6 +76,7 @@ export default function Write () {
         setMessage('Added successfully')
     }
     async function Publish () {
+        setProcess(true)
         const file = document.querySelector('#post_cover')
         if (!file.files.length) {
             throw new Error('Please select a file')
@@ -105,6 +108,7 @@ export default function Write () {
             }
         }
         const data = await res.json()
+        setProcess(false)
         setTimeout(() => {
             navigate('/blog')
         }, 3000);
@@ -113,7 +117,11 @@ export default function Write () {
         <div className="flex flex-col md:flex-row items-start w-full h-full mt-28">
             <div className='w-full h-full p-2 space-y-10'>
                 <div>
-                    <button onClick={Publish} className="bg-green-500 float-right text-slate-100 block font-medium text-sm rounded-full px-4 py-2">Publish</button>
+                    {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>}
+                    <button disabled={process} onClick={Publish} className="bg-green-500 float-right text-slate-100 block font-medium text-sm rounded-full px-4 py-2">Publish</button>
                 </div>
                 <div className='bg-sky-200/60 flex flex-col w-full p-8 rounded-md' id="banner">
                     <label htmlFor="post_cover">Post Cover</label>

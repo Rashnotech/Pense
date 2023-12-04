@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 function Contents ({author, post}) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
-            <Link to={`@/${post.user.firstname}/${post.slug}`} className="absolute block md:flex flex-col-reverse md:flex-row items-start  h-full justify-start w-full">
+            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="block md:flex flex-col-reverse md:flex-row items-start justify-start w-full">
                 <article className="space-y-2 block">
                     <div className="flex flex-row items-start justify-start space-x-2">
                         <img src="" alt="" className="w-5 h-5 rounded-full" />
@@ -14,7 +14,7 @@ function Contents ({author, post}) {
                     <p className="text-sm text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
                     . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1">{cat.name}</span>)}</p>
                 </article>
-                <img src={`https://pense.pythonanywhere.com/api/upload/images/${post.post_cover}`} alt={post.post_cover} />
+                <img src={`https://pense.pythonanywhere.com/api/upload/images/${post.post_cover}`} />
             </Link>
     )
 }
@@ -22,7 +22,7 @@ function Contents ({author, post}) {
 export default function Topics({categoryList, contents}) {
     return (
         <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
-            <div className="md:col-span-2 min-h-full col w-full relative overflow-x-hidden">
+            <div className="md:col-span-2 w-full relative">
                 {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>
             <div className="flex flex-col space-y-4 static text-sm">
