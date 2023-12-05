@@ -26,7 +26,7 @@ export default function Comments ({post_id, show}) {
     async function handleKeyDown (event) {
         if (event.key === 'Enter') {
             const token = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session');
-            const user = JSON.parse(token).user_id;
+            const user = JSON.parse(token).userid;
             const credential = {
                 ...comment,
                 'user_id': user,
@@ -80,7 +80,7 @@ export default function Comments ({post_id, show}) {
             }
             {show && <input type="text"
                 name="comment"
-                className="border rounded-md px-4 py-2 shadow-sm outline-none w-full md:w-1/2 my-3 focus:ease-in focus:delay-100"
+                className="border rounded-md px-4 text-sm text-gray-600 font-medium py-2 shadow-sm outline-none w-full md:w-1/2 my-3"
                 placeholder="What are your thoughts?"
                 id=""
                 onChange={handleChange}
