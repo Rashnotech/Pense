@@ -31,10 +31,13 @@ export default function Blog () {
     }, [])
 
     async function handleSearch (value) {
-        //const url = `https://pense.pythonanywhere.com/api/v1/posts/find/`
-        //const post = await searchPost(url, value)
-        //setPost(post)
-        console.log(value)
+        try {
+            const url = `https://pense.pythonanywhere.com/api/v1/posts/keyword/${value}`
+            const data = await fetchRequest(url);
+            setPost(post)
+        } catch (error) {
+            console.error('Error fetching data:', error.message);
+        }
     }
 
     async function handleFilter (filter) {
