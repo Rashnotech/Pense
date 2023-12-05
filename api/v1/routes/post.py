@@ -90,20 +90,6 @@ def show_all_posts(user_id):
         return jsonify(post_user), 200
     return jsonify({'success': "Empty post"}), 200
 
-@post_bp.route('/keyword/<param>', methods=['GET'], strict_slashes=False)
-def search_posts(param):
-    if not param:
-        abort(400, 'Missing search term')
-    posts = storage.all(Post)
-    results = []
-    for post in posts.values():
-        if param in post.title.lower() or param in post.content.lower():
-            results.append(post.to_dict())
-    if results:
-        return jsonify(results), 200
-    abort(404, "No matching posts found")
-
-
 @post_bp.route('/search/<params>', methods=['GET'], strict_slashes=False)
 def filter_posts(params):
     posts = storage.all(Post)
@@ -160,3 +146,16 @@ def get_post_by_post_id(user_id, post_id):
     if not post:
         return jsonify({'error': 'Post not found'}), 404
     return jsonify(post.to_dict()), 200
+
+@post_bp.route('/keyword/<param>', methods=['GET'], strict_slashes=False)
+def searchkeywords(param):
+    if not param:
+        abort(400, 'Missing search term')
+    posts = storage.all(Post)
+    results = []
+    for post in posts.values():
+        if param in post.title.lower() or param in post.content.lower():
+            results.append(post.to_dict())
+    if results:
+        return jsonify(results), 200
+    abort(404, "No matching posts found")

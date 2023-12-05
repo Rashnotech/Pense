@@ -17,6 +17,7 @@ export default function Comments ({post_id, show}) {
             try {
                 const data = await fetchRequest(url);
                 setData(data);
+                console.log(data);
             } catch (error) {
                 setError(error.message)
             }
@@ -67,13 +68,13 @@ export default function Comments ({post_id, show}) {
                         <div className="flex flex-row items-center space-x-4">
                             <img src="" alt="" className="rounded-full w-10 h-10" />
                             <div className="leading-tight mb-2">
-                                <h4 className="font-semibold text-base">John Doe</h4>
+                                <h4 className="font-semibold text-base">{info.users.fullname}</h4>
                                 <p className="text-gray-700 text-sm font-light">{new Date(info.updated_at).toDateString()}</p>
                             </div>
                         </div>
                     </div>
                     <div className="w-full md:w-1/2">
-                        <p className="text-slate-500">
+                        <p className="text-gray-700 text-sm">
                             {info.comment}
                         </p>
                     </div>
