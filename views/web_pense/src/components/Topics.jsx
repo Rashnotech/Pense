@@ -11,7 +11,7 @@ function Contents ({author, post}) {
                     </div>
                     <h2 className="text-base md:text-lg font-semibold text-ellipsis">{post.title}</h2>
                     <p className="text-slate-400 text-sm hidden md:block md:text-ellipsis">{post.summary}</p>
-                    <p className="text-xs text-ellipsis hidden md:block text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
+                    <p className="text-xs text-ellipsis hidden md:block text-slate-300">{new Date(post.updated_at).toDateString()}
                     . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1 text-gray-700 bg-gray-100 rounded-full p-2">{cat.name}</span>)}</p>
                 </article>
                 <img className="w-2/5" src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} />
