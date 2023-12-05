@@ -90,8 +90,8 @@ export default function PostDetails () {
                     </div>
 
                    <div className="space-y-6">
-                        <div className="w-full h-32">
-                            <img src={`https://pense.pythonanywhere.com/api/upload/images/${tips.post_cover}`} alt={tips.post_cover} className="w-full h-full object-cover border rounded-lg" />
+                        <div className="w-full">
+                            <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${tips.post_cover}`} alt={tips.post_cover} className="w-full h-full object-cover border rounded-lg" />
                         </div>
                         {tips.content.split(/\r?\n/).map((line, index) => (
                         <p key={index} className="text-gray-700 text-justify text"> 

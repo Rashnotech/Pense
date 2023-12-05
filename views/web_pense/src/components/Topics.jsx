@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 function Contents ({author, post}) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
-            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="block md:flex flex-col-reverse md:flex-row items-start justify-start w-full">
+            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="block md:flex flex-col-reverse md:flex-row items-center justify-start w-full">
                 <article className="space-y-2 block">
                     <div className="flex flex-row items-start justify-start space-x-2">
                         <img src="" alt="" className="w-5 h-5 rounded-full" />
@@ -14,7 +14,7 @@ function Contents ({author, post}) {
                     <p className="text-sm text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
                     . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1">{cat.name}</span>)}</p>
                 </article>
-                <img src={`https://pense.pythonanywhere.com/api/upload/images/${post.post_cover}`} />
+                <img className="w-2/5" src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} />
             </Link>
     )
 }
