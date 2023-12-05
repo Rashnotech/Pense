@@ -16,9 +16,9 @@ export default function MyPost () {
     return (
         data[0] && data ? data.map(post =>
         <article key={post.id}> 
-            <p className="text-slate-600 font-medium text-sm">{months[new Date(post.updated_at).getMonth()]} {new Date(post.updated_at).getDay() }</p>
+            <p className="text-slate-600 font-medium text-sm">{(new Date(post.updated_at)).toDateString()}</p>
             <div className='w-full font-sans flex flex-row items-center justify-between'>
-                <div className="w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
+                <div className="w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
                 <div className='w-full px-6 space-y-2'>
                     <h2 className="text-2xl font-bold">{post.title}</h2>
                     <p className="text-gray-700 text-sm">
