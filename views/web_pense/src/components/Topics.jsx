@@ -3,16 +3,16 @@ import { Link } from "react-router-dom"
 function Contents ({author, post}) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
-            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="block md:flex flex-col-reverse md:flex-row items-center justify-start w-full">
+            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="flex flex-row items-center justify-start w-full">
                 <article className="space-y-2 block">
                     <div className="flex flex-row items-start justify-start space-x-2">
                         <img src="" alt="" className="w-5 h-5 rounded-full" />
                         <p className="text-sm font-medium">{author}</p>
                     </div>
-                    <h2 className="text-lg font-semibold">{post.title}</h2>
-                    <p className="text-slate-400 text-base">{post.summary}</p>
-                    <p className="text-sm text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
-                    . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1">{cat.name}</span>)}</p>
+                    <h2 className="text-base md:text-lg font-semibold text-ellipsis">{post.title}</h2>
+                    <p className="text-slate-400 text-sm hidden md:block md:text-ellipsis">{post.summary}</p>
+                    <p className="text-xs text-ellipsis hidden md:block text-slate-300">{new Date(post.updated_at).getMonth()} {new Date(post.updated_at).getFullYear() % 2000 }
+                    . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1 text-gray-700 bg-gray-100 rounded-full p-2">{cat.name}</span>)}</p>
                 </article>
                 <img className="w-2/5" src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} />
             </Link>
@@ -22,7 +22,7 @@ function Contents ({author, post}) {
 export default function Topics({categoryList, contents}) {
     return (
         <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
-            <div className="md:col-span-2 w-full relative overflow-y-scroll">
+            <div className="md:col-span-2 w-full">
                 {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>
             <div className="flex flex-col space-y-4 static text-sm">

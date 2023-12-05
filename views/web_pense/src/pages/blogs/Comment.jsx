@@ -40,6 +40,7 @@ export default function Comments ({post_id, show}) {
             }
             const data = await res.json();
             setMessage('Comment posted successfully')
+            setComment({'comment': '', 'post_id': post_id})
         }
     }
     return (

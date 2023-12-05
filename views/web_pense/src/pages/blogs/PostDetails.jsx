@@ -97,7 +97,6 @@ export default function PostDetails () {
                         {tips.content.split(/\r?\n/).map((line, index) => (
                         <p key={index} className="text-gray-700 text-justify text"> 
                             {line}
-                            <br />
                         </p>
                         ))} 
                         <ul className='flex'>
