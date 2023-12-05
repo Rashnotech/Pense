@@ -93,7 +93,12 @@ export default function PostDetails () {
                         <div className="w-full h-32">
                             <img src={`https://pense.pythonanywhere.com/api/upload/images/${tips.post_cover}`} alt={tips.post_cover} className="w-full h-full object-cover border rounded-lg" />
                         </div>
-                        <p className="text-gray-700 text-justify text"> {tips.content} </p>
+                        {tips.content.split(/\r?\n/).map((line, index) => (
+                        <p key={index} className="text-gray-700 text-justify text"> 
+                            {line}
+                            <br />
+                        </p>
+                        ))} 
                         <ul className='flex'>
                             {tips.categories.map(cat => <li key={cat.id} className='rounded-full px-4 py-2 text-sm bg-slate-100'>{cat.name}</li>)}
                         </ul>
