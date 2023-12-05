@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useEffect } from "react"
 
-export default function Comments ({post_id}) {
+export default function Comments ({post_id, show}) {
     const [comment, setComment] = useState({
         comment: '',
         post_id: post_id,
@@ -78,14 +78,14 @@ export default function Comments ({post_id}) {
                     <p className="text-sm text-green-600 px-2">{message}</p>
                 </div>
             }
-            <input type="text"
+            {show && <input type="text"
                 name="comment"
                 className="border rounded-md px-4 py-2 shadow-sm outline-none w-full md:w-1/2 my-3 focus:ease-in focus:delay-100"
                 placeholder="What are your thoughts?"
                 id=""
                 onChange={handleChange}
                 onKeyDownCapture={handleKeyDown}
-            />
+            /> }
         </section>
     )
 }
