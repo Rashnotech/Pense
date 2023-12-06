@@ -24,7 +24,6 @@ export default function Blog () {
                 setPost(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                // Handle errors as needed
             }
         };
         fetchData();
