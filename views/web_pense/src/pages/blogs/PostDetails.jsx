@@ -30,14 +30,37 @@ export default function PostDetails () {
 
     function speechSynthesis(event, text) {
         event.preventDefault();
-        let utterance = new SpeechSynthesisUtterance(text);
         const synth = window.speechSynthesis;
-        if (playing) synth.pause();
+        setPlaying(!playing);
+        if (playing && synth.speaking) {
+                synth.pause();
+            } else {
+                synth.resume();
+            }
+        let utterance = new SpeechSynthesisUtterance(text);
         utterance.voice = synth.getVoices()[0];
+            // Event listener for tracking the progress of speech
+            utterance.onboundary = function (event) {
+                document.querySelectorAll('.text-yellow-600').forEach(el => el.classList.remove('text-yellow-600'));
+
+                // Highlight the character being spoken
+                let charIndex = event.charIndex;
+                let highlightedText = text.substring(0, charIndex);
+                let remainingText = text.substring(charIndex);
+                let highlightedLines = highlightedText.split(/\r?\n/);
+                let remainingLines = remainingText.split(/\r?\n/);
+
+                // Apply the highlight class to the current character
+                document.querySelectorAll('#post').forEach(el => el.style.display = 'none');
+                    // Apply the highlight class to the current character and lines
+                document.querySelector('#readpost').innerHTML =
+                    `<span class="text-yellow-600">${highlightedLines.map(line => `${line}<br>`).join('')}</span>${remainingLines.map(line => `<br>${line}`).join('')}`;
+            };
+        // Start the speech synthesis
         synth.speak(utterance);
     }
     return (
-        <section className="px-10 mt-28 md:mt-20">
+        <section className="px-4 md:px-10 mt-28 md:mt-20">
             <Link to='..' className="font-medium text-gray-700 flex flex-row pl-6">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
@@ -82,13 +105,13 @@ export default function PostDetails () {
                                     </svg>
                                 </button>
                             </li>
-                            <li>
-                               {playing ? <button onClick={setPlaying(true)}>
+                            <li onClick={(event) => speechSynthesis(event, tips.content)}>
+                               {playing ? <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </button>
-                                : <button onClick={(event) => speechSynthesis(event, tips.content)}>
+                                : <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
@@ -109,8 +132,9 @@ export default function PostDetails () {
                         <div className="w-full">
                             <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${tips.post_cover}`} alt={tips.post_cover} className="w-full h-full object-cover border rounded-lg" />
                         </div>
+                        <p id='readpost' className='text-justify text-gray-700'></p>
                         {tips.content.split(/\r?\n/).map((line, index) => (
-                        <p key={index} className="text-gray-700 text-justify text"> 
+                        <p id='post' key={index} className="text-gray-700 text-justify"> 
                             {line}
                         </p>
                         ))} 
