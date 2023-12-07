@@ -55,7 +55,6 @@ export default function Comments ({post_id, show}) {
                 setError(error_json.message)
             }
             const data = await res.json();
-            setMessage('Comment posted successfully')
             setComment({'comment': '', 'post_id': post_id})
         }
     }
@@ -97,6 +96,7 @@ export default function Comments ({post_id, show}) {
             }
             {show && <input type="text"
                 name="comment"
+                value={comment.comment}
                 className="border rounded-md px-4 text-sm text-gray-600 font-medium py-2 shadow-sm outline-none w-full md:w-1/2 my-3"
                 placeholder="What are your thoughts?"
                 id=""
