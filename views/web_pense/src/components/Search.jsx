@@ -11,7 +11,7 @@ function Search ({handleSearch}) {
     function handleSubmit (event) {
         event.preventDefault();
         if (event.key === 'Enter') {
-            handleSearch(search)
+            handleSearch(search.search)
             setSearch({'search': ''})
         }
     }
