@@ -17,6 +17,7 @@ import NotFound from './components/Notfound'
 import MyPost, {loader as MyPostLoader} from './pages/blogs/profile/Home'
 import PageLayout from './pages/blogs/BlogLayout'
 import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
+import Aboutus from './pages/About'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
@@ -27,6 +28,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
       <Route path=':name/:title' element={<PostDetails />} />
       <Route path='*' element={<NotFound />} />
       <Route path='forget' element='' />
+      <Route path='about' element={<Aboutus />} />
 
       <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
