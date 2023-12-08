@@ -38,8 +38,14 @@ export default function PostDetails () {
                 synth.resume();
             }
         let utterance = new SpeechSynthesisUtterance(text);
-        utterance.voice = synth.getVoices()[0];
+        utterance.voice = synth.getVoices().find(voice => voice.lang === 'en-US');
             // Event listener for tracking the progress of speech
+            
+            utterance.onend = function () {
+                document.querySelectorAll('#readpost').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('#post').forEach(el => el.style.display = 'block');
+            }
+
             utterance.onboundary = function (event) {
                 document.querySelectorAll('.text-yellow-600').forEach(el => el.classList.remove('text-yellow-600'));
 
