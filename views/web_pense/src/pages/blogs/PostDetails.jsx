@@ -38,6 +38,7 @@ export default function PostDetails () {
                 synth.resume();
             }
         let utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
         utterance.voice = synth.getVoices().find(voice => voice.lang === 'en-US');
             // Event listener for tracking the progress of speech
             
