@@ -104,6 +104,7 @@ def filter_posts(params):
                     'email': val.user.email
                 }
                 post_dict['user'] = user_dict
+                post_dict['comment_count'] = val.comments.length
                 filter_post.append(post_dict)
         return jsonify(filter_post), 200
     
@@ -116,6 +117,7 @@ def filter_posts(params):
             'email': val.user.email
         }
         post_dict['user'] = user_dict
+        post_dict['comment_count'] = val.comments.length
         all_post.append(post_dict)
     return jsonify(all_post), 200
 
