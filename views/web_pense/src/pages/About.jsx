@@ -1,4 +1,5 @@
 import mypic from '../assets/mypic.png'
+import tinopic from '../assets/tinopic.jpg'
 import { Link } from 'react-router-dom'
 export default function Aboutus () {
     return (
@@ -54,8 +55,37 @@ export default function Aboutus () {
                         </div>
                     </div>
                     
+                {/* Content for the second collaborator */}
+            <div className='flex items-center justify-between mt-8 p-4'>
+            <div className='w-2/5'>
+                <img src={tinopic} className='object-contain rounded-full' alt="" />
+                <div className='p-4 text-center font-semibold rounded-lg border'>
+                    <p className='text-lg'>Aliyu Adekola</p>
+                    <p className='text-sm italic'>Backend developer</p>
                 </div>
-            </section>
-        </>
+            </div>
+
+                <div className='w-1/2'>
+                    <p>
+                        Hello, my name is Aliyu Adekola, and I am a Software Engineering student at Holberton School 
+                        (ALX) and also pursuing a master’s degree at the Nigerian Defense Academy. I find joy in writing,
+                        whether it’s code, blogs, articles, or journals. I’m passionate about developing innovative 
+                        software solutions that can make a real impact on people’s lives. I’m also eager to learn new 
+                        skills to stay updated in the industry and constantly look for opportunities to contribute to 
+                        the advancement of software engineering. <br />
+                    <strong>For further communication or collaboration, please feel free to reach out to me below.</strong>
+                    </p>
+
+                    <ul className='flex items-center space-x-4'>
+                        <li><Link to='https://www.linkedin.com/in/adekola-aliyu-a46484269/'><iconify-icon icon="logos:linkedin" width='60'></iconify-icon></Link></li>
+                        <li><Link to='https://twitter.com/@tinotechtalks'><iconify-icon icon="skill-icons:twitter" width='30'></iconify-icon></Link></li>
+                        <li><Link to='https://github.com/RealKingTino'><iconify-icon icon="devicon:github" width='30'></iconify-icon></Link></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        </section>
+    </>
     )
 }
