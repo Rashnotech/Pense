@@ -56,6 +56,7 @@ class BaseModel:
         return new_dict
     
     def delete(self) -> None:
+        from models import storage
         """ deletes the current instance from the storage """
         storage.delete(self)
         

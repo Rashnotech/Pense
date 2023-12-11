@@ -3,7 +3,7 @@
 from api.v1.routes import request, abort, app_views, jsonify
 from models import storage
 from api.v1.routes.email import send_mail
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect
 from models.user import User
 from hashlib import md5
 
@@ -14,20 +14,20 @@ def login():
     if not data:
         abort(400, 'Not a JSON')
     if 'password' not in data:
-        abort(400, 'Missing password')
+        return jsonify({'message': 'Missing password'}), 400
     if 'email' not in data:
-        abort(400, 'Missing email')
+        return jsonify({'message': 'Missing email'}), 400
     users = storage.all(User)
     if users is None:
         abort(400, 'User not found')
     for user in users.values():
         if user.email == data['email']:
             if user.password != md5(data['password'].encode()).hexdigest():
-                abort(400, 'Incorrect password')
+                return jsonify({'message:': 'Incorrect password'}), 400
             if user.verify is False:
-                abort(400, 'Email not verified')
+                return jsonify({'message': 'Email not verified'}), 400
             return jsonify(user.to_dict(), 201)
-    abort(400, 'User not found')
+    return jsonify({'message': 'User not found'}), 400
 
 
 @app_views.route('/forget', methods=['POST'], strict_slashes=False)
@@ -68,5 +68,13 @@ def password_reset(email):
         if user.email == email:
             setattr(user, 'password', new_pass)
             user.save()
-            return jsonify({'message': 'Password updated successfully'}), 201
+            return redirect('/login')
     abort(400, 'An error occurred!')
+
+
+@app_views.route('/user/<int:user_id>', methods=['GET'], strict_slashes=False)
+def getdetails(user_id):
+    users = storage.get(User, user_id)
+    if users is None:
+       return jsonify({'message': 'User not found'}), 400
+    return jsonify(users.to_dict(), 201)

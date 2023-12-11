@@ -60,11 +60,19 @@ def delete_comment(comment_id):
 @comment_bp.route('/<int:post_id>', methods=['GET'], strict_slashes=False)
 def get_comments_for_post(post_id):
     try:
-        comments = storage.all(Comment).values()
-        post_comments = [comment.to_dict() for comment in comments if comment.post_id == post_id]
+        comments = storage.all(Comment)
+        post_comments = []
+        for comment in comments.values():
+            if comment.post_id == post_id:
+                comment_dict = comment.to_dict()
+                user_dict = {
+                    'fullname': comment.users.firstname + ' ' + comment.users.lastname,
+                }
+                comment_dict['users'] = user_dict
+                post_comments.append(comment_dict)
         if post_comments:
             return jsonify(post_comments), 200
         else:
-            return jsonify({'error': 'No comments found for the specified post'}), 404
+            return jsonify({'message': 'No comments found for the specified post'}), 404
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'message': str(e)}), 500

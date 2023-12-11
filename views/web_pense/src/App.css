@@ -2,6 +2,7 @@
   /*max-width: 1280px;*/
   margin: 0 auto;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 * {
@@ -27,4 +28,46 @@
   background-size: cover;
   background-position: top left;
   background-blend-mode: soft-light;
+}
+
+
+#wrapper {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+.dynamic-text {
+  list-style-type: none;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+.dynamic-text li {
+  top: 0;
+  animation: slide 6s steps(2) infinite;
+  position: relative;
+}
+.dynamic-text li span {
+  position: relative;
+  padding: 2px;
+}
+.dynamic-text li span::after {
+  content: normal;
+  background: rgba(33, 37, 41, 1);
+  position: absolute;
+  border-left: 2px solid #fc6060;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  animation: typing 1.5s steps(2) infinite;
+}
+@keyframes typing {
+  100% {
+    left: 100%;
+    margin: 0 -30px 0 30px;
+  }
+}
+
+@keyframes slide {
+  100% {
+    top: -180px;
+  }
 }

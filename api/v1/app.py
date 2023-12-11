@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """ Pense Backend entry point """
-from flask import Flask, jsonify, Blueprint
+from flask import Flask, jsonify
 from flask_mail import Mail
 from flask_cors import CORS
 from models import storage
 from api.v1.config import Config
 from api.v1.routes import app_views
 
-
 app = Flask(__name__)
+
 config_name = "development"
 app.config.from_object(Config)
 Config.init_app(app)
@@ -17,10 +17,12 @@ mail.init_app(app)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def teardown_appcontext(self):
     """ Teardown app context """
     storage.close()
+
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -29,4 +31,4 @@ def not_found_error(error):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, threaded=True, debug=True)
+    app.run(debug=True)

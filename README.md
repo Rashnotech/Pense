@@ -25,22 +25,6 @@ _The portfolio project will help a variety of users, including:_
 Pense (blog app), in general, is not inherently tied to a specific locale or location. It can be used globally, and its content can be accessible worldwide.
 
 
-### RISKS
-#### Technical Risks
-**Security Breach:** There is a possibility that our project may be hacked or exploited by malicious actors. This could result in exposing our user data, compromising our integrity, or damaging our reputation.
-**Mitigation:** We will use secure coding practices and frameworks (Flask-Security) to prevent common vulnerabilities (e.g., SQL injection, XSS, CSRF). We will also use HTTPS and SSL certificates to encrypt our communication. 
-#### Non-Technical Risks
-**Scope Creep:** There is a possibility that we may add more features or requirements to our project than originally planned. This could result in increasing our complexity
-**Mitigation:** We will follow the agile methodology and use tools like Trello to manage our project scope. We will also communicate regularly to prioritise and validate our features. We will also avoid unnecessary changes and focus on the core functionality of our project.
-
-
-## EXISTING SOLUTIONS
-**Medium:** Medium is a popular online publishing platform that allows anyone to create and share stories, articles, and blogs. It has a simple and elegant user interface, a rich text editor, and a large and engaged community of readers and writers.
-**Similarities:** Supports various types of content, such as text, images, videos, and audio.
-**Differences:** Users can’t follow other users who write about topics that interest them.
-Users can’t make money from their stories and they can’t set up a paywall for their stories, which means that all members can access their blog.
-We want to focus on the core functionality of creating and sharing content. We also want to avoid the complexity and cost of implementing these features. Therefore, our project is different from Medium in these aspects
-
 ## Environment
 This project file consist of both the front and the backend to the pense app. The backend of this project was built in python using Flask framework to harness our development, while the frontend was designed using React and Redux. The views folder of this application consist of all what is install to get the dynamic content running.
 The run this application follow the steps below
@@ -86,4 +70,46 @@ npm install
 **Note:** This will install the necessary dependencies required for the front end to work perfectly.
 ```
 npm run dev
+```
+
+
+# API ENDPOINT
+This will guide you on how to use the endpoints created for the pense application
+
+### Signup
+The signup supports just the `POST` request only. A verification email will be send to any email you use in registration for authentication. Email needs to be verified before you can login into the application.
+```
+https://pense.pythonanywhere.com/api/v1/signup
+
+{
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "johndoe@gmail.com"
+    "password": "2345f",
+}
+```
+
+### Login
+The login supports just the `POST` request only. After you must have verified your email it should redirect you to the login.
+```
+https://pense.pythonanywhere.com/api/v1/login
+{
+    "email": "johndoe@gmail.com",
+    "password": "2345f"
+}
+```
+
+### Email Verification
+This make use of a `GET, PUT` request for the purpose of verification, successfully verification returns a success.
+```
+https://pense.pythonanywhere.com/api/v1/verify?email=<email>
+{
+    "email": "johndoe@gmail.com"
+}
+```
+
+
+### Creating a Post
+```
+https://pense.pythonanywhere.com/api/v1/posts
 ```
