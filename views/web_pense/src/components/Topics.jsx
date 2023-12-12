@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 function Contents ({author, post}) {
     return (
-            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="flex flex-row items-center justify-start w-full">
+            <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="flex flex-row space-x-3 items-center w-full">
                 <article className="space-y-2 block">
                     <div className="flex flex-row items-start justify-start space-x-2">
                         <img src="" alt="" className="w-5 h-5 rounded-full" />
@@ -13,7 +13,7 @@ function Contents ({author, post}) {
                     <p className="text-xs text-ellipsis hidden md:block text-slate-300">{new Date(post.updated_at).toDateString()}
                     . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1 text-gray-700 bg-gray-100 rounded-full p-2">{cat.name}</span>)}</p>
                 </article>
-                <img className="w-2/5 h-32" src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} />
+                <img className="w-1/2 md:w-2/5 h-32" src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} />
             </Link>
     )
 }

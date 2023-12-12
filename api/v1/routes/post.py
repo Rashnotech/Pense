@@ -104,11 +104,16 @@ def filter_posts(params):
                     'email': val.user.email
                 }
                 post_dict['user'] = user_dict
-                comment_dict = {
-                    'comment': val.comments.comment,
-                    'fullname': val.users.firstname + ' ' + val.users.lastname
-                }
-                post_dict['comments'] = comment_dict
+                comments_dict= [
+                    {
+                        'id': comment.id,
+                        'comment': comment.comment,
+                        'fullname': comment.users.firstname + ' ' + comment.users.lastname,
+                        'created_at': comment.created_at,
+                        'updated_at': comment.updated_at
+                    }
+                    for comment in val.comments]
+                post_dict['comments'] = comments_dict
                 filter_post.append(post_dict)
         return jsonify(filter_post), 200
     
@@ -121,11 +126,16 @@ def filter_posts(params):
             'email': val.user.email
         }
         post_dict['user'] = user_dict
-        comment_dict = {
-                    'comment': val.comments.comment,
-                    'fullname': val.users.firstname + ' ' + val.users.lastname
-                }
-        post_dict['comments'] = comment_dict
+        comments_dict= [
+                    {
+                        'id': comment.id,
+                        'comment': comment.comment,
+                        'fullname': comment.users.firstname + ' ' + comment.users.lastname,
+                        'created_at': comment.created_at,
+                        'updated_at': comment.updated_at
+                    }
+                    for comment in val.comments]
+        post_dict['comments'] = comments_dict
         all_post.append(post_dict)
     return jsonify(all_post), 200
 
@@ -145,11 +155,16 @@ def read_post(name, title):
                     'email': val.user.email
                 }
                 post_dict['user'] = user_dict
-                comment_dict = {
-                    'comment': val.comments.comment,
-                    'fullname': val.users.firstname + ' ' + val.users.lastname
-                }
-                post_dict['comments'] = comment_dict
+                comments_dict= [
+                    {
+                        'id': comment.id,
+                        'comment': comment.comment,
+                        'fullname': comment.users.firstname + ' ' + comment.users.lastname,
+                        'created_at': comment.created_at,
+                        'updated_at': comment.updated_at
+                    }
+                    for comment in val.comments]
+                post_dict['comments'] = comments_dict
                 filter_post.append(post_dict)
         return jsonify(filter_post), 200
     abort(400, 'No posts')

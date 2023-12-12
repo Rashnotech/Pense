@@ -152,9 +152,9 @@ export default function PostDetails () {
                         </div>
                         <p id='readpost' className='text-justify text-gray-700'></p>
                         {tips.content.split(/\r?\n/).map((line, index) => (
-                        <p id='post' key={index} className="text-gray-700 text-justify"> 
-                            {marked(line)}
-                        </p>
+                        <p id='post' key={index} className="text-gray-700 text-justify" 
+                         dangerouslySetInnerHTML={{ __html: marked(line) }}
+                        />
                         ))} 
                         <ul className='flex'>
                             {tips.categories.map(cat => <li key={cat.id} className='rounded-full px-4 py-2 text-sm bg-slate-100'>{cat.name}</li>)}

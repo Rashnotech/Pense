@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 function HostPost ({hotpost}) {
-    console.log(hotpost);
     return (
-        <article className='w-full font-sans flex flex-row items-center justify-between'>
-            <div className="w-full"><img src="" className="w-full h-full object-cover rounded-lg" alt="" /></div>
+        <article className='w-full font-sans hidden md:flex flex-row items-center justify-between'>
+            <div className="w-full"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${hotpost.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
             <div className='w-full px-6 space-y-2'>
-                <h4 className="text-base text-blue-700 font-semibold">{hotpost.categories.map(items => <a>{items.name}</a> )}</h4>
+                <ul className='flex items-center space-x-4'>
+                    {hotpost.categories.map(item => <li className="text-base text-blue-700 font-semibold">{item.name}</li>)}
+                </ul>
                 <h2 className="text-2xl font-bold">{hotpost.title}</h2>
                 <p className="text-gray-700 text-sm">
                     {hotpost.summary}
@@ -49,13 +50,11 @@ function Posts ({post}) {
 }
 
 export default function BlogPost ({posts}) {
-    console.log(posts)
+    const filtered = posts.length > 0 && posts.filter(post => post.comments && post.comments.length > 0)
     return (
         <section className="px-10 grid grid-col-2 md:grid-cols-3 gap-3 w-full">
             <div className="col-span-2 md:col-span-3 mt-4 mb-7">
-                <HostPost hotpost={posts && posts.map(items => {
-                    if (items.comment_count > 0) return items;
-                })} />
+                {filtered.length > 0 && <HostPost hotpost={filtered[0]} />}
             </div>
             {
                 posts.map(post => <Posts key={post.id} post={post} />)
