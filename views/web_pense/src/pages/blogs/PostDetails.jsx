@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import { useParams, Link } from "react-router-dom";
 import Comments from "./Comment";
+import {marked} from 'marked'
 
 export default function PostDetails () {
     const {name, title } = useParams()
@@ -42,6 +43,16 @@ export default function PostDetails () {
         utterance.voice = synth.getVoices().find(voice => voice.lang === 'en-US');
             // Event listener for tracking the progress of speech
             
+            utterance.onstart = function () {
+                document.querySelectorAll('#readpost').forEach(el => el.style.display = 'block');
+                document.querySelectorAll('#post').forEach(el => el.style.display = 'none');
+            }
+
+            utterance.onpause = function () {
+                document.querySelectorAll('#readpost').forEach(el => el.style.display = 'block');
+                document.querySelectorAll('#post').forEach(el => el.style.display = 'none');
+            }
+
             utterance.onend = function () {
                 document.querySelectorAll('#readpost').forEach(el => el.style.display = 'none');
                 document.querySelectorAll('#post').forEach(el => el.style.display = 'block');
@@ -142,7 +153,7 @@ export default function PostDetails () {
                         <p id='readpost' className='text-justify text-gray-700'></p>
                         {tips.content.split(/\r?\n/).map((line, index) => (
                         <p id='post' key={index} className="text-gray-700 text-justify"> 
-                            {line}
+                            {marked(line)}
                         </p>
                         ))} 
                         <ul className='flex'>

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+ import { Outlet } from 'react-router-dom';
 import Main from '../components/Main';
 import Topics from '../components/Topics'
 import Trends from '../components/Trends'
@@ -32,12 +32,12 @@ export default function Home () {
           }
         };
       fetchData();
-  }, [])
+  }, []);
     return (
         <>
           <Main />
-          <Trends />
-          <Topics categoryList={categoryList.length > 0 && categoryList} contents={content.length > 0 && content} />
+          <Trends contents={content.comments.length > 0 && content.comments} />
+          <Topics categoryList={categoryList.length > 0 && categoryList} contents={content.comments.length > 0 && content.comments} />
           <Outlet />
         </>
     )

@@ -104,7 +104,11 @@ def filter_posts(params):
                     'email': val.user.email
                 }
                 post_dict['user'] = user_dict
-                post_dict['comment_count'] = val.comments.length
+                comment_dict = {
+                    'comment': val.comments.comment,
+                    'fullname': val.users.firstname + ' ' + val.users.lastname
+                }
+                post_dict['comments'] = comment_dict
                 filter_post.append(post_dict)
         return jsonify(filter_post), 200
     
@@ -117,7 +121,11 @@ def filter_posts(params):
             'email': val.user.email
         }
         post_dict['user'] = user_dict
-        post_dict['comment_count'] = val.comments.length
+        comment_dict = {
+                    'comment': val.comments.comment,
+                    'fullname': val.users.firstname + ' ' + val.users.lastname
+                }
+        post_dict['comments'] = comment_dict
         all_post.append(post_dict)
     return jsonify(all_post), 200
 
@@ -137,6 +145,11 @@ def read_post(name, title):
                     'email': val.user.email
                 }
                 post_dict['user'] = user_dict
+                comment_dict = {
+                    'comment': val.comments.comment,
+                    'fullname': val.users.firstname + ' ' + val.users.lastname
+                }
+                post_dict['comments'] = comment_dict
                 filter_post.append(post_dict)
         return jsonify(filter_post), 200
     abort(400, 'No posts')

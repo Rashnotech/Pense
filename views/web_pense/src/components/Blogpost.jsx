@@ -1,21 +1,20 @@
 import { Link } from 'react-router-dom'
-function HostPost () {
+function HostPost ({hotpost}) {
+    console.log(hotpost);
     return (
         <article className='w-full font-sans flex flex-row items-center justify-between'>
             <div className="w-full"><img src="" className="w-full h-full object-cover rounded-lg" alt="" /></div>
             <div className='w-full px-6 space-y-2'>
-                <h4 className="text-base text-blue-700 font-semibold">Category</h4>
-                <h2 className="text-2xl font-bold">Post Title</h2>
-                <p className="text-gray-700 text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio excepturi
-                    libero quas ut fugiat exercitationem blanditiis quod, saepe nobis 
-                    expedita vitae aperiam voluptas culpa iste officiis ex voluptatibus 
-                    iure velit.
+                <h4 className="text-base text-blue-700 font-semibold">{hotpost.categories.map(items => <a>{items.name}</a> )}</h4>
+                <h2 className="text-2xl font-bold">{hotpost.title}</h2>
+                <p className="text-gray-700 text-sm">
+                    {hotpost.summary}
                 </p>
                 <div className="flex flex-row items-center space-x-4">
                     <img src="" alt="" className="w-10 h-10 rounded-full block border object-fill" />
                     <div className="flex flex-col items-center justify-start">
-                        <h3 className="font-semibold text-base">Fullname</h3>
-                        <p className="text-gray-700 text-sm"> 12:30 06-24 </p>
+                        <h3 className="font-semibold text-base">{`${hotpost.user.firstname} ${hotpost.user.lastname}`}</h3>
+                        <p className="text-gray-700 text-sm"> {(new Date(hotpost.updated_at)).toDateString()} </p>
                     </div>
                 </div>
             </div>
@@ -50,10 +49,13 @@ function Posts ({post}) {
 }
 
 export default function BlogPost ({posts}) {
+    console.log(posts)
     return (
         <section className="px-10 grid grid-col-2 md:grid-cols-3 gap-3 w-full">
             <div className="col-span-2 md:col-span-3 mt-4 mb-7">
-                <HostPost />
+                <HostPost hotpost={posts && posts.map(items => {
+                    if (items.comment_count > 0) return items;
+                })} />
             </div>
             {
                 posts.map(post => <Posts key={post.id} post={post} />)

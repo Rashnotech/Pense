@@ -28,6 +28,7 @@ class Post(BaseModel, Base):
     summary = Column(Text)
     read_time = Column(Integer)
     user = relationship('User', backref='posts')
+    comments = relationship('Comment', backref='posts')
     categories = relationship(
         'Category',
         secondary=post_category,

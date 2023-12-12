@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 
 function Contents ({author, post}) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec']
     return (
             <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`} className="flex flex-row items-center justify-start w-full">
                 <article className="space-y-2 block">
@@ -21,7 +20,7 @@ function Contents ({author, post}) {
 
 export default function Topics({categoryList, contents}) {
     return (
-        <section className="font-sans h-[500px] grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
+        <section className="font-sans h-[500px] grid grid-cols-1 overflow-y-auto md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <div className="md:col-span-2 w-full">
                 {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>

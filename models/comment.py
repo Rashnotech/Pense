@@ -11,7 +11,6 @@ class Comment(BaseModel, Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
     users = relationship('User', backref='comments')
-    posts = relationship('Post', backref='comments')
 
     # Define the methods and properties
     @property
