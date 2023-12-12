@@ -33,7 +33,6 @@ export default function Home () {
         };
       fetchData();
   }, []);
-  console.log(content);
     return (
         <>
           <Main />
