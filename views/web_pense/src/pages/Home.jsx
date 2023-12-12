@@ -33,11 +33,12 @@ export default function Home () {
         };
       fetchData();
   }, []);
+  console.log(content);
     return (
         <>
           <Main />
-          <Trends contents={content.comments.length > 0 && content.comments} />
-          <Topics categoryList={categoryList.length > 0 && categoryList} contents={content.comments.length > 0 && content.comments} />
+          <Trends contents={content.length > 0 && content} />
+          <Topics categoryList={categoryList.length > 0 && categoryList} contents={content.length > 0 && content} />
           <Outlet />
         </>
     )
