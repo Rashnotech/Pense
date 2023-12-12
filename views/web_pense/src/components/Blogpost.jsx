@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 function HostPost ({hotpost}) {
     return (
-        <article className='w-full font-sans hidden md:flex flex-row items-center justify-between'>
+        <Link to={`@${hotpost.user.firstname.toLowerCase()}/${hotpost.slug}`} className='w-full font-sans hidden md:flex flex-row items-center justify-between'>
             <div className="w-full"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${hotpost.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
             <div className='w-full px-6 space-y-2'>
                 <ul className='flex items-center space-x-4'>
@@ -19,7 +19,7 @@ function HostPost ({hotpost}) {
                     </div>
                 </div>
             </div>
-        </article>
+        </Link>
     )
 }
 
