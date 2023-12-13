@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom"
 export function Posts ({posts}) {
     return (
-        <article className="flex flex-row w-full items-start justify-start space-x-4 font-sans">
+        <Link to={`@${posts.user.firstname.toLowerCase()}/${posts.slug}`} className="flex flex-row w-full items-start justify-start space-x-4 font-sans">
             <div className="text-slate-200 font-semibold text-3xl"><h1>0{posts.id}</h1></div>
             <div className="space-y-1">
                 <div className="flex flex-row justify-between items-center">
@@ -12,7 +13,7 @@ export function Posts ({posts}) {
                     <p className="text-slate-600 text-sm">{(new Date(posts.updated_at)).toDateString()} . <span>{posts.read_time} min read</span></p>
                 </div>
             </div>
-        </article>
+        </Link>
     )
 }
 

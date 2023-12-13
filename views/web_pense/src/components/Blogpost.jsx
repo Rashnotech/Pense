@@ -28,7 +28,7 @@ function Posts ({post}) {
     return (
         <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`}>
             <article className='w-full font-sans flex flex-col items-center justify-between'>
-                <div className="w-full"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
+                <div className="w-full h-36"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
                 <div className='w-full px-2 space-y-2'>
                     <ul className="flex flex-wrap items-center space-x-3">
                         {post.categories.map(cat =><li key={cat.id}><h4 className="text-blue-700 text-sm font-medium">{cat.name}</h4></li>)}
