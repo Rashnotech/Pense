@@ -1,5 +1,6 @@
 import {useLoaderData } from "react-router-dom"
 import { fetchRequest } from "../../api"
+import { Menu } from "@headlessui/react"
 
 export async function loader () {
     const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
@@ -26,7 +27,34 @@ export default function MyPost () {
                     </p>
                 </div>
             </div>
-            <p className="text-xs text-slate-500 font-medium">{post.read_time} min read</p>
+            <div className="flex items-center justify-between">
+                <p className="text-slate-500 text-sm">{post.read_time} min read</p>
+                <Menu>
+                    <Menu.Button className="text-black relative">...</Menu.Button>
+                    <Menu.Items className='flex flex-col absolute right-0 border text-sm bg-slate-50 p-2'>
+                        <Menu.Item>
+                            {({ active }) => (
+                                <a
+                                className={`${active && 'bg-blue-500'}`}
+                                href="/account-settings"
+                                >
+                                    Edit story
+                                </a>
+                            )}
+                        </Menu.Item>
+                        <Menu.Item>
+                            {({ active }) => (
+                                <a
+                                className={`${active && 'bg-blue-500'}`}
+                                href="/account-settings"
+                                >
+                                    Delete story
+                                </a>
+                            )}
+                        </Menu.Item>
+                    </Menu.Items>
+                </Menu>
+            </div>  
          </article>) : <p className="text-gray-700 text-base">You have no post</p>
     )
 }
