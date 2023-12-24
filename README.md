@@ -129,9 +129,9 @@ to advancements in both AI/ML and software engineering. <br />
 <strong>For further communication or collaboration, please feel free to reach out to me below.</strong>
 </p>
 <ul>
-    <li><a to='https://www.linkedin.com/in/abdulrashnotech/'><iconify-icon icon="logos:linkedin" width='60'></iconify-icon></a></li>
-    <li><a to='https://github.com/Rashnotech'><iconify-icon icon="devicon:github" width='30'></iconify-icon></a></<li>
-    <li><a to='https://twitter.com/@rashnotech'><iconify-icon icon="skill-icons:twitter" width='30'></iconify-icon></a></li>
+    <li><a to='https://www.linkedin.com/in/abdulrashnotech/'>Linkedin</a></li>
+    <li><a to='https://github.com/Rashnotech'>Github</a></<li>
+    <li><a to='https://twitter.com/@rashnotech'>Twitter</a></li>
 </ul>
 
 #### Aliyu Adekola
