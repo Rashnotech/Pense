@@ -114,8 +114,8 @@ https://pense.pythonanywhere.com/api/v1/verify?email=<email>
 https://pense.pythonanywhere.com/api/v1/posts
 ```
 
-### AUTHOR
-#### Abdulrasheed Aliyu
+## AUTHOR
+### Abdulrasheed Aliyu
 <p>I'm Abdulrasheed Aliyu also known as Rashnotech. <br />
 I am a dedicated full-stack software engineer enrolled in the 
 ALX Software Engineering program, where I am honing my skills and
@@ -132,4 +132,4 @@ to advancements in both AI/ML and software engineering. <br />
 <a to='https://github.com/Rashnotech'>Github</a>
 <a to='https://twitter.com/@rashnotech'>Twitter</a>
 
-#### Aliyu Adekola
+### Aliyu Adekola

@@ -18,9 +18,10 @@ import MyPost, {loader as MyPostLoader} from './pages/blogs/profile/Home'
 import PageLayout from './pages/blogs/BlogLayout'
 import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 import Aboutus from './pages/About'
+import Error from './components/Error'
 
 const routes = createBrowserRouter(createRoutesFromElements(
-  <Route path='/' element={<Layout />}>
+  <Route path='/' element={<Layout />} errorElement={<Error />}>
       <Route path='/' element={<Home />} >
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
