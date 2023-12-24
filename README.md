@@ -113,3 +113,25 @@ https://pense.pythonanywhere.com/api/v1/verify?email=<email>
 ```
 https://pense.pythonanywhere.com/api/v1/posts
 ```
+
+### AUTHOR
+#### Abdulrasheed Aliyu
+<p>I'm Abdulrasheed Aliyu also known as Rashnotech. <br />
+I am a dedicated full-stack software engineer enrolled in the 
+ALX Software Engineering program, where I am honing my skills and
+knowledge in the field. My fervor for AI/ML technologies is evident,
+as I am deeply passionate about leveraging these advancements to provide innovative
+solutions to complex problems.
+My experience in the field enables me to effectively bridge the gap between conceptual
+ideas and their practical implementation using cutting-edge technologies. I am committed to 
+staying at the forefront of the industry, consistently seeking opportunities to contribute 
+to advancements in both AI/ML and software engineering. <br />
+<strong>For further communication or collaboration, please feel free to reach out to me below.</strong>
+</p>
+<ul>
+    <li><a to='https://www.linkedin.com/in/abdulrashnotech/'><iconify-icon icon="logos:linkedin" width='60'></iconify-icon></a></li>
+    <li><a to='https://github.com/Rashnotech'><iconify-icon icon="devicon:github" width='30'></iconify-icon></a></<li>
+    <li><a to='https://twitter.com/@rashnotech'><iconify-icon icon="skill-icons:twitter" width='30'></iconify-icon></a></li>
+</ul>
+
+#### Aliyu Adekola
