@@ -1,28 +1,4 @@
 import { Link } from 'react-router-dom'
-function HostPost ({hotpost}) {
-    return (
-        <Link to={`@${hotpost.user.firstname.toLowerCase()}/${hotpost.slug}`} className='w-full font-sans hidden md:flex flex-row items-center justify-between'>
-            <div className="w-full"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${hotpost.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
-            <div className='w-full px-6 space-y-2'>
-                <ul className='flex items-center space-x-4'>
-                    {hotpost.categories.map(item => <li className="text-base text-blue-700 font-semibold">{item.name}</li>)}
-                </ul>
-                <h2 className="text-2xl font-bold">{hotpost.title}</h2>
-                <p className="text-gray-700 text-sm">
-                    {hotpost.summary}
-                </p>
-                <div className="flex flex-row items-center space-x-4">
-                    <img src="" alt="" className="w-10 h-10 rounded-full block border object-fill" />
-                    <div className="flex flex-col items-center justify-start">
-                        <h3 className="font-semibold text-base">{`${hotpost.user.firstname} ${hotpost.user.lastname}`}</h3>
-                        <p className="text-gray-700 text-sm"> {(new Date(hotpost.updated_at)).toDateString()} </p>
-                    </div>
-                </div>
-            </div>
-        </Link>
-    )
-}
-
 
 function Posts ({post}) {
     return (
@@ -50,12 +26,8 @@ function Posts ({post}) {
 }
 
 export default function BlogPost ({posts}) {
-    const filtered = posts.length > 0 && posts.filter(post => post.comments && post.comments.length > 0)
     return (
         <section className="px-10 grid grid-col-2 md:grid-cols-3 gap-3 w-full">
-            <div className="col-span-2 md:col-span-3 mt-4 mb-7">
-                {filtered.length > 0 && <HostPost hotpost={filtered[0]} />}
-            </div>
             {
                 posts.map(post => <Posts key={post.id} post={post} />)
             }
