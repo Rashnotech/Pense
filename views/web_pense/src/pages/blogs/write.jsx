@@ -1,6 +1,5 @@
-import MDEditor from '@uiw/react-md-editor'
-import { useState, useEffect } from 'react'
-import { set } from 'react-hook-form';
+import { Editor } from '@tinymce/tinymce-react';
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +10,7 @@ export default function Write () {
     const [categoryList, setCategoryList] = useState([])
     const [process, setProcess] = useState(false)
     const [value, setValue] = useState({'title': ''})
-    const [content, setContent] = useState('')
+    const editorRef = useRef(null);
     const [category, setCategory] = useState({name: ''})
     const [selected, setSelected] = useState([])
     const [error, setError] = useState('')
@@ -84,7 +83,7 @@ export default function Write () {
         formData.append('post_cover', filename)
         const credentials = {
             title: value.title,
-            content: content,
+            content: editorRef.current.getContent(),
             category_id: selected,
             user_id: userid
         };
@@ -137,7 +136,25 @@ export default function Write () {
                     value={value.title}
                     onChange={handleChange}
                     className='text-2xl font-sans border-l-2 focus-within:ease-in-out border-l-gray-700 px-2 placeholder:text-slate-500 outline-none w-full block my-2' />
-                <MDEditor name='content' value={content} onChange={setContent} />
+                <Editor
+                    apiKey='syzwxvkjdbw2w2u2rl4fs99ynhcdsjyh0hzy88j3mtr96e7r'
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    initialValue="<p>This is the initial content of the editor.</p>"
+                    init={{
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                    ],
+                    toolbar: 'undo redo | blocks | ' +
+                        'bold italic forecolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                />
             </div>
 
 

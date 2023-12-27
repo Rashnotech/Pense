@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 export default function Main() {
     return (
-        <div className="w-full px-14 font-sans bg-yellow-500">
-            <main className="w-full pt-36 pb-14 h-full space-y-4 font-sans">
+        <div className="w-full font-sans bg-yellow-500 px-10 md:px-14 py-6 mx-auto">
+            <main className="w-full pt-36 pb-14 h-full space-y-4 font-sans ">
                 <div id="wrapper">
                     <h1 className="font-bold text-7xl md:text-8xl">Stay&nbsp;</h1>
                     <ul className="dynamic-text h-24">

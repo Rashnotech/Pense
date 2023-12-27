@@ -19,12 +19,13 @@ function Contents ({author, post}) {
 }
 
 export default function Topics({categoryList, contents}) {
+
     return (
-        <section className="font-sans h-[500px] overflow-y-auto grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
+        <section className="font-sans h-[500px] overflow-x-hidden grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <div className="md:col-span-2 w-full h-full">
                     {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>
-            <div className="flex flex-col space-y-4 static  text-sm">
+            <div className="flex flex-col space-y-4 static text-sm">
                 <h4 className="font-medium text-lg">Discover more of what matters to you</h4>
                 <div className="flex items-center flex-wrap">
                 {categoryList && categoryList.map(item => <a href="#" key={item.id} className="rounded-full my-1 px-4 py-2 bg-slate-100">{item.name}</a>) }
