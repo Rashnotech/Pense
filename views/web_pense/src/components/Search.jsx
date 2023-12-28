@@ -42,17 +42,17 @@ export default function SearchDesign ({tabs, func, searchFunc}) {
                 <h1 className="text-4xl font-bold text-slate-50">Blog</h1>
                 <Search handleSearch={searchFunc} />
             </div>
-            <Tab.Group className="w-full md:w-5/6 mx-auto my-8 overflow-y-hidden">
-                <Tab.List className="flex flex-row items-center text-xs text-slate-400 w-full">
+            <Tab.Group className="w-full md:w-5/6 transition-all duration-500 mx-auto my-8 overflow-y-hidden">
+                <Tab.List className="flex flex-row flex-nowrap pl-0 ease text-xs text-slate-400 w-full">
                     <Tab onClick={() => func('all')} className= {({ selected }) =>
                         classNames("rounded-full px-4 py-2 text-center",
                         selected
-                            ? 'bg-sky-400 text-slate-50 w-1/6 outline-none'
+                            ? 'bg-sky-400 text-slate-50 outline-none'
                             : 'bg-inherit text-slate-400' 
                         )}>All</Tab>
                     {tabs.length > 0 && tabs.map(tab => <Tab onClick={() => func(tab.name)} key={tab.id}
                         className= {({ selected }) =>
-                        classNames("rounded-full px-4 py-2 text-center",
+                        classNames("rounded-full whitespace-nowrap px-4 py-2 text-center",
                         selected
                             ? 'bg-sky-400 text-slate-50 outline-none'
                             : 'bg-inherit text-slate-400' 

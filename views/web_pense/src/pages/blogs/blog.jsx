@@ -5,6 +5,7 @@ import { fetchRequest } from '../api'
 import { AuthLoader } from './AuthLoader'
 import {useLoaderData} from 'react-router-dom'
 
+
 export async function loader () {
     await AuthLoader();
     const url = 'https://pense.pythonanywhere.com/api/v1/category'
