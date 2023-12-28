@@ -8,8 +8,8 @@ class Comment(BaseModel, Base):
     """comment class for orm"""
     __tablename__ = 'comments'
     comment = Column(Text, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    post_id = Column(Integer, ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     users = relationship('User', backref='comments')
 
     # Define the methods and properties

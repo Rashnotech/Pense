@@ -78,7 +78,8 @@ def delete_post(id):
     post = storage.get(Post, id)
     if not post:
         return jsonify({'error': 'Post not found'}), 404
-    storage.delete(post)
+    storage.delete(post.to_dict())
+    storage.save()
     return jsonify({'success': 'Post deleted'}), 200
 
 @post_bp.route('/<int:user_id>', methods=['GET'], strict_slashes=False)
