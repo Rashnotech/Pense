@@ -1,6 +1,7 @@
 import {useLoaderData } from "react-router-dom"
+import {Fragment} from "react"
 import { fetchRequest } from "../../api"
-import { Menu } from "@headlessui/react"
+import { Menu, Transition } from "@headlessui/react"
 
 export async function loader () {
     const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
@@ -36,7 +37,7 @@ export default function MyPost () {
     }
     return (
         data[0] && data ? data.map(post =>
-        <article key={post.id}> 
+        <article key={post.id} className="border"> 
             <p className="text-slate-600 font-medium text-sm">{(new Date(post.updated_at)).toDateString()}</p>
             <div className='w-full font-sans flex flex-col md:flex-row items-center justify-between'>
                 <div className="w-full md:w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
@@ -49,9 +50,20 @@ export default function MyPost () {
             </div>
             <div className="flex items-center justify-between pr-1 md:pr-8">
                 <p className="text-slate-500 text-sm">{post.read_time} min read</p>
-                <Menu>
-                    <Menu.Button className="inline-flex justify-center rounded-md px-4 py-2 text-xl text-gray-700 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">...</Menu.Button>
-                    <Menu.Items className='absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none'>
+                <Menu as ="div" className="relative inline-block text-left">
+                    <div>
+                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">...</Menu.Button>
+                    </div>
+                    <Transition
+                        as={Fragment}
+                        enter='transition ease-out duration-100'
+                        enterFrom='transform opacity-0 scale-95'
+                        enterTo='transform opacity-100 scale-100'
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                    <Menu.Items className='absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                         <Menu.Item>
                         {({ active }) => (
                             <button
@@ -99,6 +111,7 @@ export default function MyPost () {
                             )}
                         </Menu.Item>
                     </Menu.Items>
+                    </Transition>
                 </Menu>
             </div>  
          </article>) : <p className="text-gray-700 text-base">You have no post</p>
