@@ -1,18 +1,16 @@
-import { useDispatch, useSelector } from "react-redux"
 import { useEffect, Fragment } from "react"
-import { fetchUsers } from "../store/user"
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Logo from '/logo.png'
 import { Menu, Transition } from '@headlessui/react'
 
 export default function BlogNav ({username}) {
     useEffect(() => {
         // Your code to run after the component has been rendered
-        var expand_trigger = document.getElementById("navbar-trigger");
-        var bar1 = document.querySelector("#bar1");
-        var bar2 = document.querySelector("#bar2");
-        var bar3 = document.querySelector("#bar3");
-        var navbar_sign_in_up = document.querySelector("#navbar-menu");
+        var expand_trigger = document.getElementById("navbar-trig");
+        var bar1 = document.querySelector("#b1");
+        var bar2 = document.querySelector("#b2");
+        var bar3 = document.querySelector("#b3");
+        var navbar_sign_in_up = document.querySelector("#navbar-option");
 
         if (!expand_trigger || !bar1 || !bar2 || !bar3 || !navbar_sign_in_up) {
           // Handle elements not found
@@ -20,8 +18,9 @@ export default function BlogNav ({username}) {
           return;
         }
 
+        const elements = navbar_sign_in_up.querySelectorAll("a");
+
         const clickHandler = () => {
-                const elements = navbar_sign_in_up.querySelectorAll("a");
                 if (navbar_sign_in_up.classList.contains("lg-max:max-h-0")) {
                     navbar_sign_in_up.classList.remove("lg-max:max-h-0");
                     navbar_sign_in_up.classList.add("lg-max:max-h-54");
@@ -73,42 +72,42 @@ export default function BlogNav ({username}) {
               <Link className="py-1.75 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0" to=".">
                     <img src={Logo} className="w-16"  alt="Pense Logo" />
               </Link>
-              <button id="navbar-trigger" className="px-3 py-1 ml-2 leading-none transition-all ease-in-out bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg lg:hidden" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              <button id="navbar-trig" className="px-3 py-1 ml-2 leading-none transition-all ease-in-out bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg lg:hidden" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="inline-block mt-2 align-middle bg-center bg-no-repeat bg-cover w-6 h-6 bg-none">
-                  <span id="bar1" className="w-5.5 rounded-xs relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
-                  <span id="bar2" className="w-5.5 rounded-xs mt-1.75 relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
-                  <span id="bar3" className="w-5.5 rounded-xs relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300 mt-1.75"></span>
+                  <span id="b1" className="w-5.5 rounded-xs relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
+                  <span id="b2" className="w-5.5 rounded-xs mt-1.75 relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
+                  <span id="b3" className="w-5.5 rounded-xs relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300 mt-1.75"></span>
                 </span>
               </button>
-              <div id="navbar-menu" className="items-center flex-grow transition-all duration-500 lg-max:overflow-hidden ease basis-full lg:flex lg:basis-auto lg-max:max-h-0">
+              <div id="navbar-option" className="items-center flex-grow transition-all duration-500 lg-max:overflow-hidden ease basis-full lg:flex lg:basis-auto lg-max:max-h-0">
                 <ul className="flex flex-col pl-0 mx-auto mb-0 list-none lg:flex-row xl:ml-auto">
                   <li>
-                        <NavLink className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0" to='write'>
+                        <Link reloadDocument className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0" to='write'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                             </svg> Write
-                        </NavLink>
+                        </Link>
                   </li>
                   <li>
-                        <NavLink to={`me/@${username}`} className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                        <Link to={`me/@${username}`} className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                                 </svg>
                             <span>Account</span> 
-                        </NavLink>
+                        </Link>
                   </li>
                   <li>
-                        <NavLink className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                        <Link className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                             </svg> Notifications
-                        </NavLink>
+                        </Link>
                   </li>
                   <li>
-                    <Menu as="div" className="relative inline-block text-left align-middle px-4 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                    <Menu as="div" className="relative inline-block text-left align-middle px-4 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2">
                             <div>
-                                <Menu.Button className="inline-flex items-center w-full justify-center px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+                                <Menu.Button className="inline-flex items-center w-full justify-center py-2 text-sm font-medium text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
                                     <img src="" className="w-6 h-6 rounded-full border" alt="" />
                                     <span>{username}</span>
                                 </Menu.Button>

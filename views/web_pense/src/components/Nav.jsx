@@ -72,24 +72,24 @@ export default function Navbar() {
               <div id="navbar-menu" className="items-center flex-grow transition-all duration-500 lg-max:overflow-hidden ease basis-full lg:flex lg:basis-auto lg-max:max-h-0">
                 <ul className="flex flex-col pl-0 mx-auto mb-0 list-none lg:flex-row xl:ml-auto">
                   <li>
-                    <Link to='/blog' className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                    <Link to='/blog' reloadDocument className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
                       Blog
                     </Link>
                   </li>
                   <li>
-                    <Link to='/about' className="block px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                    <Link to='/about' reloadDocument className="block px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link to='login' className="block px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                    <Link to='login' reloadDocument className="block px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
                       Sign in
                     </Link>
                   </li>
                 </ul>
                 <ul className="hidden pl-0 mb-0 list-none lg:block lg:flex-row">
                   <li>
-                    <Link to='register' className="inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer hover:-translate-y-px hover:shadow-xs active:opacity-85 text-xs tracking-tight-rem lg-max:opacity-0">Get started</Link>
+                    <Link to='register' reloadDocument className="inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer hover:-translate-y-px hover:shadow-xs active:opacity-85 text-xs tracking-tight-rem lg-max:opacity-0">Get started</Link>
                   </li>
                 </ul>
               </div>

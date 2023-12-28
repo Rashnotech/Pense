@@ -244,6 +244,25 @@ export default {
         "2xl": "1320px",
       },
     },
+    willChange: {
+      auto: "auto",
+      scroll: "scroll-position",
+      contents: "contents",
+      transform: "transform",
+    },
+    zIndex: {
+      auto: "auto",
+      0: "0",
+      10: "10",
+      20: "20",
+      30: "30",
+      40: "40",
+      50: "50",
+      100: "100",
+      110: "110",
+      990: "990",
+      sticky: "1020",
+    },
   },
   plugins: [
     plugin(function ({ addComponents, addUtilities }) {

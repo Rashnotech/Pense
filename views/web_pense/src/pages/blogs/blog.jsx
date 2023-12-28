@@ -46,9 +46,9 @@ export default function Blog () {
         setPost(post)
     }
     return (
-        <>
+        <div className='w-full py-6'>
             <SearchDesign tabs={data} func={handleFilter} searchFunc={handleSearch}  />
             <BlogPost posts={post} />
-        </>
+        </div>
     )
 }
