@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 
-export default function Write () {
+export default function Edit () {
     const navigate = useNavigate();
     const user = useSelector(state => state.users)
     const [categoryList, setCategoryList] = useState([])
