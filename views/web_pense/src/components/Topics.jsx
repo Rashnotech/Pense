@@ -21,7 +21,7 @@ function Contents ({author, post}) {
 export default function Topics({categoryList, contents}) {
 
     return (
-        <section className="font-sans h-[500px] overflow-x-hidden grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
+        <section className="font-sans h-full overflow-x-hidden grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <div className="md:col-span-2 w-full h-full">
                     {contents && contents.map(post => <Contents key={post.id} author={`${post.user.firstname} ${post.user.lastname}`} post={post} />)}
             </div>
@@ -32,9 +32,9 @@ export default function Topics({categoryList, contents}) {
                 </div>
                 <a href="" className="text-green-600 font-medium">see more topics</a>
                 <div className="border-t mx-auto w-full py-4">
-                    <ul className="flex flex-row flex-wrap w-3/4 items-end justify-between font-medium text-slate-500">
+                    <ul className="flex flex-wrap w-full space-x-2 items-center font-medium text-slate-500">
                         <li><Link to=''>Help</Link></li>
-                        <li><Link to=''>About</Link></li>
+                        <li><Link to='/about'>About</Link></li>
                         <li><Link to='/'>Blog</Link></li>
                         <li><Link to=''>Privacy</Link></li>
                         <li><Link to=''>Terms</Link></li>

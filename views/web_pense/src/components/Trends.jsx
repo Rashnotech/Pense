@@ -4,11 +4,11 @@ export function Posts ({posts}) {
         <Link to={`@${posts.user.firstname.toLowerCase()}/${posts.slug}`} className="flex flex-row w-full items-start justify-start space-x-4 font-sans">
             <div className="text-slate-200 font-semibold text-3xl"><h1>0{posts.id}</h1></div>
             <div className="space-y-1">
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row items-baseline">
                     <img src="" className="rounded-full w-5 h-5" alt="" />
                     <p className="text-sm font-medium">{`${posts.user.firstname} ${posts.user.lastname}`}</p>
                 </div>
-                <div className="flex flex-col space-y-3">
+                <div className="flex flex-col space-y-1">
                     <h3 className="font-bold text-lg">{posts.title}</h3>
                     <p className="text-slate-600 text-sm">{(new Date(posts.updated_at)).toDateString()} . <span>{posts.read_time} min read</span></p>
                 </div>

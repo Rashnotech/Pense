@@ -1,9 +1,11 @@
 import {useState, useEffect} from 'react'
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Comments from "./Comment";
 import {marked} from 'marked'
+import { useToast } from '@chakra-ui/react'
 
 export default function PostDetails () {
+    const toast = useToast();
     const {name, title } = useParams()
     const [post, setPost] = useState([])
     const [show, setShow] = useState(false);
@@ -29,7 +31,13 @@ export default function PostDetails () {
     function shareLink () {
         const url = window.location.href
         navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard');
+        toast({
+            description: 'Link copied to clipboard.',
+            status: 'info',
+            position: 'top',
+            duration: 5000,
+            isClosable: true,
+        });
     }
 
     function speechSynthesis(event, text) {
@@ -82,7 +90,7 @@ export default function PostDetails () {
     }
     return (
         <section className="px-4 md:px-40 mt-28 md:mt-20">
-            {post.map(tips => <article key={tips.id} className={loading ? 'w-full animate-pulse container px-10' :'w-full container px-10 font-sans flex flex-col items-center justify-between'}>
+         {post.map(tips => <article key={tips.id} className={loading ? 'w-full animate-pulse container px-10' :'w-full container px-10 font-sans flex flex-col items-center justify-between'}>
                 <div className='w-full px-6'>
                     <h2 className="text-4xl font-bold my-4">{tips.title}</h2>
                     <div className="flex flex-row">
@@ -113,7 +121,7 @@ export default function PostDetails () {
                                 </button>
                             </li>
                         </ul>
-                        <ul className="flex items-center justify-end py-2 w-full text-slate-400 space-x-4">
+                        <ul className   ="flex items-center justify-end py-2 w-full text-slate-400 space-x-4">
                             <li>
                                 <button>
                                     <iconify-icon icon="material-symbols-light:bookmark-add-outline-rounded" width="30"></iconify-icon>
@@ -131,27 +139,38 @@ export default function PostDetails () {
                             </li>
                             <li>
                                 <button onClick={shareLink}>
-                                    <iconify-icon icon="radix-icons:share-2" width="28"></iconify-icon>
+                                    <iconify-icon icon="system-uicons:share" width="28"></iconify-icon>
                                 </button>
                             </li>
                         </ul>
                     </div>
 
-                   <div className="space-y-6">
-                        <div className="w-full">
-                            <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${tips.post_cover}`} alt={tips.post_cover} className="w-full h-full object-cover border rounded-lg" />
+                    <main className="py-6 px-4">
+                        <div className="max-w-4xl mx-auto grid grid-cols-1">
+                            <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0">
+                                <h1 className="mt-1 text-lg font-semibold text-white md:text-2xl dark:sm:text-white">{tips.title}</h1>
+                                <p className="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">{`${tips.user.firstname} ${tips.user.lastname}`}</p>
+                            </div>
+                            <div className="grid gap-4 col-start-1 col-end-3 row-start-1">
+                                <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${tips.post_cover}`} alt="" className="w-full h-60 object-cover rounded-lg" loading="lazy" />
+                            </div>
+                            <dl className="mt-4 text-xs font-medium flex items-center row-start-2">
+                            <dt className="sr-only">Categories</dt>
+                            {tips.categories.map(cat => <dd key={cat.id} className="text-blue-600 mr-2 flex items-center dark:text-indigo-400">{cat.name}</dd>)}
+                            </dl>
+                            <p id='readpost' className='text-base leading-6 col-start-1'></p>
+                            {tips.content.split(/\r?\n/).map((line, index) => (
+                            <p id='post' key={index} className="text-base leading-6 col-start-1" 
+                            dangerouslySetInnerHTML={{ __html: marked(line) }}
+                            />
+                            ))} 
                         </div>
-                        <p id='readpost' className='text-justify text-gray-700'></p>
-                        {tips.content.split(/\r?\n/).map((line, index) => (
-                        <p id='post' key={index} className="text-gray-700 text-justify" 
-                         dangerouslySetInnerHTML={{ __html: marked(line) }}
-                        />
-                        ))} 
-                        <ul className='flex'>
-                            {tips.categories.map(cat => <li key={cat.id} className='rounded-full px-4 py-2 text-sm bg-slate-100'>{cat.name}</li>)}
-                        </ul>
+                        <Comments show={show} post_id={tips.id} />
+                    </main>
+
+                   <div className="space-y-6">
+                        
                     </div> 
-                   <Comments show={show} post_id={tips.id} />
                 </div>
             </article>)}
         </section>

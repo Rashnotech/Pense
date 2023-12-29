@@ -16,7 +16,7 @@ function Posts ({post}) {
                             {`${post.user.firstname} ${post.user.lastname}`}
                         </div>
                         <div className="w-full flex-none text-sm font-medium text-slate-700 mt-2">
-                            {`${new Date(post.updated_at).toLocaleString()}`}                    
+                            {`${new Date(post.updated_at).toDateString()}`}                    
                         </div>
                     </div>
                     <div className="flex items-baseline mt-4 mb-2 pb-2 border-b border-slate-200">

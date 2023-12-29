@@ -17,8 +17,7 @@ export default function MyPost () {
 
     function editPost (event, id) {
         event.preventDefault();
-        console.log(id);
-        // window.location.href = `/blogs/write/${id}`
+        window.location.href = `/blogs/edits/${id}`
     }
     async function deletePost (event, id) {
         event.preventDefault();
@@ -37,14 +36,14 @@ export default function MyPost () {
     }
     return (
         data[0] && data ? data.map(post =>
-        <article key={post.id} className="border"> 
+        <article key={post.id} className=""> 
             <p className="text-slate-600 font-medium text-sm">{(new Date(post.updated_at)).toDateString()}</p>
             <div className='w-full font-sans flex flex-col md:flex-row items-center justify-between'>
-                <div className="w-full md:w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="w-full h-full object-cover rounded-lg" alt="" /></div>
+                <div className="w-full md:w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="flex-none w-full h-full object-cover rounded-lg" alt="" /></div>
                 <div className='w-full px-3 md:px-6 space-y-2'>
                     <h2 className="text-2xl font-bold">{post.title}</h2>
                     <p className="text-gray-700 text-sm">
-                        {post.summary}
+                        {`${post.summary}...`}
                     </p>
                 </div>
             </div>
@@ -52,7 +51,7 @@ export default function MyPost () {
                 <p className="text-slate-500 text-sm">{post.read_time} min read</p>
                 <Menu as ="div" className="relative inline-block text-left">
                     <div>
-                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">...</Menu.Button>
+                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50">...</Menu.Button>
                     </div>
                     <Transition
                         as={Fragment}
