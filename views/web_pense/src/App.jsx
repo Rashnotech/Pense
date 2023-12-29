@@ -35,7 +35,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
       <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
         <Route path='write' loader={ async () => await AuthLoader() } element={<Write />} />
-        <Route path='edit/:id' loader={ async () => await AuthLoader() } element={<Edit />} />
+        <Route path='edit/:id/:slug' loader={ async () => await AuthLoader() } element={<Edit />} />
         <Route path=':name/:title' loader={ async() => await AuthLoader() } element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profiled />}>
           <Route path=':name' element={<Accounts />} >
