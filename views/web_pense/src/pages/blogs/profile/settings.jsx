@@ -11,8 +11,8 @@ function Settings () {
                 <div className='w-full border-b border-slate-300 mt-2'>
                     <ul className='flex items-center space-x-6 py-2 text-sm w-full'>
                         <li><NavLink to='.' end >Account</NavLink> </li>
-                        <li><NavLink to=''>Publishing</NavLink> </li>
-                        <li><NavLink to=''>Notification</NavLink> </li>
+                        <li><NavLink to='publishing'>Publishing</NavLink> </li>
+                        <li><NavLink to='notifications'>Notification</NavLink> </li>
                     </ul>
                 </div>
                 <Outlet />
@@ -36,7 +36,7 @@ export default function Accounts () {
                 <div className="md:col-span-2 col-auto max-h-max">
                     <Settings />
                 </div>
-                <div className="flex flex-col space-y-4 text-sm">
+                <div className="hidden md:flex flex-col space-y-4 text-sm">
                     <h3>Suggested help articles</h3>
                     <Link>Sign in or sign up to pense</Link>
                     <Link>Your profile page</Link>

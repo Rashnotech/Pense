@@ -11,7 +11,7 @@ export default function Information () {
     const [error, setError] = useState('')
     let location = useLocation()
     useEffect(() => {
-        if (location.pathname.includes('profile')) {
+        if (location.pathname.includes('account')) {
             setIsOpen(true)
         }
     }, [location])

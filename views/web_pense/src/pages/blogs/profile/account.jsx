@@ -29,7 +29,7 @@ function Details ({name}) {
                 <h1 className='font-medium text-lg'>{name}</h1>
                 <p className="text-slate-500">0 Followers</p>
             </div>
-            <Link to='/blog/me/settings/profile' className='text-sm text-green-500 font-medium w-1/2'>Edit Profile</Link>
+            <Link to='/blog/me/settings/account' className='text-sm text-green-500 font-medium w-1/2'>Edit Profile</Link>
 
             <div className=''>
                 <h2 className='text-base text-slate-500 font-medium'>Following</h2>

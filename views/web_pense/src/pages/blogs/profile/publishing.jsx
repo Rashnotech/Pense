@@ -12,33 +12,31 @@ export async function loader () {
 
 }
 
-export default function Setprofile () {
+export default function Setpublication () {
     const data = useLoaderData()
 
     return (
         <main className="space-y-6">
             <div className="flex justify-between items-center w-full">
-                <p className="text-sm">Email address</p>
-                <Link className='text-sm text-gray-500'>xxx@gmail.com</Link>
+                <p className="text-sm">Manage publications</p>
             </div>
             <div className="flex justify-between items-center w-full">
-                <p className="text-sm">Username and subdomain</p>
+                <div>
+                    <p className="text-sm">Allow email replies</p>
+                    <small>Let readers reply to your stories directly from their email.</small>
+                </div>
                 <Link className='text-sm text-gray-500'>xxx</Link>
             </div>
             <div className="flex justify-between items-center w-full">
                 <div>
-                    <p className="text-sm mb-0">Profile information</p>
-                    <small>Edit your photo, name, bio, etc.</small>
+                    <p className="text-sm mb-0">‘Reply To’ email address</p>
+                    <small>Shown to your subscribers when they reply.</small>
                 </div>
                 <Link className='text-sm text-gray-500'>xxx</Link>
             </div>
             <div>
-                <p className="text-red-700 mb-0 text-sm">Deactivate account</p>
-                <small className="text-gray-600 font-medium">Deactivating will suspend your account until you sign back in.</small>
-            </div>
-            <div>
-                <p className="text-red-700 text-sm mb-0">Delete account</p>
-                <small className="text-gray-600 font-medium">Permanently delete your account and all of your content.</small>
+                <p className="mb-0 text-sm">Import email subscribers</p>
+                <small className="text-gray-600 font-medium">Upload a CSV or TXT file containing up to 5,000 email addresses.</small>
             </div>
         </main>
     )

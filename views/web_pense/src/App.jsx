@@ -21,6 +21,8 @@ import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 import Aboutus from './pages/About'
 import Error from './components/Error'
 import Setprofile, {loader as SetprofileLoader } from './pages/blogs/profile/AccountInfo'
+import Setpublication, {loader as Setpubloader} from './pages/blogs/profile/publishing'
+import Setnotification, {loader as Setnoteloader} from './pages/blogs/profile/notifications'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />} errorElement={<Error />}>
@@ -43,11 +45,12 @@ const routes = createBrowserRouter(createRoutesFromElements(
             <Route index loader={MyPostLoader} element={<MyPost />} />
             <Route path='list' element={<List />} />
             <Route path='about' element={<About />} />
-            <Route path='profile' element={<Information />} />
           </Route>
           <Route path='settings' element={<Settings />}>
-            <Route path='profile' element={<Information />} />
             <Route index loader={SetprofileLoader} element={<Setprofile />} />
+            <Route path='account' element={<Information />} />
+            <Route path='publishing' loader={Setpubloader} element={<Setpublication />} />
+            <Route path='notifications' loader={Setnoteloader} element={<Setnotification />} />
           </Route>
         </Route>
         <Route path='*' element={<NotFound />} />
