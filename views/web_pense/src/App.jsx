@@ -20,6 +20,7 @@ import PageLayout from './pages/blogs/BlogLayout'
 import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 import Aboutus from './pages/About'
 import Error from './components/Error'
+import Setprofile, {loader as SetprofileLoader } from './pages/blogs/profile/AccountInfo'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />} errorElement={<Error />}>
@@ -46,6 +47,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
           </Route>
           <Route path='settings' element={<Settings />}>
             <Route path='profile' element={<Information />} />
+            <Route index loader={SetprofileLoader} element={<Setprofile />} />
           </Route>
         </Route>
         <Route path='*' element={<NotFound />} />
