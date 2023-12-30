@@ -35,7 +35,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
       <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
         <Route path='write' loader={ async () => await AuthLoader() } element={<Write />} />
-        <Route path='edit/:id/:slug' loader={ async () => await AuthLoader() } element={<Edit />} />
+        <Route path='edit/:name/:title' loader={ async () => await AuthLoader() } element={<Edit />} />
         <Route path=':name/:title' loader={ async() => await AuthLoader() } element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profiled />}>
           <Route path=':name' element={<Accounts />} >
@@ -44,7 +44,9 @@ const routes = createBrowserRouter(createRoutesFromElements(
             <Route path='about' element={<About />} />
             <Route path='profile' element={<Information />} />
           </Route>
-          <Route path='settings' element={<Settings />} />
+          <Route path='settings' element={<Settings />}>
+            <Route path='profile' element={<Information />} />
+          </Route>
         </Route>
         <Route path='*' element={<NotFound />} />
       </Route>

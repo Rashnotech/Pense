@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { useLocation, NavLink, useNavigation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { registerRequest } from '../../api'
 import { useForm } from 'react-hook-form'
 

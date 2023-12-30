@@ -2,7 +2,7 @@ import {useLoaderData } from "react-router-dom"
 import {Fragment} from "react"
 import { fetchRequest } from "../../api"
 import { Menu, Transition } from "@headlessui/react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useOutletContext } from "react-router-dom"
 
 
 export async function loader () {
@@ -17,10 +17,11 @@ export async function loader () {
 export default function MyPost () {
     const navigate = useNavigate()
     const data = useLoaderData()
+    const name = useOutletContext();
 
-    function editPost (event, id, slug) {
+    function editPost (event, title) {
         event.preventDefault();
-        navigate(`/blog/edit/${id}/${slug}`, {replace: true});
+        navigate(`/blog/edit/${name.toLowerCase()}/${title}`, {replace: true});
     }
     async function deletePost (event, id) {
         event.preventDefault();
@@ -69,7 +70,7 @@ export default function MyPost () {
                         <Menu.Item>
                         {({ active }) => (
                             <button
-                                onClick={(event) => editPost(event, post.id, post.slug)}
+                                onClick={(event) => editPost(event, post.slug)}
                                 className={`${
                                 active ? 'bg-blue-500 text-white' : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

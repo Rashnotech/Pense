@@ -89,7 +89,7 @@ export default function BlogNav ({username}) {
                         </Link>
                   </li>
                   <li>
-                        <Link to={`me/@${username}`} className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
+                        <Link to={`me/@${username.toLowerCase()}`} className="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2 lg-max:opacity-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -125,7 +125,7 @@ export default function BlogNav ({username}) {
                                     <div className="px-1 py-1">
                                     <Menu.Item>
                                         {({ active }) => (
-                                        <button
+                                        <Link to='/blog/me/settings'
                                             className={`${
                                             active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-2`}
@@ -136,7 +136,7 @@ export default function BlogNav ({username}) {
                                             </svg>
 
                                             <span>Settings</span>
-                                        </button>
+                                        </Link>
                                         )}
                                     </Menu.Item>
                                     </div>

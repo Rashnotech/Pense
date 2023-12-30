@@ -89,9 +89,9 @@ export default function PostDetails () {
         synth.speak(utterance);
     }
     return (
-        <section className="px-4 md:px-40 mt-28 md:mt-20">
-         {post.map(tips => <article key={tips.id} className={loading ? 'w-full animate-pulse container px-10' :'w-full container px-10 font-sans flex flex-col items-center justify-between'}>
-                <div className='w-full px-6'>
+        <section className="px-4 md:container-lg mx-auto mt-28 md:mt-20">
+         {post.map(tips => <article key={tips.id} className={loading ? 'animate-pulse px-10' :'px-10 font-sans flex flex-col items-center justify-between'}>
+                <div className='px-4 container-lg mx-auto'>
                     <h2 className="text-4xl font-bold my-4">{tips.title}</h2>
                     <div className="flex flex-row">
                         <div className="flex flex-row items-center space-x-3">
