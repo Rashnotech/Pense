@@ -53,24 +53,26 @@ def forget():
     return jsonify({'error':'Email Failed, retry after few minutes'}), 400
 
 
-@app_views.route('/reset?email=<string:email>', methods=['POST', 'PUT'], strict_slashes=False)
-def password_reset(email):
+@app_views.route('/reset', methods=['POST', 'PUT'], strict_slashes=False)
+def password_reset():
     """a function that change password"""
-    if not email:
-        abort(400, 'Missing email')
     data = request.get_json()
     if not data:
-        abort(400, 'Not a JSON')
+        return jsonify({'error': 'Not a JSON'}), 400
+    if 'email' not in data:
+        return jsonify({'error': 'Missing email'}), 400
     if 'password' not in data:
-        abort(400, 'Missing password')
+       return jsonify({'error': 'Missing password'}), 400
     users = storage.all(User)
     new_pass = md5(data['password'].encode()).hexdigest()
     for user in users.values():
-        if user.email == email:
+        if user.password == new_pass:
+            return jsonify({'error': "You can't use same password"}), 400
+        if user.email == data['email']:
             setattr(user, 'password', new_pass)
             user.save()
-            return redirect('https://pense-theta.vercel.app/login')
-    abort(400, 'An error occurred!')
+            return jsonify({'message': 'Password changed successfully'}), 201
+    return jsonify({'error': 'An error occurred!'}), 400
 
 
 @app_views.route('/user/<int:user_id>', methods=['GET'], strict_slashes=False)
