@@ -12,7 +12,7 @@ export default function Reset () {
     const [process, setProcess] = useState(false);
     const [message, setMessage] = useState('')
     let location = useLocation();
-    const {email} = useParams();
+    const email = location.search.split('=')[1]
 
     useEffect(() => {
         if (location.pathname.includes('resets') && !open) {
