@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { loginRequest } from '../pages/api';
 
 
-export default function Forget () {
+export default function Reset () {
     const [open, setIsOpen] = useState(false);
     const [error, setError] = useState('');
     const [process, setProcess] = useState(false);
@@ -13,7 +13,7 @@ export default function Forget () {
     let location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === '/forget' && !open) {
+        if (location.pathname.includes('reset') && !open) {
             setIsOpen(true)
         }
     }, [location])
@@ -77,11 +77,22 @@ export default function Forget () {
                                     </div>
                                     :
                                     <form onSubmit={handleSubmit(onSubmit)}>
-                                        <label className="text-sm font-medium text-gray-700">Email</label>
+                                        <label className="text-sm font-medium text-gray-700">Enter password</label>
                                         <input
-                                        {...register('email', {required: true})}
-                                         type="email" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Email' />
-                                        {errors.email && (<span className='text-xs text-pink-700 block'>This field is required</span>)}                        
+                                            {...register("password", {
+                                            required: true,
+                                            minLength: {
+                                              value: 8,
+                                              message: "Must be atleast 8 characters",
+                                            },
+                                            validate: (v) =>
+                                              [/[a-z]/, /[A-Z]/, /[^a-zA-Z0-9]/].every((pattern) =>
+                                                pattern.test(v)
+                                              ) ||
+                                              "Must include upper, lower, number and special character",
+                                          })}
+                                        type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Password' />
+                                        {errors.password && (<span className='text-xs text-pink-700'>{errors.password.message}</span>)}
                                         <button disabled={process} className='flex items-center space-x-3 px-6 py-3 bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>
                                            {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

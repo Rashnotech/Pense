@@ -64,6 +64,9 @@ def update_post(id):
     if not data:
         return jsonify({'error': 'No data provided'}), 400
     post = storage.get(Post, id)
+    data['slug'] = data['title'].lower().replace(' ', '-')
+    data['summary'] = data['content'][:150]
+    data['read_time'] = ceil(len(data['content']) / 183)
     if not post:
         return jsonify({'error': 'Post not found'}), 404
     for key, value in data.items():

@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const users = sessionStorage.getItem('Browser_session') ||
-                localStorage.getItem('Browser_session')
-const user_id = users && JSON.parse(users).userid
-const url = `https://pense.pythonanywhere.com/api/v1/user/${user_id}`
-
 const initialState = {
     status: 'idle',
     users: [],
@@ -13,6 +8,10 @@ const initialState = {
 
 
 export const fetchUsers = createAsyncThunk('data/fetchData', async (_, { rejectWithValue }) => {
+    const users = sessionStorage.getItem('Browser_session') ||
+                localStorage.getItem('Browser_session')
+    const user_id = users && JSON.parse(users).userid
+    const url = `https://pense.pythonanywhere.com/api/v1/user/${user_id}`;
     try {
         const res = await fetch(url);
         if (!res.ok) {
@@ -53,7 +52,6 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.users = [];
                 state.error = action.payload;
-                window.location = '/login';
             });
     },
 });

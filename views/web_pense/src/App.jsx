@@ -23,18 +23,20 @@ import Error from './components/Error'
 import Setprofile, {loader as SetprofileLoader } from './pages/blogs/profile/AccountInfo'
 import Setpublication, {loader as Setpubloader} from './pages/blogs/profile/publishing'
 import Setnotification, {loader as Setnoteloader} from './pages/blogs/profile/notifications'
+import Forget from './pages/Forget'
+import Reset from './components/Reset'
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />} errorElement={<Error />}>
       <Route path='/' element={<Home />} >
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
+        <Route path='forget' element={<Forget />} />
+        <Route path='reset' element={<Reset />} />
       </Route>
       <Route path=':name/:title' element={<PostDetails />} />
       <Route path='*' element={<NotFound />} />
-      <Route path='forget' element='' />
       <Route path='about' element={<Aboutus />} />
-
       <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
         <Route path='write' loader={ async () => await AuthLoader() } element={<Write />} />

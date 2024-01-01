@@ -18,11 +18,11 @@ export default function Header() {
 
 export function BlogHeader () {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.users)
-
     useEffect(() => {
         dispatch(fetchUsers())
     }, [dispatch])
+    
+    const user = useSelector(state => state.users)
     const username = user.users[0] ? user.users[0].firstname : ''
     return (
             <div className="container sticky top-0 z-sticky">

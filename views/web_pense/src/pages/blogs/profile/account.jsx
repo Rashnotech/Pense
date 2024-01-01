@@ -42,11 +42,10 @@ function Details ({name}) {
 
 export default function Accounts () {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.users)
-
     useEffect(() => {
         dispatch(fetchUsers())
     }, [dispatch])
+    const user = useSelector(state => state.users)
     const username = user.users[0] ? user.users[0].firstname : ''
     return (
         <>

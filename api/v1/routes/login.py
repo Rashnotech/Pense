@@ -43,8 +43,7 @@ def forget():
         if user.email == data['email']:
             body = render_template('password_reset.html',
                            reset_url=url_for('app_views.password_reset',
-                                             email=user.email, _external=True),
-                           fullname=user.firstname.join(' ' + user.lastname))
+                                             email=user.email, _external=True))
             response, status_code = send_mail(user.email, body)
             if status_code == 500:
                 abort(status_code, response)
@@ -68,7 +67,7 @@ def password_reset(email):
         if user.email == email:
             setattr(user, 'password', new_pass)
             user.save()
-            return redirect('/login')
+            return redirect('https://pense-theta.vercel.app/login')
     abort(400, 'An error occurred!')
 
 

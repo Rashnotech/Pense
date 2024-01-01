@@ -105,7 +105,7 @@ export default function Login () {
                                           })}
                                         type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Password' />
                                         {errors.password && (<span className='text-xs text-pink-700'>{errors.password.message}</span>)}
-                                        <p className='font-medium text-blue-400 block text-right text-sm'><a href="">Forget password?</a></p>
+                                        <p className='font-medium text-blue-400 block text-right text-sm'><NavLink to='/forget'>Forget password?</NavLink></p>
                                         <button disabled={process} className='flex items-center space-x-3 px-6 py-3 bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>
                                            {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
