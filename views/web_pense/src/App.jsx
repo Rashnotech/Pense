@@ -32,7 +32,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
         <Route path='forget' element={<Forget />} />
-        <Route path='reset' element={<Reset />} />
+        <Route path='resets' element={<Reset />} />
       </Route>
       <Route path=':name/:title' element={<PostDetails />} />
       <Route path='*' element={<NotFound />} />

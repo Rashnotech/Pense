@@ -39,16 +39,18 @@ def forget():
     if 'email' not in data:
         abort(400, 'Missing email')
     users = storage.all(User)
+    base_url = 'https://pense-theta.vercel.app'
+    reset_path = '/resets'
+    reset_url = f'{base_url}{reset_path}'
     for user in users.values():
         if user.email == data['email']:
             body = render_template('password_reset.html',
-                           reset_url=url_for('app_views.password_reset',
-                                             email=user.email, _external=True))
+                           reset_url=f'{reset_url}?email={user.email}')
             response, status_code = send_mail(user.email, body)
             if status_code == 500:
                 abort(status_code, response)
             return jsonify({'message': 'Email sent successfully'}), 201
-    abort(400, 'Email Failed, retry after few minutes')
+    return jsonify({'error':'Email Failed, retry after few minutes'}), 400
 
 
 @app_views.route('/reset?email=<string:email>', methods=['POST', 'PUT'], strict_slashes=False)

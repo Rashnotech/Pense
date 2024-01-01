@@ -1,19 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, useParams, Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { loginRequest } from '../pages/api';
 
 
 export default function Reset () {
+    const navigate = useNavigate();
     const [open, setIsOpen] = useState(false);
     const [error, setError] = useState('');
     const [process, setProcess] = useState(false);
     const [message, setMessage] = useState('')
     let location = useLocation();
+    const {email} = useParams();
 
     useEffect(() => {
-        if (location.pathname.includes('reset') && !open) {
+        if (location.pathname.includes('resets') && !open) {
             setIsOpen(true)
         }
     }, [location])
@@ -26,12 +28,13 @@ export default function Reset () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = 'https://pense.pythonanywhere.com/api/v1/forget'
+        const url = `https://pense.pythonanywhere.com/api/v1/resets?email=${email}`
         try {
             const res = await loginRequest(url, data)
             if (res) {
                 setError('')
-                setMessage('Password Reset sent successfully')
+                setMessage('Password changed successfully')
+                navigate('/login');
             }
         } catch (err) {
             setError(err.message)
