@@ -61,3 +61,19 @@ export async function searchPost (url, credential) {
     const data = await res.json()
     return data
 }
+
+export async function changePassword (url, credential) {
+    const res = await fetch (url ,
+            {headers: new Headers({'Content-Type': 'application/json'}),
+            method: "PUT", body: JSON.stringify(credential)})
+    if (!res.ok) {
+        const res_error = await res.json()
+        throw {
+            message: res_error.error || 'Unknown error',
+            status: res.status,
+            statusText: res.statusText
+        }
+    }
+    const data = await res.json()
+    return data
+}

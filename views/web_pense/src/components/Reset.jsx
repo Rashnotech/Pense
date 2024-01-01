@@ -1,8 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { useLocation, useParams, Link, useNavigate } from 'react-router-dom'
-import { useForm } from "react-hook-form";
-import { loginRequest } from '../pages/api';
+import { useLocation, Link, useNavigate } from 'react-router-dom'
+import { set, useForm } from "react-hook-form";
+import { changePassword, loginRequest } from '../pages/api';
 
 
 export default function Reset () {
@@ -12,7 +12,7 @@ export default function Reset () {
     const [process, setProcess] = useState(false);
     const [message, setMessage] = useState('')
     let location = useLocation();
-    const {email} = useParams();
+    const email = location.search.split('=')[1];
 
     useEffect(() => {
         if (location.pathname.includes('resets') && !open) {
@@ -23,19 +23,24 @@ export default function Reset () {
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors }
       } = useForm();
+    const pwd = watch('password')
+    const conf_pwd = watch('confirm')
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = `https://pense.pythonanywhere.com/api/v1/resets?email=${email}`
+        const url = `https://pense.pythonanywhere.com/api/v1/reset`
         try {
-            const res = await loginRequest(url, data)
+            const res = await changePassword(url, data)
             if (res) {
                 setError('')
                 setMessage('Password changed successfully')
-                navigate('/login');
             }
+            setTimeout(() => {
+                navigate('/login')
+            }, 5000)
         } catch (err) {
             setError(err.message)
         }
@@ -72,15 +77,15 @@ export default function Reset () {
                                     </div>
                                     }
                                     {message ? 
-                                    <div className="flex flex-col px-4 py-2 items-center rounded-md text-green-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16">
+                                    <div className="flex px-4 py-2 items-center rounded-md text-green-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                         </svg>
-                                        <Link to='/' className="text-sm text-green-600 px-2">Go home</Link>
+                                        <p className="text-sm text-green-600 px-2">{message}</p>
                                     </div>
                                     :
                                     <form onSubmit={handleSubmit(onSubmit)}>
-                                        <label className="text-sm font-medium text-gray-700">Enter password</label>
+                                        <label className="text-sm font-medium text-gray-700">Change password</label>
                                         <input
                                             {...register("password", {
                                             required: true,
@@ -96,6 +101,11 @@ export default function Reset () {
                                           })}
                                         type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Password' />
                                         {errors.password && (<span className='text-xs text-pink-700'>{errors.password.message}</span>)}
+                                        <label className="text-sm font-medium text-gray-700">Confirm Password</label>
+                                        <input {...register('confirm', {required: true})}
+                                            type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Confirm Password'/>
+                                            {pwd !== conf_pwd && (<span className='text-xs text-pink-600 block'>Password doesn't match</span>)}
+                                        <input type="hidden" {...register('email')} name="email" value={email} />
                                         <button disabled={process} className='flex items-center space-x-3 px-6 py-3 bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>
                                            {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
