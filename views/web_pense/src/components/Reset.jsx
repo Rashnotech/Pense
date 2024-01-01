@@ -28,7 +28,7 @@ export default function Reset () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = `https://pense.pythonanywhere.com/api/v1/resets?email=${email}`
+        const url = `https://pense.pythonanywhere.com/api/v1/reset?email=${email}`
         try {
             const res = await loginRequest(url, data)
             if (res) {
