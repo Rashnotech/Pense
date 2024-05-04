@@ -31,7 +31,7 @@ export default function Reset () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = `https://pense.pythonanywhere.com/api/v1/reset`
+        const url = `${import.meta.env.VITE_API_URL}/reset`
         try {
             const res = await changePassword(url, data)
             if (res) {

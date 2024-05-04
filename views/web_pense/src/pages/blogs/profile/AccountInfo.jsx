@@ -1,12 +1,12 @@
 import {useLoaderData } from "react-router-dom"
 import { fetchRequest } from "../../api"
-import { useNavigate, useOutletContext, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 export async function loader () {
     const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
     const user_id = JSON.parse(user).userid
-    const url = `https://pense.pythonanywhere.com/api/v1/posts/${user_id}`
+    const url = `${import.meta.env.VITE_API_URL}/posts/${user_id}`
     const data = await fetchRequest(url)
     return data
 

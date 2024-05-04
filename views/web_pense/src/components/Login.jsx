@@ -3,6 +3,8 @@ import { Fragment, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { loginRequest } from '../pages/api';
+import { jwtDecode } from "jwt-decode";
+
 
 
 export default function Login () {
@@ -13,11 +15,45 @@ export default function Login () {
     const [message, setMessage] = useState('')
     let location = useLocation();
 
+    const handleCredentialResponse = async (response) => {
+        var user = jwtDecode(response.credential)
+        try {
+            const url = `${import.meta.env.VITE_API_URL}/login`
+            const data = {
+                'email': user.email,
+                'password': user.sub,
+            };
+            const res = await loginRequest(url, data)
+            const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
+            sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
+            localStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
+            setTimeout(() => {
+                navigate('/blog')
+            }, 5000);
+        } catch (err) {
+            setError(err.message)
+        }
+        finally {
+            setProcess(false);
+        }
+    }
+
     useEffect(() => {
         if (location.pathname === '/login' && !open) {
             setIsOpen(true)
         }
+       setTimeout(() => {
+        google.accounts.id.initialize({
+            client_id: '1008177344684-i5hvmg58n91vvhn50cbjsjukbu9tmh2l.apps.googleusercontent.com',
+            callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("g_id_onload"),
+            {theme: "outline", size: "large"}
+        )
+       }, 3000); 
     }, [location])
+    
 
     const {
         register,
@@ -27,7 +63,7 @@ export default function Login () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = 'https://pense.pythonanywhere.com/api/v1/login'
+        const url = `${import.meta.env.VITE_API_URL}/login`
         try {
             const res = await loginRequest(url, data)
             if (res) {
@@ -118,8 +154,7 @@ export default function Login () {
                                             No account?
                                             <NavLink className='text-blue-500 font-medium text-sm' to='/register' >&nbsp;Sign up</NavLink>
                                         </p>
-                                        <hr className='w-4/5 mx-auto my-4' />
-                                        <button className='px-4 py-3 border flex items-center justify-center rounded-full outline-none text-sm font-medium w-full space-x-4'><iconify-icon icon="flat-color-icons:google" width="24"></iconify-icon> <span>Sign in Google</span></button>
+                                        <div id='g_id_onload' className='flex items-center justify-center'></div>
                                     </form>
                                 </div>                            
                                 </Dialog.Panel>

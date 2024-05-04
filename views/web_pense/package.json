@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "vite",
+    "start:production": "VITE_ENV=production vite",
+    "start:test": "VITE_ENV=test vite",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
@@ -21,6 +24,7 @@
     "framer-motion": "^10.16.16",
     "he": "^1.2.0",
     "immer": "^10.0.3",
+    "jwt-decode": "^4.0.0",
     "logger": "^0.0.1",
     "marked": "^11.0.1",
     "perfect-scrollbar": "^1.5.5",

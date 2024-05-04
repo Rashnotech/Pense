@@ -26,7 +26,7 @@ export default function Forget () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = 'https://pense.pythonanywhere.com/api/v1/forget'
+        const url = `${import.meta.env.VITE_API_URL}/forget`
         try {
             const res = await loginRequest(url, data)
             if (res) {

@@ -27,7 +27,7 @@ def login():
             if user.verify is False:
                 return jsonify({'message': 'Email not verified'}), 400
             return jsonify(user.to_dict(), 201)
-    return jsonify({'message': 'User not found'}), 400
+    return jsonify({'message': "Not a register member, Signup"}), 400
 
 
 @app_views.route('/forget', methods=['POST'], strict_slashes=False)
@@ -79,5 +79,6 @@ def password_reset():
 def getdetails(user_id):
     users = storage.get(User, user_id)
     if users is None:
-       return jsonify({'message': 'User not found'}), 400
-    return jsonify(users.to_dict(), 201)
+       return jsonify({'message': "No member account"}), 400
+    user_data = users.to_dict()
+    return jsonify(user_data, 201)

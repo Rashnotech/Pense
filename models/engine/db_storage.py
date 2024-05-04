@@ -2,17 +2,19 @@
 """ a module that stores in the database """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session, Session
-from models.base_model import Base, BaseModel
+from models.base_model import Base
 from models.user import User
 from models.post import Post
 from models.likes import Like
+from models.image import Image
 from models.comment import Comment
 from models.category import Category
 from sys import modules
 
 
 classes = {'User': User, 'Post': Post, 'likes': Like,
-                   'Comment': Comment, 'Category': Category}
+                   'Comment': Comment, 'Category': Category,
+                   'Image': Image}
 
 
 class DBStorage:

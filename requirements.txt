@@ -4,3 +4,4 @@ pytest
 SQLAlchemy
 Flask-mail
 Gunicorn
+alembic

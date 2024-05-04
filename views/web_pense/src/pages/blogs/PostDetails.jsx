@@ -16,7 +16,7 @@ export default function PostDetails () {
         const fetchData = async (name, title) => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://pense.pythonanywhere.com/api/v1/posts/read/${name}/${title}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/read/${name}/${title}`);
                 const data = await response.json();
                 setPost(data);
                 setLoading(false);
@@ -152,7 +152,7 @@ export default function PostDetails () {
                                 <p className="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">{`${tips.user.firstname} ${tips.user.lastname}`}</p>
                             </div>
                             <div className="grid gap-4 col-start-1 col-end-3 row-start-1">
-                                <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${tips.post_cover}`} alt="" className="w-full h-60 object-cover rounded-lg" loading="lazy" />
+                                <img src={`${import.meta.env.VITE_API_URL}/upload/images/${tips.post_cover}`} alt="" className="w-full h-60 object-cover rounded-lg" loading="lazy" />
                             </div>
                             <dl className="mt-4 text-xs font-medium flex items-center row-start-2">
                             <dt className="sr-only">Categories</dt>

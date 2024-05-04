@@ -5,7 +5,7 @@ function Posts ({post}) {
         <Link to={`@${post.user.firstname.toLowerCase()}/${post.slug}`}>
             <div className="flex flex-col font-sans mb-2">
                 <div className="flex-none h-48 w-full relative">
-                    <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                    <img src={`${import.meta.env.VITE_API_URL}/upload/images/${post.post_cover}`} alt={post.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
                 </div>
                 <div className="flex-auto p-6 bg-white">
                     <div className="flex flex-wrap">

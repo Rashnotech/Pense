@@ -13,8 +13,8 @@ export default function Home () {
   useEffect(() => {
       const fetchData = async () => {
           try {
-            const res = await fetch('https://pense.pythonanywhere.com/api/v1/category');
-            const response = await fetch('https://pense.pythonanywhere.com/api/v1/posts/search/all');
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/category`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/search/all`);
             if (!res.ok) {
               const error = await res.json();
               throw new Error(error.message);

@@ -17,7 +17,6 @@ mail.init_app(app)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
-
 @app.teardown_appcontext
 def teardown_appcontext(self):
     """ Teardown app context """

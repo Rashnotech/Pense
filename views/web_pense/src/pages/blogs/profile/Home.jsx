@@ -8,7 +8,7 @@ import { useNavigate, useOutletContext } from "react-router-dom"
 export async function loader () {
     const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
     const user_id = JSON.parse(user).userid
-    const url = `https://pense.pythonanywhere.com/api/v1/posts/${user_id}`
+    const url = `${import.meta.env.VITE_API_URL}/posts/${user_id}`
     const data = await fetchRequest(url)
     return data
 
@@ -25,7 +25,7 @@ export default function MyPost () {
     }
     async function deletePost (event, id) {
         event.preventDefault();
-        const url = `https://pense.pythonanywhere.com/api/v1/posts/${id}`
+        const url = `${import.meta.env.VITE_API_URL}/posts/${id}`
         const res = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -43,7 +43,7 @@ export default function MyPost () {
         <article key={post.id} className=""> 
             <p className="text-gray-500 font-normal pl-2 mb-0 text-sm">{(new Date(post.updated_at)).toDateString()}</p>
             <div className='w-full font-sans flex flex-col md:flex-row items-center justify-between'>
-                <div className="w-full md:w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="flex-none w-full h-full object-cover rounded-lg" alt="" /></div>
+                <div className="w-full md:w-1/3"><img src={`${import.meta.env.VITE_API_URL}/upload/images/${post.post_cover}`} className="flex-none w-full h-full object-cover rounded-lg" alt="" /></div>
                 <div className='w-full px-3 md:px-6 space-y-2'>
                     <h2 className="text-2xl font-bold">{post.title}</h2>
                     <p className="text-gray-700 text-sm">

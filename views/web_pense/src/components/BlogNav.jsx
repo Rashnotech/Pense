@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import Logo from '/logo.png'
 import { Menu, Transition } from '@headlessui/react'
 
-export default function BlogNav ({username}) {
+export default function BlogNav ({username, picture}) {
     useEffect(() => {
         // Your code to run after the component has been rendered
         var expand_trigger = document.getElementById("navbar-trig");
@@ -125,7 +125,7 @@ export default function BlogNav ({username}) {
                     <Menu as="div" className="relative inline-block text-left align-middle px-4 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2">
                             <div>
                                 <Menu.Button className="inline-flex items-center w-full justify-center py-2 text-sm font-medium text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-                                    <img src="" className="w-6 h-6 rounded-full border" alt="" />
+                                    <img src={`${picture}`} className="w-6 h-6 rounded-full border" alt="" />
                                     <span>{username}</span>
                                 </Menu.Button>
                             </div>

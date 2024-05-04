@@ -13,7 +13,7 @@ export default function Comments ({post_id, show}) {
 
     useEffect(() => {
         const fetchComment = async () => {
-            const url = `https://pense.pythonanywhere.com/api/v1/comments/${post_id}`
+            const url = `${import.meta.env.VITE_API_URL}/comments/${post_id}`
             try {
                 const data = await fetchRequest(url);
                 setData(data);
@@ -46,7 +46,7 @@ export default function Comments ({post_id, show}) {
                 ...comment,
                 'user_id': user,
             }
-            const res = await fetch('https://pense.pythonanywhere.com/api/v1/comments',
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/comments`,
                 {headers: new Headers({'Content-Type': 'application/json'}),
                 method: "POST", body: JSON.stringify(credential)});
             if (!res.ok) {

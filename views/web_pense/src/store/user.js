@@ -11,7 +11,7 @@ export const fetchUsers = createAsyncThunk('data/fetchData', async (_, { rejectW
     const users = sessionStorage.getItem('Browser_session') ||
                 localStorage.getItem('Browser_session')
     const user_id = users && JSON.parse(users).userid
-    const url = `https://pense.pythonanywhere.com/api/v1/user/${user_id}`;
+    const url = `${import.meta.env.VITE_API_URL}/user/${user_id}`;
     try {
         const res = await fetch(url);
         if (!res.ok) {
@@ -52,6 +52,7 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.users = [];
                 state.error = action.payload;
+                window.location.href = '/login';
             });
     },
 });

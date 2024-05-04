@@ -15,7 +15,7 @@ export default function Edit () {
     useEffect(() => {
         const fetchData = async (name, title) => {
             try {
-                const response = await fetch(`https://pense.pythonanywhere.com/api/v1/posts/read/@${name}/${title}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/read/@${name}/${title}`);
                 const data = await response.json();
                 setPost(data);
                 setValue(prev => ({...prev, title: data[0].title}))
@@ -36,7 +36,7 @@ export default function Edit () {
 
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
         const userid = JSON.parse(user).userid
-        const url = `https://pense.pythonanywhere.com/api/v1/posts/${id}`
+        const url = `${import.meta.env.VITE_API_URL}/posts/${id}`
         const credentials = {
             title: value.title,
             content: editorRef.current.getContent(),
@@ -81,7 +81,7 @@ export default function Edit () {
                     </button>
                 </div>
                 <div className='flex flex-col w-full mt-20 rounded-md' id="banner">
-                    <img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.length > 0 && post[0].post_cover}`} alt="" className='w-full' />
+                    <img src={`${import.meta.env.VITE_API_URL}/upload/images/${post.length > 0 && post[0].post_cover}`} alt="" className='w-full' />
                 </div>
                 <input
                     type="text"

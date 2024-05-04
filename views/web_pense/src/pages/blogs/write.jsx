@@ -19,7 +19,7 @@ export default function Write () {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-              const res = await fetch('https://pense.pythonanywhere.com/api/v1/category');
+              const res = await fetch(`${import.meta.env.VITE_API_URL}/category`);
               if (!res.ok) {
                 const error = await res.json();
                 throw new Error(error.message);
@@ -57,7 +57,7 @@ export default function Write () {
     async function handleSubmit (event) {
         event.preventDefault();
         setMessage('');
-        const res = await fetch('https://pense.pythonanywhere.com/api/v1/category',
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/category`,
                             {headers: new Headers({'Content-Type': 'application/json'}),
                             method: "POST", body: JSON.stringify(category)})
         if (!res.ok) {
@@ -77,7 +77,7 @@ export default function Write () {
         }
         const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
         const userid = JSON.parse(user).userid
-        const url = 'https://pense.pythonanywhere.com/api/v1/posts'
+        const url = `${import.meta.env.VITE_API_URL}/posts`
         const filename = file.files[0]
         const formData = new FormData()
         formData.append('post_cover', filename)

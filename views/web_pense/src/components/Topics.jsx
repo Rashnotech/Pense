@@ -13,7 +13,7 @@ function Contents ({author, post}) {
                     <p className="text-xs text-ellipsis hidden md:block text-slate-300">{new Date(post.updated_at).toDateString()}
                     . <span>{post.read_time} min read</span> {post.categories.map(cat => <span key={cat.id} className="mx-1 text-gray-700 bg-gray-100 rounded-full p-2">{cat.name}</span>)}</p>
                 </article>
-                <img className="w-1/2 md:w-1/5 h-32 object-cover" src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} alt={post.title} />
+                <img className="w-1/2 md:w-1/5 h-32 object-cover" src={`${import.meta.env.VITE_API_URL}/upload/images/${post.post_cover}`} alt={post.title} />
             </Link>
     )
 }

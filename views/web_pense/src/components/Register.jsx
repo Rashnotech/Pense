@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useLocation, NavLink, useNavigate } from 'react-router-dom'
 import { registerRequest } from '../pages/api'
 import { useForm } from 'react-hook-form'
+import { jwtDecode } from 'jwt-decode'
 
 export default function Register () {
     const navigate = useNavigate();
@@ -12,10 +13,51 @@ export default function Register () {
     const [error, setError] = useState('')
 
     let location = useLocation()
+
+    const handleResponse = async (response) => {
+        let user = jwtDecode(response.credential);
+        try {
+            const url = `${import.meta.env.VITE_API_URL}/signup`
+            const data = {
+                'firstname': user.given_name,
+                'lastname': user.family_name,
+                'email': user.email,
+                'verify': user.email_verified,
+                'password': user.sub,
+                'username': user.given_name,
+                'picture': user.picture,
+            };
+            const res = await registerRequest(url, data)
+            const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
+            sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res.id}))
+            localStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res.id}))
+            if (res){
+                setMessage('Account created successfully, redirecting...')
+                setTimeout(() => {
+                    navigate('/blog')
+                }, 5000);
+            }
+        } catch (err) {
+            setError(err.message)
+        }
+        finally {
+            setProcess(false)
+        }
+    }
     useEffect(() => {
         if (location.pathname === '/register' && !open) {
             setIsOpen(true)
         }
+        setTimeout(() => {
+            google.accounts.id.initialize({
+                client_id: '1008177344684-i5hvmg58n91vvhn50cbjsjukbu9tmh2l.apps.googleusercontent.com',
+                callback: handleResponse,
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("g_sign_up"),
+                {theme: "outline", size: "large"}
+            )
+           }, 3000); 
     }, [location])
 
     const {handleSubmit, register, watch, formState: { errors }} = useForm()
@@ -25,7 +67,7 @@ export default function Register () {
     async function onSubmit (data) {
         setProcess(true)
         try {
-            const url = 'https://pense.pythonanywhere.com/api/v1/signup'
+            const url = `${import.meta.env.VITE_API_URL}/signup`
             const res = await registerRequest(url, data)
             if (res) {
                 setMessage('Account created successfully, redirecting...')
@@ -62,7 +104,7 @@ export default function Register () {
                             <div className="mt-4 w-full px-2">
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     {error && 
-                                    <div className="flex px-4 py-2 items-center bg-yellow-100 rounded-md text-yellow-600">
+                                    <div className="flex px-4 py-2 items-center text-center bg-yellow-100 rounded-md text-yellow-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                         </svg>
@@ -70,7 +112,7 @@ export default function Register () {
                                     </div>
                                     }
                                     {message && 
-                                    <div className="flex px-4 py-2 items-center bg-green-50 rounded-md text-green-600">
+                                    <div className="flex px-4 py-2 items-center  bg-green-50 rounded-md text-green-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                         </svg>
@@ -117,7 +159,9 @@ export default function Register () {
                                             </svg> }
                                             <span>Sign up</span>
                                     </button>
+            
                                     <p className='block text-sm text-gray-700 mt-2'>Already have an account? <NavLink to='/login' className='text-blue-500 font-medium text-sm' > Sign in</NavLink></p>
+                                    <div className='flex w-full items-center justify-center my-6' id='g_sign_up'></div>
                                     <p className='mt-4 block text-center text-slate-500 text-xs'>Click “Sign up” to agree to Pense’s Terms of Service and acknowledge that Pense’s Privacy Policy applies to you.</p>
                                 </form>
                             </div>                            
