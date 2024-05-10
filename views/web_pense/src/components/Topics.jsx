@@ -31,19 +31,6 @@ export default function Topics({categoryList, contents}) {
                 {categoryList && categoryList.map(item => <a href="#" key={item.id} className="rounded-full my-1 px-4 py-2 bg-slate-100">{item.name}</a>) }
                 </div>
                 <a href="" className="text-green-600 font-medium">see more topics</a>
-                <div className="border-t mx-auto w-full py-4">
-                    <ul className="flex flex-wrap w-full space-x-2 items-center font-medium text-slate-500">
-                        <li><Link to=''>Help</Link></li>
-                        <li><Link to='/about'>About</Link></li>
-                        <li><Link to='/'>Blog</Link></li>
-                        <li><Link to=''>Privacy</Link></li>
-                        <li><Link to=''>Terms</Link></li>
-                        <li><Link to='/'>Text to speech</Link></li>
-                        <li><Link to=''>Teams</Link></li>
-                        <li><Link to=''>Career</Link></li>
-                        <li><Link to=''>Status</Link></li>
-                    </ul>
-                </div>
             </div>
         </section>
     )

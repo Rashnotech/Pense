@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter']
+        manrope: ['Manrope']
       }
     },
     screens: {
