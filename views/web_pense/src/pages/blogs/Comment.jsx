@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useEffect } from "react"
-import { fetchRequest } from "../api";
+import { GetRequest, PostRequest } from "../api";
+import { useAtom } from "jotai";
+import { authUser } from "../../components/Header";
 
 export default function Comments ({post_id, show}) {
     const [comment, setComment] = useState({
@@ -10,23 +12,19 @@ export default function Comments ({post_id, show}) {
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [userData] = useAtom(authUser);
 
     useEffect(() => {
         const fetchComment = async () => {
             const url = `${import.meta.env.VITE_API_URL}/comments/${post_id}`
-            try {
-                const data = await fetchRequest(url);
-                setData(data);
-            } catch (error) {
-                setError(error.message)
-            }
+            const data = await GetRequest(url);
+            setData(data);
         }
         fetchComment();
     }, [message])
 
     function handleChange (event) {
-        const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
-        if (user === undefined || user === null) {
+        if (!userData) {
             setError('You need to login to comment');
         } else {
             setError('');
@@ -40,20 +38,16 @@ export default function Comments ({post_id, show}) {
 
     async function handleKeyDown (event) {
         if (event.key === 'Enter') {
-            const token = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session');
-            const user = JSON.parse(token).userid;
             const credential = {
                 ...comment,
-                'user_id': user,
+                'user_id': userData.id,
             }
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/comments`,
-                {headers: new Headers({'Content-Type': 'application/json'}),
-                method: "POST", body: JSON.stringify(credential)});
-            if (!res.ok) {
-                const error_json = await res.json()
-                setError(error_json.message)
+            const url = `${import.meta.env.VITE_API_URL}/comments`;
+            const res = await PostRequest(url, credential)
+            if (res.ok) {
+                const data = res.data
             }
-            const data = await res.json();
+            setError(res.message)
             setMessage('successfully')
             setComment({'comment': '', 'post_id': post_id})
         }

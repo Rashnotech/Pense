@@ -1,8 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import { useLocation, Link, useNavigate } from 'react-router-dom'
-import { set, useForm } from "react-hook-form";
-import { changePassword, loginRequest } from '../pages/api';
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useForm } from "react-hook-form";
+import { PutRequest } from '../pages/api';
 
 
 export default function Reset () {
@@ -32,21 +32,16 @@ export default function Reset () {
     async function onSubmit (data) {
         setProcess(true);
         const url = `${import.meta.env.VITE_API_URL}/reset`
-        try {
-            const res = await changePassword(url, data)
-            if (res) {
-                setError('')
-                setMessage('Password changed successfully')
-            }
+        const res = await PutRequest(url, data)
+        if (res.data) {
+            setError('')
+            setMessage('Password changed successfully')
             setTimeout(() => {
                 navigate('/login')
-            }, 5000)
-        } catch (err) {
-            setError(err.message)
+            }, 3000)
         }
-        finally {
-            setProcess(false);
-        }
+        setError(res.message)
+        setProcess(false);
     }
     return (
         <>
@@ -69,19 +64,19 @@ export default function Reset () {
                                 </Dialog.Title>
                                 <div className="mt-4 w-full px-2">
                                     {error && 
-                                    <div className="flex px-4 py-2 items-center bg-yellow-100 rounded-md text-yellow-600">
+                                    <div className="flex px-4 py-2 space-x-4 bg-yellow-100 rounded-md text-yellow-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                         </svg>
-                                        <p className="text-sm text-amber-600 px-2">{error}</p>
+                                        <p className="text-sm text-amber-600 px-4">{error}</p>
                                     </div>
                                     }
                                     {message ? 
-                                    <div className="flex px-4 py-2 items-center rounded-md text-green-600">
+                                    <div className="flex px-4 py-2 space-x-4 rounded-md text-green-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                         </svg>
-                                        <p className="text-sm text-green-600 px-2">{message}</p>
+                                        <p className="text-sm text-green-600 px-4">{message}</p>
                                     </div>
                                     :
                                     <form onSubmit={handleSubmit(onSubmit)}>

@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import { loginRequest } from '../pages/api';
+import { PostRequest } from '../pages/api';
 
 
 export default function Forget () {
@@ -27,23 +27,19 @@ export default function Forget () {
     async function onSubmit (data) {
         setProcess(true);
         const url = `${import.meta.env.VITE_API_URL}/forget`
-        try {
-            const res = await loginRequest(url, data)
-            if (res) {
-                setError('')
-                setMessage('Password Reset sent successfully')
-            }
-        } catch (err) {
-            setError(err.message)
+        const res = await PostRequest(url, data)
+        if (res) {
+            setError('')
+            setMessage('Password Reset sent successfully')
+        } else {
+            setError(res.message)
         }
-        finally {
-            setProcess(false);
-        }
+        setProcess(false);
     }
     return (
         <>
             <Transition appear show={open} as={Fragment}>
-                <Dialog as="div" className="relative z-20 font-sans" onClose={ () => setIsOpen(false) }>
+                <Dialog as="div" className="relative z-20 font-manrope" onClose={ () => setIsOpen(false) }>
                     <div className="fixed inset-0 overflow-y-auto">
                         <div className="flex items-center justify-center p-4 text-center">
                             <Transition.Child

@@ -16,28 +16,26 @@ def signup():
         abort(400, 'Not a JSON')
     require_fields = ['firstname', 'lastname', 'email', 'password']
     for field in require_fields:
-        if field not in data:
+        if field not in data.keys():
             return jsonify({'message': f'Missing {field}'}), 400
-    if not data['username']:
-        data['username'] = data['firstname']
+    if 'username' not in data.keys():
+        data['username'] = data['email'].split('@')[0].capitalize()
     validate = storage.all(User)
     for user in validate.values():
         if user.email == data['email']:
            return jsonify({'message': 'User already exists'}), 400
-    if not data['verify']:
-        body = render_template('verify.html',
+    body = render_template('verify.html',
                            verify_url=url_for('app_views.verify',
                                               email=data['email'], _external=True),
                                               fullname=data['lastname'],
                                               email=data['email'])
-        response, status_code = send_mail(data['email'], body)
-        if status_code == 500:
-            abort(400, response)
+    response, status_code = send_mail(data['email'], body)
+    if status_code == 500:
+        abort(400, response)
     new_user = User(**data)
     new_user.save()
-    if data['picture']:
-        upload_profile(new_user.id, data['picture'])
-    return jsonify(new_user.to_dict()), 201
+    new_user.set_password('')
+    return jsonify({'data': new_user.to_dict()}), 201
 
 
 @app_views.route('/verify?email=<email>', methods=['GET', 'PUT'], strict_slashes=False)

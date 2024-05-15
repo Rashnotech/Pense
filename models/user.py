@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """a module that contain user attributes"""
 from models.base_model import Base, BaseModel
-from sqlalchemy import Column, String, Boolean, ForeignKey, Integer, Table
+from sqlalchemy import Column, String, Boolean, ForeignKey, Integer, Table, Text
 from sqlalchemy.orm import relationship
 from hashlib import md5
 
@@ -17,6 +17,7 @@ class User(BaseModel, Base):
     firstname = Column(String(128), nullable=False)
     lastname = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False, unique=True)
+    bio = Column(Text, nullable=True)
     password = Column(String(128), nullable=False)
     verify = Column(Boolean, nullable=False, default=False)
     username = Column(String(128), nullable=False, unique=True)
@@ -45,3 +46,7 @@ class User(BaseModel, Base):
         """add following"""
         if following not in self.following:
             self.following.append(following)
+            
+    def set_password(self, new_password):
+        """set password"""
+        self.password = new_password

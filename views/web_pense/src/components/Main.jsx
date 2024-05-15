@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import Adv from '../assets/blog.svg';
+import Adv from '../assets/blog.png';
 
 export default function Main() {
     return (
@@ -28,8 +28,10 @@ export default function Main() {
                     <button className="px-6 py-2 block rounded-md hover:bg-slate-800 cursor-pointer bg-slate-900 text-slate-100 font-medium" >
                         <Link to='/login'>Start reading</Link>
                     </button>
+                </div>
+                <div className="relative w-1/2 md:block hidden">
+                    <img src={Adv} className="right-0 w-[500px] top-0 absolute object-fill" alt="Pense" />
                 </div>   
-                <img src={Adv} className="w-1/2 md:block hidden" alt="Pense" />
             </main>
         </div>
     )

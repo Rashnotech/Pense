@@ -1,7 +1,4 @@
 import  { Link, NavLink, Outlet } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { fetchUsers } from '../../../store/user'
 
 function Settings () {
     return (
@@ -24,13 +21,6 @@ function Settings () {
 
 
 export default function Accounts () {
-    const dispatch = useDispatch()
-    const user = useSelector(state => state.users)
-
-    useEffect(() => {
-        dispatch(fetchUsers())
-    }, [dispatch])
-    const username = user.users[0] ? user.users[0].firstname : ''
     return (
         <>
                 <div className="md:col-span-2 col-auto max-h-max">

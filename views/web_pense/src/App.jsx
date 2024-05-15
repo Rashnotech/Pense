@@ -13,16 +13,15 @@ import Edit from './pages/blogs/Edits'
 import Register from './components/Register'
 import List from './pages/blogs/profile/List'
 import About from './pages/blogs/profile/About'
-import Information from './pages/blogs/profile/Information'
-import NotFound from './components/Notfound'
-import MyPost, {loader as MyPostLoader} from './pages/blogs/profile/Home'
+import { ChakraProvider } from '@chakra-ui/react'
+import MyPost from './pages/blogs/profile/Home'
 import PageLayout from './pages/blogs/BlogLayout'
 import Profiled, {loader as loadProfile} from './pages/blogs/profile/Profile'
 import Aboutus from './pages/About'
 import Error from './components/Error'
-import Setprofile, {loader as SetprofileLoader } from './pages/blogs/profile/AccountInfo'
-import Setpublication, {loader as Setpubloader} from './pages/blogs/profile/publishing'
-import Setnotification, {loader as Setnoteloader} from './pages/blogs/profile/notifications'
+import Setprofile from './pages/blogs/profile/AccountInfo'
+import Setpublication from './pages/blogs/profile/publishing'
+import Setnotification from './pages/blogs/profile/notifications'
 import Forget from './pages/Forget'
 import Reset from './components/Reset'
 
@@ -35,7 +34,6 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path='resets' element={<Reset />} />
       </Route>
       <Route path=':name/:title' element={<PostDetails />} />
-      <Route path='*' element={<NotFound />} />
       <Route path='about' element={<Aboutus />} />
       <Route path='blog' loader={ async () => await AuthLoader() } element={<PageLayout />}>
         <Route index loader={blogLoader} element={<Blog />} />          
@@ -44,18 +42,18 @@ const routes = createBrowserRouter(createRoutesFromElements(
         <Route path=':name/:title' loader={ async() => await AuthLoader() } element={<PostDetails />} />
         <Route path='me' loader={loadProfile} element={<Profiled />}>
           <Route path=':name' element={<Accounts />} >
-            <Route index loader={MyPostLoader} element={<MyPost />} />
+            <Route index element={<MyPost />} />
             <Route path='list' element={<List />} />
             <Route path='about' element={<About />} />
           </Route>
           <Route path='settings' element={<Settings />}>
-            <Route index loader={SetprofileLoader} element={<Setprofile />} />
-            <Route path='account' element={<Information />} />
-            <Route path='publishing' loader={Setpubloader} element={<Setpublication />} />
-            <Route path='notifications' loader={Setnoteloader} element={<Setnotification />} />
+            <Route index element={<Setprofile />} />
+            {/*<Route path='account' element={<Information />} />*/}
+            <Route path='publishing' element={<Setpublication />} />
+            <Route path='notifications' element={<Setnotification />} />
           </Route>
         </Route>
-        <Route path='*' element={<NotFound />} />
+        <Route path='*' element={<h1>Not Found</h1>} />
       </Route>
     </Route>
 ))
@@ -63,7 +61,9 @@ const routes = createBrowserRouter(createRoutesFromElements(
 
 function App() {
   return (
-    <RouterProvider router={routes} />
+    <ChakraProvider>
+      <RouterProvider router={routes} />
+    </ChakraProvider>
   )
 }
 

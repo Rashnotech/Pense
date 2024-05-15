@@ -2,11 +2,14 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { GetRequest, PostRequest, PutRequest } from '../api';
+import { useAtom } from 'jotai';
+import { authUser } from '../../components/Header';
 
 
 export default function Write () {
     const navigate = useNavigate();
-    const user = useSelector(state => state.users)
+    const [userData] = useAtom(authUser)
     const [categoryList, setCategoryList] = useState([])
     const [process, setProcess] = useState(false)
     const [value, setValue] = useState({'title': ''})
@@ -18,17 +21,12 @@ export default function Write () {
     
     useEffect(() => {
         const fetchCategories = async () => {
-            try {
-              const res = await fetch(`${import.meta.env.VITE_API_URL}/category`);
-              if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.message);
-              }
-              const data = await res.json();
-              setCategoryList(data);
-            } catch (error) {
-              setError(error.message);
+            const res = await GetRequest(`${import.meta.env.VITE_API_URL}/category`);
+            if (!res.ok) {
+                setError(res.message)
             }
+            const data = res.data;
+            setCategoryList(data);
           };
           fetchCategories();
     }, [message])
@@ -57,15 +55,10 @@ export default function Write () {
     async function handleSubmit (event) {
         event.preventDefault();
         setMessage('');
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/category`,
-                            {headers: new Headers({'Content-Type': 'application/json'}),
-                            method: "POST", body: JSON.stringify(category)})
-        if (!res.ok) {
-            const error = res.json()
-            setError(error.message)
-        }
-        const data = await res.json()
-        setCategoryList(data)
+        const url = `${import.meta.env.VITE_API_URL}/category`;
+        const res = await PostRequest(url, category);
+        if (!res.ok) setError(res.message)
+        setCategoryList(res.data)
         setCategory({name: ''});
         setMessage('Added successfully')
     }

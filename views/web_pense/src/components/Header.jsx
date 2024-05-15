@@ -1,8 +1,10 @@
 import Navbar from "./Nav"
+import avatar from "../assets/avatar.png"
 import BlogNav from "./BlogNav"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
-import { fetchUsers } from "../store/user"
+import { useAtom, atom } from "jotai"
+
+const session = localStorage.getItem('Browser_session')
+export const authUser = atom(session && JSON.parse(session).user)
 
 export default function Header() {
     return (
@@ -17,15 +19,9 @@ export default function Header() {
 }
 
 export function BlogHeader () {
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(fetchUsers())
-    }, [dispatch])
-    
-    const user = useSelector(state => state.users)
-    console.log(user);
-    const username = user.users[0] ? user.users[0].firstname : ''
-    const picture = user.users[0] ? user.users[0].image[0].filename : ''
+    const [userData] = useAtom(authUser)
+    const username = userData ? userData.username : ''
+    const picture = userData && userData.image.length === 0 ? avatar : userData.image[0].filename 
     return (
             <div className="container sticky top-0 z-[20]">
                 <div className="flex flex-wrap -mx-3">

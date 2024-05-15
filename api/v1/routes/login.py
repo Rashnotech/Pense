@@ -26,7 +26,8 @@ def login():
                 return jsonify({'message:': 'Incorrect password'}), 400
             if user.verify is False:
                 return jsonify({'message': 'Email not verified'}), 400
-            return jsonify(user.to_dict(), 201)
+            user.set_password('')
+            return jsonify({'data': user.to_dict()})
     return jsonify({'message': "Not a register member, Signup"}), 400
 
 
@@ -81,4 +82,5 @@ def getdetails(user_id):
     if users is None:
        return jsonify({'message': "No member account"}), 400
     user_data = users.to_dict()
+    del user_data['password']
     return jsonify(user_data, 201)

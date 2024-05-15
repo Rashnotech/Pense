@@ -2,8 +2,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import { loginRequest } from '../pages/api';
-import { jwtDecode } from "jwt-decode";
+import { useAtom } from 'jotai';
+import { PostRequest } from '../pages/api';
+import { AsyncStorage } from '../pages/util';
 
 
 
@@ -15,43 +16,10 @@ export default function Login () {
     const [message, setMessage] = useState('')
     let location = useLocation();
 
-    const handleCredentialResponse = async (response) => {
-        var user = jwtDecode(response.credential)
-        try {
-            const url = `${import.meta.env.VITE_API_URL}/login`
-            const data = {
-                'email': user.email,
-                'password': user.sub,
-            };
-            const res = await loginRequest(url, data)
-            const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
-            sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
-            localStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
-            setTimeout(() => {
-                navigate('/blog')
-            }, 5000);
-        } catch (err) {
-            setError(err.message)
-        }
-        finally {
-            setProcess(false);
-        }
-    }
-
     useEffect(() => {
         if (location.pathname === '/login' && !open) {
             setIsOpen(true)
         }
-       setTimeout(() => {
-        google.accounts.id.initialize({
-            client_id: '1008177344684-i5hvmg58n91vvhn50cbjsjukbu9tmh2l.apps.googleusercontent.com',
-            callback: handleCredentialResponse,
-        });
-        google.accounts.id.renderButton(
-            document.getElementById("g_id_onload"),
-            {theme: "outline", size: "large"}
-        )
-       }, 3000); 
     }, [location])
     
 
@@ -64,24 +32,19 @@ export default function Login () {
     async function onSubmit (data) {
         setProcess(true);
         const url = `${import.meta.env.VITE_API_URL}/login`
-        try {
-            const res = await loginRequest(url, data)
-            if (res) {
-                setError('')
-                setMessage('Login successful, redirecting...')
-                const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
-                sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
-                localStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
-                setTimeout(() => {
-                    navigate('/blog')
-                }, 5000);
-            }
-        } catch (err) {
-            setError(err.message)
+        const res = await PostRequest(url, data)
+        if (res.data) {
+            setMessage('Login successful, redirecting...')
+            setError('')
+            const x_token = Math.floor(Number.EPSILON + Math.random() * 99999)
+            AsyncStorage(x_token, res.data)
+            setTimeout(() => {
+                navigate('/blog')
+            }, 5000);
+        } else {
+            setError(res.message)
         }
-        finally {
-            setProcess(false);
-        }
+        setProcess(false);
     }
     return (
         <>
@@ -104,19 +67,19 @@ export default function Login () {
                                 </Dialog.Title>
                                 <div className="mt-4 w-full px-2">
                                     {error && 
-                                    <div className="flex px-4 py-2 items-center bg-yellow-100 rounded-md text-yellow-600">
+                                    <div className="flex px-4 py-2 space-x-4 bg-yellow-100 rounded-md text-yellow-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                         </svg>
-                                        <p className="text-sm text-amber-600 px-2">{error}</p>
+                                        <p className="text-sm text-amber-600">{error}</p>
                                     </div>
                                     }
                                     {message && 
-                                    <div className="flex px-4 py-2 items-center bg-green-50 rounded-md text-green-600">
+                                    <div className="flex px-4 py-2 space-x-4 bg-green-50 rounded-md text-green-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                         </svg>
-                                        <p className="text-sm text-green-600 px-2">{message}</p>
+                                        <p className="text-sm text-green-600">{message}</p>
                                     </div>
                                     }
                                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -154,7 +117,6 @@ export default function Login () {
                                             No account?
                                             <NavLink className='text-blue-500 font-medium text-sm' to='/register' >&nbsp;Sign up</NavLink>
                                         </p>
-                                        <div id='g_id_onload' className='w-full flow-root items-center justify-center'></div>
                                     </form>
                                 </div>                            
                                 </Dialog.Panel>
