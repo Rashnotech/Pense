@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GetRequest, PostRequest } from '../api';
 import { useAtom } from 'jotai';
-import { authUser } from '../store';
 import { Editor, EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
 import './custom.css';
 import 'draft-js/dist/Draft.css';
