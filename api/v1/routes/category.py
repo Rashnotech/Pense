@@ -3,10 +3,8 @@
 from api.v1.routes import jsonify, app_views, abort, request, current_app
 from models import storage
 from models.category import Category
-from flask_jwt_extended import jwt_required
 
 @app_views.route('/category', methods=['POST'], strict_slashes=False)
-@jwt_required()
 def create():
     """ a function that category post categories"""
     category = storage.all(Category)
@@ -23,15 +21,13 @@ def create():
 
 
 @app_views.route('/category', methods=['GET'], strict_slashes=False)
-@jwt_required()
 def get_category():
     """ a function that get the list of categoris"""
     cat_list = storage.all(Category)
     if not cat_list:
-        return jsonify({'data': {}}), 200
+        return jsonify({'message': 'Empty categories'}), 200
     categories = [val.to_dict() for val in cat_list.values()]
-    return jsonify({'data':categories}), 200
-
+    return jsonify(categories), 200
 
 @app_views.route('/upload/images/<filename>')
 def uploaded_file(filename):

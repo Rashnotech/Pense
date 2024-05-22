@@ -3,10 +3,9 @@
 from api.v1.routes import request, abort, app_views, jsonify
 from models import storage
 from api.v1.routes.email import send_mail
-from flask import render_template
+from flask import render_template, url_for, redirect
 from models.user import User
 from hashlib import md5
-from flask_jwt_extended import create_access_token, jwt_required
 
 
 @app_views.route('/login', methods=['POST'], strict_slashes=False)
@@ -27,10 +26,8 @@ def login():
                 return jsonify({'message:': 'Incorrect password'}), 400
             if user.verify is False:
                 return jsonify({'message': 'Email not verified'}), 400
-            user.set_password('')
-            token = create_access_token(identity=user.id)
-            return jsonify({'token': token, 'data': user.to_dict()})
-    return jsonify({'message': "Not a register member, Signup"}), 400
+            return jsonify(user.to_dict(), 201)
+    return jsonify({'message': 'User not found'}), 400
 
 
 @app_views.route('/forget', methods=['POST'], strict_slashes=False)
@@ -56,34 +53,29 @@ def forget():
     return jsonify({'error':'Email Failed, retry after few minutes'}), 400
 
 
-@app_views.route('/reset', methods=['POST', 'PUT'], strict_slashes=False)
-def password_reset():
+@app_views.route('/reset?email=<string:email>', methods=['POST', 'PUT'], strict_slashes=False)
+def password_reset(email):
     """a function that change password"""
+    if not email:
+        abort(400, 'Missing email')
     data = request.get_json()
     if not data:
-        return jsonify({'error': 'Not a JSON'}), 400
-    if 'email' not in data:
-        return jsonify({'error': 'Missing email'}), 400
+        abort(400, 'Not a JSON')
     if 'password' not in data:
-       return jsonify({'error': 'Missing password'}), 400
+        abort(400, 'Missing password')
     users = storage.all(User)
     new_pass = md5(data['password'].encode()).hexdigest()
     for user in users.values():
-        if user.password == new_pass:
-            return jsonify({'error': "You can't use same password"}), 400
-        if user.email == data['email']:
+        if user.email == email:
             setattr(user, 'password', new_pass)
             user.save()
-            return jsonify({'message': 'Password changed successfully'}), 201
-    return jsonify({'error': 'An error occurred!'}), 400
+            return redirect('https://pense-theta.vercel.app/login')
+    abort(400, 'An error occurred!')
 
 
 @app_views.route('/user/<int:user_id>', methods=['GET'], strict_slashes=False)
-@jwt_required()
 def getdetails(user_id):
     users = storage.get(User, user_id)
     if users is None:
-       return jsonify({'message': "No member account"}), 400
-    user_data = users.to_dict()
-    user_data.set_password('')
-    return jsonify(user_data, 201)
+       return jsonify({'message': 'User not found'}), 400
+    return jsonify(users.to_dict(), 201)

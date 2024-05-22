@@ -128,8 +128,8 @@ staying at the forefront of the industry, consistently seeking opportunities to 
 to advancements in both AI/ML and software engineering. <br />
 <strong>For further communication or collaboration, please feel free to reach out to me below.</strong>
 </p>
-<a to='https://www.linkedin.com/in/abdulrashnotech/'>Linkedin</a>
-<a to='https://github.com/Rashnotech'>Github</a>
-<a to='https://twitter.com/@rashnotech'>Twitter</a>
+https://www.linkedin.com/in/abdulrashnotech/
+https://github.com/Rashnotech
+https://twitter.com/@rashnotech
 
 ### Aliyu Adekola

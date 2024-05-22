@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import os
-from datetime import timedelta
 
 class Config:
     """ a class for config"""
@@ -9,10 +8,6 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = 'pense.blogpost@gmail.com'
     MAIL_PASSWORD = 'nigyjnsceqoooqty'
-    SECRET_KEY = 'blogger_smooth'
-    JWT_SECRET_KEY = 'blogger_smooth'
-    JWT_TOKEN_LOCATION = ['headers']
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=30)
     UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'upload', 'images')
 
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)

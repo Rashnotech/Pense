@@ -41,8 +41,19 @@ class Post(BaseModel, Base):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-    def to_dict(self) -> dict:
+    def to_dict(self):
         """ Return a dictionary representation of the post/category"""
-        new_dict = super().to_dict()
-        new_dict['categories'] = [category.to_dict() for category in self.categories]
-        return new_dict
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'post_cover': self.post_cover,
+            'user_id': self.user_id,
+            'postcat_id': self.postcat_id,
+            'slug': self.slug,
+            'summary': self.summary,
+            'read_time': self.read_time,
+            'categories': [category.to_dict() for category in self.categories],
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }

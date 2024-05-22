@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Pense Post """
 from flask import Flask, render_template, request, abort, Blueprint, jsonify
-from flask_jwt_extended import jwt_required
 from models import storage
 from models.comment import Comment
 from api.v1.routes import app_views
@@ -10,7 +9,6 @@ comment_bp = Blueprint('comment_bp', __name__, url_prefix='/comments')
 
 
 @comment_bp.route('/', methods=['POST'], strict_slashes=False)
-@jwt_required()
 def create_comment():
     """
     Create a new comment from the request data and
@@ -27,7 +25,6 @@ def create_comment():
 
 # Endpoint to update an existing comment
 @comment_bp.route('/<int:comment_id>', methods=['PUT'])
-@jwt_required()
 def update_comment(comment_id):
     try:
         data = request.get_json()
@@ -48,7 +45,6 @@ def update_comment(comment_id):
 
 # Endpoint to delete an existing comment
 @comment_bp.route('/<int:comment_id>', methods=['DELETE'])
-@jwt_required()
 def delete_comment(comment_id):
     try:
         comment = storage.get(Comment, comment_id)
