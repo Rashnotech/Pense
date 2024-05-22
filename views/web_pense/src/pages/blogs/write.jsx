@@ -167,7 +167,6 @@ export default function Write () {
     const Media = (props) => {
         const entity = props.contentState.getEntity(props.block.getEntityAt(0));
         const { src, caption } = entity.getData();
-        console.log(props.block.getEntityAt(0));
         const type = entity.getType();
         let media;
 
