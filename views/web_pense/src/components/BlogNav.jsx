@@ -62,6 +62,7 @@ export default function BlogNav ({username, picture}) {
     function logOut () {
         sessionStorage.removeItem('Browser_session');
         localStorage.removeItem('Browser_session');
+        window.location.reload();
     }
     return (
         <nav className="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center px-4 py-2 m-6 shadow-sm rounded-xl bg-white/80 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
@@ -122,7 +123,7 @@ export default function BlogNav ({username, picture}) {
                     <Menu as="div" className="relative inline-block text-left align-middle px-4 font-normal transition-all ease-in-out duration-250 text-sm text-slate-700 lg:px-2">
                             <div>
                                 <Menu.Button className="inline-flex items-center w-full justify-center py-2 text-sm font-medium text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-                                    <img src={`${import.meta.env.VITE_API_URL}/upload/images/${picture}`} className="w-6 h-6 object-top rounded-full border" alt="" />
+                                    <img src={picture} className="w-6 h-6 object-top rounded-full border" alt="" />
                                     <span className="ml-2">{username}</span>
                                 </Menu.Button>
                             </div>

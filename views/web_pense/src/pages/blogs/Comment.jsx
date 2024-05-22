@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { GetRequest, PostRequest } from "../api";
 import { useAtom } from "jotai";
-import { authUser } from "../../components/Header";
+import { authUser } from "../store";
 
 export default function Comments ({post_id, show}) {
     const [comment, setComment] = useState({

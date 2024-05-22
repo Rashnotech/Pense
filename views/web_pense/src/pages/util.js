@@ -1,4 +1,5 @@
-export const AsyncStorage = (token, user) => {
+
+export const AsyncStorage = (token, user, auth_token) => {
     sessionStorage.setItem('Browser_session', JSON.stringify(
         {'isLogged': true,
         'id': token,
@@ -8,6 +9,10 @@ export const AsyncStorage = (token, user) => {
         'isLogged': true,
         'id': token,
         'user': user}))
+        
+    const expire = new Date();
+    expire.setTime(expire.getTime() + (30 * 24 * 60 * 60 * 1000));
+    document.cookie = `auth_token=${auth_token}; expires=${expire.toUTCString()}`
 }
 
 
@@ -26,3 +31,13 @@ export const uploadFile = (selectors) => {
     })
 };
 
+export const get_cookie = (name) => {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName.trim() === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null; // Cookie not found
+}

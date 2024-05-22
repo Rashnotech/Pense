@@ -1,7 +1,6 @@
 import  { Link, NavLink, Outlet } from 'react-router-dom'
-import avatar from '../../../assets/avatar.png'
 import { useAtom } from 'jotai'
-import { authUser } from '../../../components/Header'
+import { authUser } from '../../store';
 import Information from './Information';
 import { useDisclosure } from '@chakra-ui/react';
 
@@ -30,7 +29,6 @@ function Details () {
     return (
         <>
             <img src={
-                userData.image.length === 0 ? avatar :
                 `${import.meta.env.VITE_API_URL}/upload/images/${userData.image[0].filename}`
                 } className='flex-none object-cover rounded-full w-20 h-20 border' alt="" />
             <div className='space-y-0'>

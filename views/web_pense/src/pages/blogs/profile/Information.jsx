@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { PutRequest, UploadRequest } from '../../api'
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import {
     Modal,
     ModalBody, 
@@ -8,8 +8,7 @@ import {
     ModalContent,
     ModalHeader, ModalOverlay } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
-import { authUser } from '../../../components/Header'
-import avatar from '../../../assets/avatar.png';
+import { authUser } from '../../store'
 import { AsyncStorage, uploadFile } from '../../util'
 
 export default function Information ({isopen, onclose}) {
@@ -59,7 +58,7 @@ export default function Information ({isopen, onclose}) {
         formData.append('profile_image', filename);
         const res = await UploadRequest(url, formData);
         console.log(res);
-        if (res.successs) {
+        if (res.success) {
             setMessage(res.success)
             const x_token = Math.floor(Number.EPSILON + Math.random() * 99999)
             AsyncStorage(x_token, res.data)
@@ -80,7 +79,7 @@ export default function Information ({isopen, onclose}) {
                     <div className="my-4 font-manrope w-full px-2">
                         <form onSubmit={handleSubmit(uploader)}>
                             {error && 
-                                <div className="flex px-4 py-2 items-center bg-yellow-100 rounded-md text-yellow-600">
+                                <div className="flex px-4 py-2 bg-yellow-100 rounded-md text-yellow-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                     </svg>
@@ -88,7 +87,7 @@ export default function Information ({isopen, onclose}) {
                                 </div>
                             }
                             {message && 
-                                <div className="flex px-4 py-2 items-center bg-green-50 rounded-md text-green-600">
+                                <div className="flex px-4 py-2 bg-green-50 rounded-md text-green-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                     </svg>
@@ -100,8 +99,7 @@ export default function Information ({isopen, onclose}) {
                                     <label className="text-sm ml-2 font-semibold text-gray-700 block">Photo</label>
                                         <img
                                             onClick={fileUploader}
-                                            src={userData.image.length === 0 ? avatar :
-                                                `${import.meta.env.VITE_API_URL}/upload/images/${userData.image[0].filename}`
+                                            src={`${import.meta.env.VITE_API_URL}/upload/images/${userData.image[0].filename}`
                                             }
                                             alt={userData.username}
                                             id='profile_img'

@@ -1,10 +1,8 @@
 import Navbar from "./Nav"
-import avatar from "../assets/avatar.png"
 import BlogNav from "./BlogNav"
-import { useAtom, atom } from "jotai"
+import { useAtom } from "jotai"
+import { authUser } from "../pages/store"
 
-const session = localStorage.getItem('Browser_session')
-export const authUser = atom(session && JSON.parse(session).user)
 
 export default function Header() {
     return (
@@ -21,7 +19,7 @@ export default function Header() {
 export function BlogHeader () {
     const [userData] = useAtom(authUser)
     const username = userData ? userData.username : ''
-    const picture = userData && userData.image.length === 0 ? avatar : userData.image[0].filename 
+    const picture = userData && `${import.meta.env.VITE_API_URL}/upload/images/${userData.image[0].filename}`
     return (
             <div className="container sticky top-0 z-[20]">
                 <div className="flex flex-wrap -mx-3">

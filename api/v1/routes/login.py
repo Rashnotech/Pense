@@ -3,9 +3,10 @@
 from api.v1.routes import request, abort, app_views, jsonify
 from models import storage
 from api.v1.routes.email import send_mail
-from flask import render_template, url_for, redirect
+from flask import render_template
 from models.user import User
 from hashlib import md5
+from flask_jwt_extended import create_access_token, jwt_required
 
 
 @app_views.route('/login', methods=['POST'], strict_slashes=False)
@@ -27,7 +28,8 @@ def login():
             if user.verify is False:
                 return jsonify({'message': 'Email not verified'}), 400
             user.set_password('')
-            return jsonify({'data': user.to_dict()})
+            token = create_access_token(identity=user.id)
+            return jsonify({'token': token, 'data': user.to_dict()})
     return jsonify({'message': "Not a register member, Signup"}), 400
 
 
@@ -77,10 +79,11 @@ def password_reset():
 
 
 @app_views.route('/user/<int:user_id>', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def getdetails(user_id):
     users = storage.get(User, user_id)
     if users is None:
        return jsonify({'message': "No member account"}), 400
     user_data = users.to_dict()
-    del user_data['password']
+    user_data.set_password('')
     return jsonify(user_data, 201)

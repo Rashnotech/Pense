@@ -8,18 +8,21 @@ from models.image import Image
 from werkzeug.utils import secure_filename
 import os
 from .post import allowed_file
+from flask_jwt_extended import jwt_required
 
 
 @app_views.route('/account/<int:id>', methods=['DELETE'], strict_slashes=False)
+@jwt_required()
 def delete_user(id):
     """Delete a user from database"""
     user = storage.get(User, id)
-    storage.delete(user.to_dict())
+    storage.delete(user)
     storage.save()
     return jsonify({'success': 'User deleted'}), 200
 
 
 @app_views.route('/account/<int:user_id>', methods=['PUT'], strict_slashes=False)
+@jwt_required()
 def update_user(user_id):
     """Updates a User object"""
     if request.headers['Content-Type'].startswith('multipart/form-data'):
@@ -31,14 +34,17 @@ def update_user(user_id):
         data['filename'] = filename
         data['user_id'] = user_id
         user_img.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        user = storage.get(User, user_id)
+        if len(user.image) == 2:
+            image_to_delete = user.image[0]
+            user.image.remove(image_to_delete)
+            storage.delete(image_to_delete)
+            storage.save()
         new_img = Image(**data)
-        image = storage.get(Image, user_id)
-        storage.delete(image.to_dict())
-        storage.save()
         new_img.save()
         user = storage.get(User, user_id)
         user.set_password('')
-        return jsonify({'success': 'profile uploaded', 'data': user.to_dict()}), 200
+        return jsonify({'success': 'picture uploaded', 'data': user.to_dict()}), 200
     else:
         data = request.get_json()
         user = storage.get(User, user_id)

@@ -1,6 +1,6 @@
 import { useAtom } from "jotai"
 import { Link } from "react-router-dom"
-import { authUser } from "../../../components/Header"
+import { authUser } from "../../store"
 
 
 export default function Setpublication () {

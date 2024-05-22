@@ -3,7 +3,7 @@ import { DelRequest, GetRequest} from "../../api"
 import { Menu, Transition } from "@headlessui/react"
 import { useNavigate} from "react-router-dom"
 import { useAtom } from "jotai"
-import { authUser } from "../../../components/Header"
+import { authUser } from "../../store"
 
 
 export default function MyPost () {

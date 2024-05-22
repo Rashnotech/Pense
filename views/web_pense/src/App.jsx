@@ -48,7 +48,6 @@ const routes = createBrowserRouter(createRoutesFromElements(
           </Route>
           <Route path='settings' element={<Settings />}>
             <Route index element={<Setprofile />} />
-            {/*<Route path='account' element={<Information />} />*/}
             <Route path='publishing' element={<Setpublication />} />
             <Route path='notifications' element={<Setnotification />} />
           </Route>

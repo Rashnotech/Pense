@@ -6,6 +6,7 @@ from api.v1.routes.upload_user import upload_profile
 from models import storage
 from flask import url_for, render_template, redirect
 from models.user import User
+from models.image import Image
 
 
 @app_views.route('/signup', methods=['POST'], strict_slashes=False)
@@ -34,6 +35,8 @@ def signup():
         abort(400, response)
     new_user = User(**data)
     new_user.save()
+    new_image = Image(filename='default.png', user_id=new_user.id)
+    new_image.save()
     new_user.set_password('')
     return jsonify({'data': new_user.to_dict()}), 201
 

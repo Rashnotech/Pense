@@ -1,3 +1,5 @@
+import { get_cookie } from './util.js'
+
 /**
  * 
  * @param {*} url 
@@ -12,7 +14,8 @@ const request = (url, credentials, method) => {
         headers: new Headers(
             {
                 'content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': `Bearer ${get_cookie('auth_token')}`
             }),
         body: JSON.stringify(credentials)
     })
@@ -27,7 +30,11 @@ const request = (url, credentials, method) => {
 const get_request = (url, method) => {
     return fetch(url, {
         method: method,
-        headers: new Headers({'content-Type': 'application/json'}),
+        headers: new Headers({
+            'content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': `Bearer ${get_cookie('auth_token')}`
+        }),
     })
 }
 
@@ -65,6 +72,9 @@ export const PutRequest = async (url, credentials) => {
 export const UploadRequest = async (url, credentials) => {
     return new Promise((resolve, reject) => {
         return fetch(url, {
+            Headers: new Headers({
+                'Authorization': `Bearer ${get_cookie('auth_token')}`,
+            }),
             method: 'PUT',
             body: credentials
         })

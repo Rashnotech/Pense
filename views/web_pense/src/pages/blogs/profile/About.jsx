@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { authUser } from "../../../components/Header"
+import { authUser } from "../../store"
 
 export default function About () {
     const [userData] = useAtom(authUser)
