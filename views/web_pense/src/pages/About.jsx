@@ -27,7 +27,7 @@ export default function Aboutus () {
                     </p>
                     <div className="flex flex-col md:flex-row items-center justify-between my-8 p-4">
                         <div className='w-full md:w-2/5'>
-                            <img src={mypic} className='object-contain rounded-full' alt="" />
+                            <img src={mypic} className='object-contain rounded-full w-1/2' alt="" />
                             <div className='p-4 text-center font-semibold rounded-lg border'>
                                 <p className='text-lg'>Abdulrasheed Aliyu</p>
                                 <p className='text-sm italic'>Fullstack engineer</p>

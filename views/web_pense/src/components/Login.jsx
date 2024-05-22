@@ -2,7 +2,10 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import { loginRequest } from '../pages/api';
+import { useAtom } from 'jotai';
+import { PostRequest } from '../pages/api';
+import { AsyncStorage } from '../pages/util';
+
 
 
 export default function Login () {
@@ -18,6 +21,7 @@ export default function Login () {
             setIsOpen(true)
         }
     }, [location])
+    
 
     const {
         register,
@@ -27,30 +31,26 @@ export default function Login () {
 
     async function onSubmit (data) {
         setProcess(true);
-        const url = 'https://pense.pythonanywhere.com/api/v1/login'
-        try {
-            const res = await loginRequest(url, data)
-            if (res) {
-                setError('')
-                setMessage('Login successful, redirecting...')
-                const session_id = Math.floor(Number.EPSILON + Math.random() * 99999)
-                sessionStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
-                localStorage.setItem('Browser_session', JSON.stringify({'isLogged': true, 'id': session_id, 'userid': res[0].id}))
-                setTimeout(() => {
-                    navigate('/blog')
-                }, 5000);
-            }
-        } catch (err) {
-            setError(err.message)
+        const url = `${import.meta.env.VITE_API_URL}/login`
+        const res = await PostRequest(url, data)
+        console.log(res)
+        if (res.data) {
+            setMessage('Login successful, redirecting...')
+            setError('')
+            const x_token = Math.floor(Number.EPSILON + Math.random() * 99999)
+            AsyncStorage(x_token, res.data, res.token)
+            setTimeout(() => {
+                navigate('/blog')
+            }, 5000);
+        } else {
+            setError(res.message)
         }
-        finally {
-            setProcess(false);
-        }
+        setProcess(false);
     }
     return (
         <>
             <Transition appear show={open} as={Fragment}>
-                <Dialog as="div" className="relative z-20 font-sans" onClose={ () => setIsOpen(false) }>
+                <Dialog as="div" className="relative z-20 font-manrope" onClose={ () => setIsOpen(false) }>
                     <div className="fixed inset-0 overflow-y-auto">
                         <div className="flex items-center justify-center p-4 text-center">
                             <Transition.Child
@@ -68,19 +68,19 @@ export default function Login () {
                                 </Dialog.Title>
                                 <div className="mt-4 w-full px-2">
                                     {error && 
-                                    <div className="flex px-4 py-2 items-center bg-yellow-100 rounded-md text-yellow-600">
+                                    <div className="flex px-4 py-2 space-x-4 bg-yellow-100 rounded-md text-yellow-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                         </svg>
-                                        <p className="text-sm text-amber-600 px-2">{error}</p>
+                                        <p className="text-sm text-amber-600">{error}</p>
                                     </div>
                                     }
                                     {message && 
-                                    <div className="flex px-4 py-2 items-center bg-green-50 rounded-md text-green-600">
+                                    <div className="flex px-4 py-2 space-x-4 bg-green-50 rounded-md text-green-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                         </svg>
-                                        <p className="text-sm text-green-600 px-2">{message}</p>
+                                        <p className="text-sm text-green-600">{message}</p>
                                     </div>
                                     }
                                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,20 +106,18 @@ export default function Login () {
                                         type="password" className="px-4 py-3 outline-none mt-1 block w-full shadow-sm sm:text-sm border rounded-lg" placeholder='Enter Password' />
                                         {errors.password && (<span className='text-xs text-pink-700'>{errors.password.message}</span>)}
                                         <p className='font-medium text-blue-400 block text-right text-sm'><NavLink to='/forget'>Forget password?</NavLink></p>
-                                        <button disabled={process} className='flex items-center space-x-3 px-6 py-3 bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>
+                                        <button disabled={process} className='flex items-center w-full space-x-3 px-6 py-3 bg-blue-500 font-medium text-sm text-slate-50 rounded-full mt-1'>
                                            {process && <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                             </svg> }
-                                            <span>Sign in</span> 
+                                            <span className='text-center w-full'>Sign in</span> 
                                         </button>
     
                                         <p className='block text-sm text-gray-700 mt-2'>
                                             No account?
                                             <NavLink className='text-blue-500 font-medium text-sm' to='/register' >&nbsp;Sign up</NavLink>
                                         </p>
-                                        <hr className='w-4/5 mx-auto my-4' />
-                                        <button className='px-4 py-3 border flex items-center justify-center rounded-full outline-none text-sm font-medium w-full space-x-4'><iconify-icon icon="flat-color-icons:google" width="24"></iconify-icon> <span>Sign in Google</span></button>
                                     </form>
                                 </div>                            
                                 </Dialog.Panel>

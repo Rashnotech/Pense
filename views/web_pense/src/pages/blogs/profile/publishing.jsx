@@ -1,20 +1,10 @@
-import {useLoaderData } from "react-router-dom"
-import { fetchRequest } from "../../api"
-import { useNavigate, useOutletContext, Link } from "react-router-dom"
+import { useAtom } from "jotai"
+import { Link } from "react-router-dom"
+import { authUser } from "../../store"
 
-
-export async function loader () {
-    const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
-    const user_id = JSON.parse(user).userid
-    const url = `https://pense.pythonanywhere.com/api/v1/posts/${user_id}`
-    const data = await fetchRequest(url)
-    return data
-
-}
 
 export default function Setpublication () {
-    const data = useLoaderData()
-
+    const [userData] = useAtom(authUser)
     return (
         <main className="space-y-6">
             <div className="flex justify-between items-center w-full">
@@ -25,14 +15,14 @@ export default function Setpublication () {
                     <p className="text-sm">Allow email replies</p>
                     <small>Let readers reply to your stories directly from their email.</small>
                 </div>
-                <Link className='text-sm text-gray-500'>xxx</Link>
+                <Link className='text-sm text-gray-500'>{userData.email}</Link>
             </div>
             <div className="flex justify-between items-center w-full">
                 <div>
                     <p className="text-sm mb-0">‘Reply To’ email address</p>
                     <small>Shown to your subscribers when they reply.</small>
                 </div>
-                <Link className='text-sm text-gray-500'>xxx</Link>
+                <Link className='text-sm text-gray-500'>{userData.email}</Link>
             </div>
             <div>
                 <p className="mb-0 text-sm">Import email subscribers</p>

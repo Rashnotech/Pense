@@ -8,7 +8,7 @@ export async function loader () {
 
 export default function Profiled () {
     return (
-        <section className="font-sans mt-25 overflow-y-hidden grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
+        <section className="font-manrope mt-25 overflow-y-hidden grid grid-cols-1 md:grid-cols-3 gap-3 w-full px-7 md:px-14 py-8">
             <Outlet />            
         </section>
     )

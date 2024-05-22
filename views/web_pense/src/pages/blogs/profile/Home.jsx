@@ -1,49 +1,41 @@
-import {useLoaderData } from "react-router-dom"
-import {Fragment} from "react"
-import { fetchRequest } from "../../api"
+import {Fragment, useEffect, useState} from "react"
+import { DelRequest, GetRequest} from "../../api"
 import { Menu, Transition } from "@headlessui/react"
-import { useNavigate, useOutletContext } from "react-router-dom"
+import { useNavigate} from "react-router-dom"
+import { useAtom } from "jotai"
+import { authUser } from "../../store"
 
-
-export async function loader () {
-    const user = sessionStorage.getItem('Browser_session') || localStorage.getItem('Browser_session')
-    const user_id = JSON.parse(user).userid
-    const url = `https://pense.pythonanywhere.com/api/v1/posts/${user_id}`
-    const data = await fetchRequest(url)
-    return data
-
-}
 
 export default function MyPost () {
     const navigate = useNavigate()
-    const data = useLoaderData()
-    const name = useOutletContext();
+    const [userData] = useAtom(authUser)
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const url = `${import.meta.env.VITE_API_URL}/posts/${userData.id}`
+        const data = await GetRequest(url);
+        setData(data);
+      }
+      fetchData();
+    }, [])
 
     function editPost (event, title) {
         event.preventDefault();
-        navigate(`/blog/edit/${name.toLowerCase()}/${title}`, {replace: true});
+        navigate(`/blog/edit/${userData.username.toLowerCase()}/${title}`, {replace: true});
     }
     async function deletePost (event, id) {
         event.preventDefault();
-        const url = `https://pense.pythonanywhere.com/api/v1/posts/${id}`
-        const res = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'}
-            });
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message);
-        }
-        const data = await res.json();
+        const url = `${import.meta.env.VITE_API_URL}/posts/${id}`
+        const res = await DelRequest(url);
         window.location.reload()
     }
     return (
-        data[0] && data ? data.map(post =>
+        !data.success && !data ? data.map(post =>
         <article key={post.id} className=""> 
             <p className="text-gray-500 font-normal pl-2 mb-0 text-sm">{(new Date(post.updated_at)).toDateString()}</p>
             <div className='w-full font-sans flex flex-col md:flex-row items-center justify-between'>
-                <div className="w-full md:w-1/3"><img src={`https://pense.pythonanywhere.com/api/v1/upload/images/${post.post_cover}`} className="flex-none w-full h-full object-cover rounded-lg" alt="" /></div>
+                <div className="w-full md:w-1/3"><img src={`${import.meta.env.VITE_API_URL}/upload/images/${post.post_cover}`} className="flex-none w-full h-full object-cover rounded-lg" alt="" /></div>
                 <div className='w-full px-3 md:px-6 space-y-2'>
                     <h2 className="text-2xl font-bold">{post.title}</h2>
                     <p className="text-gray-700 text-sm">
