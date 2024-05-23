@@ -20,7 +20,8 @@ class User(BaseModel, Base):
     email = Column(String(128), nullable=False, unique=True)
     password = Column(String(128), nullable=False)
     verify = Column(Boolean, nullable=False, default=False)
-    image = relationship('Image', backref='user', cascade='all, delete-orphan')
+    username = Column(String(128), nullable=False, unique=True)
+    image = relationship('Image', backref='users', cascade='all, delete-orphan')
     followers = relationship('User', secondary=subscriber_assoc, back_populates='following', foreign_keys=[subscriber_assoc.c.follower_id])
     following = relationship('User', secondary=subscriber_assoc, back_populates='followers', foreign_keys=[subscriber_assoc.c.following])
 

@@ -29,7 +29,7 @@ def login():
                 return jsonify({'message': 'Email not verified'}), 400
             user.set_password('')
             token = create_access_token(identity=user.id)
-            return jsonify({'data':user.to_dict(), 'token': user.generate_token()})
+            return jsonify({'data':user.to_dict(), 'token': token})
     return jsonify({'message': 'Not a register member, Signup'}), 400
 
 
