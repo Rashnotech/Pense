@@ -28,6 +28,15 @@ class User(BaseModel, Base):
         super().__init__(**kwargs)
         self.password = md5(self.password.encode()).hexdigest()
 
+    def to_dict(self):
+        """ Overwriting the to_dict method in the base model"""
+        new_dict = super().to_dict()
+        new_dict['image'] = [image.to_dict() for image in self.image]
+        return new_dict 
+
+    def set_password(self, new_password):
+        """set password"""
+        self.password = new_password
 
     def add_follower(self, follower):
         """add followers"""

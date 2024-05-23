@@ -2,7 +2,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import { useAtom } from 'jotai';
 import { PostRequest } from '../pages/api';
 import { AsyncStorage } from '../pages/util';
 

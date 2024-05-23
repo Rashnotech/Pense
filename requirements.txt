@@ -18,3 +18,4 @@ pytest==7.4.3
 SQLAlchemy==2.0.23
 typing_extensions==4.8.0
 Werkzeug==3.0.1
+flask-jwt-extended

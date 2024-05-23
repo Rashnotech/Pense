@@ -4,11 +4,13 @@ from flask import Flask, render_template, request, abort, Blueprint, jsonify
 from models import storage
 from models.comment import Comment
 from api.v1.routes import app_views
+from flask_jwt_extended import jwt_required
 
 comment_bp = Blueprint('comment_bp', __name__, url_prefix='/comments')
 
 
 @comment_bp.route('/', methods=['POST'], strict_slashes=False)
+@jwt_required()
 def create_comment():
     """
     Create a new comment from the request data and
@@ -25,6 +27,7 @@ def create_comment():
 
 # Endpoint to update an existing comment
 @comment_bp.route('/<int:comment_id>', methods=['PUT'])
+@jwt_required()
 def update_comment(comment_id):
     try:
         data = request.get_json()
@@ -45,6 +48,7 @@ def update_comment(comment_id):
 
 # Endpoint to delete an existing comment
 @comment_bp.route('/<int:comment_id>', methods=['DELETE'])
+@jwt_required()
 def delete_comment(comment_id):
     try:
         comment = storage.get(Comment, comment_id)
@@ -58,6 +62,7 @@ def delete_comment(comment_id):
         return jsonify({'error': str(e)}), 400
 
 @comment_bp.route('/<int:post_id>', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def get_comments_for_post(post_id):
     try:
         comments = storage.all(Comment)

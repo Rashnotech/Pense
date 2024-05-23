@@ -7,6 +7,7 @@ from models.post import Post, post_category
 from models.category import Category
 from math import ceil
 from werkzeug.utils import secure_filename
+from flask_jwt_extended import jwt_required
 import os
 
 
@@ -21,6 +22,7 @@ def allowed_file(filename):
     return False
 
 @post_bp.route('/', methods=['POST'], strict_slashes=False)
+@jwt_required()
 def create_post():
     try:
         if request.headers['Content-Type'].startswith('application/json'):
@@ -58,6 +60,7 @@ def create_post():
     
 
 @post_bp.route('/<int:id>', methods=['PUT'], strict_slashes=False)
+@jwt_required()
 def update_post(id):
     # Get the JSON data from the request
     data = request.get_json()
@@ -76,6 +79,7 @@ def update_post(id):
     return jsonify(post.to_dict()), 200
 
 @post_bp.route('/<int:id>', methods=['DELETE'], strict_slashes=False)
+@jwt_required()
 def delete_post(id):
     """ Get the post object from the database by its id """
     post = storage.get(Post, id)
@@ -175,6 +179,7 @@ def read_post(name, title):
 
 
 @post_bp.route('/<int:user_id>/<int:post_id>', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def get_post_by_post_id(user_id, post_id):
     post = storage.get(Post, (Post.user_id == user_id) & (Post.id == post_id))
     if not post:
