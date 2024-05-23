@@ -2,7 +2,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import { useAtom } from 'jotai';
 import { PostRequest } from '../pages/api';
 import { AsyncStorage } from '../pages/util';
 
@@ -33,7 +32,6 @@ export default function Login () {
         setProcess(true);
         const url = `${import.meta.env.VITE_API_URL}/login`
         const res = await PostRequest(url, data)
-        console.log(res)
         if (res.data) {
             setMessage('Login successful, redirecting...')
             setError('')

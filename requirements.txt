@@ -5,3 +5,4 @@ SQLAlchemy
 Flask-Mail
 gunicorn
 alembic
+flask-jwt-extended

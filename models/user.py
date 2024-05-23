@@ -20,7 +20,8 @@ class User(BaseModel, Base):
     email = Column(String(128), nullable=False, unique=True)
     password = Column(String(128), nullable=False)
     verify = Column(Boolean, nullable=False, default=False)
-    image = relationship('Image', backref='user', cascade='all, delete-orphan')
+    username = Column(String(128), nullable=False, unique=True)
+    image = relationship('Image', backref='users', cascade='all, delete-orphan')
     followers = relationship('User', secondary=subscriber_assoc, back_populates='following', foreign_keys=[subscriber_assoc.c.follower_id])
     following = relationship('User', secondary=subscriber_assoc, back_populates='followers', foreign_keys=[subscriber_assoc.c.following])
 
@@ -28,6 +29,15 @@ class User(BaseModel, Base):
         super().__init__(**kwargs)
         self.password = md5(self.password.encode()).hexdigest()
 
+    def to_dict(self):
+        """ Overwriting the to_dict method in the base model"""
+        new_dict = super().to_dict()
+        new_dict['image'] = [image.to_dict() for image in self.image]
+        return new_dict 
+
+    def set_password(self, new_password):
+        """set password"""
+        self.password = new_password
 
     def add_follower(self, follower):
         """add followers"""

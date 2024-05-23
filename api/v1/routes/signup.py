@@ -5,6 +5,7 @@ from api.v1.routes.email import send_mail
 from models import storage
 from flask import url_for, render_template, redirect
 from models.user import User
+from models.image import Image
 
 
 @app_views.route('/signup', methods=['POST'], strict_slashes=False)
@@ -17,6 +18,8 @@ def signup():
     for field in require_fields:
         if field not in data:
             return jsonify({'message': f'Missing {field}'}), 400
+    if 'username' not in data.keys():
+        data['username'] = data['email'].split('@')[0].capitalize()
     validate = storage.all(User)
     for user in validate.values():
         if user.email == data['email']:
@@ -27,11 +30,14 @@ def signup():
                                               fullname=data['lastname'],
                                               email=data['email'])
     response, status_code = send_mail(data['email'], body)
-    new_user = User(**data)
-    new_user.save()
     if status_code == 500:
         abort(400, response)
-    return jsonify(new_user.to_dict()), 201
+    new_user = User(**data)
+    new_user.save()
+    new_image = Image(filename='default.png', user_id=new_user.id)
+    new_image.save()
+    new_user.set_password('')
+    return jsonify({'data': new_user.to_dict()}), 201
 
 
 @app_views.route('/verify?email=<email>', methods=['GET', 'PUT'], strict_slashes=False)
