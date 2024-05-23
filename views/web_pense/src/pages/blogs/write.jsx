@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import { Editor, EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
 import './custom.css';
 import 'draft-js/dist/Draft.css';
-import FloatingActionButtons from './floating';
+import FloatingActionButtons from './float';
 
 
 export default function Write () {
@@ -87,7 +87,7 @@ export default function Write () {
             if (menuRef.current) {
                 menuRef.current.style.display = 'block';
                 menuRef.current.style.top = `${Math.abs(rect.top - editorRect.top + window.scrollY)}px`;
-                menuRef.current.style.left = `-10px`;
+                menuRef.current.style.left = '-10';
             }
         } else {
             if (menuRef.current) {
@@ -208,7 +208,7 @@ export default function Write () {
                 <div className='editor p-6 text-lg relative text-black bg-white' ref={editorContainerRef} >
                         <div ref={toolbarRef} className='hidden z-10 space-x-2 flex-row w-fit items-center px-2 shadow-inner rounded-md bg-slate-800 text-white'>
                             <button onClick={_onBoldClick} className='flex p-1 text-xl font-manrope'>B</button>
-                            <button onClick={_onItalicClick} className='flex p-1 italic font-sans'>
+                            <button onClick={_onItalicClick} className='flex p-1 italic text-xl text-center font-sans'>
                                 i
                             </button>
                             <button onClick={onLinkClick} className='flex p-1'>
@@ -244,11 +244,6 @@ export default function Write () {
                         autoCapitalize='true'
                         autoCorrect='true'
                     />
-                    {cursorPosition && (
-                        <div className="cursor-info">
-                            Line: {cursorPosition.line}, Offset: {cursorPosition.offset}
-                        </div>
-                    )}
                 </div>
                 
             </div>

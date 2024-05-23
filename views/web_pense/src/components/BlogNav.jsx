@@ -65,7 +65,7 @@ export default function BlogNav ({username, picture}) {
         window.location.reload();
     }
     return (
-        <nav className="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center px-4 py-2 m-6 shadow-sm rounded-xl bg-white/80 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
+        <nav className="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center px-4 py-2 m-6 shadow-md rounded-xl bg-white/70 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
             <div className="flex items-center justify-between w-full p-0 px-6 mx-auto flex-wrap-inherit">
               <Link className="py-1.75 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0" to=".">
                     <img src={Logo} className="w-16"  alt="Pense Logo" />
