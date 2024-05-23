@@ -32,7 +32,6 @@ export default function Login () {
         setProcess(true);
         const url = `${import.meta.env.VITE_API_URL}/login`
         const res = await PostRequest(url, data)
-        console.log(res)
         if (res.data) {
             setMessage('Login successful, redirecting...')
             setError('')
