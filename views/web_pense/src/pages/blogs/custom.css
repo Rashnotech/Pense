@@ -5,6 +5,7 @@
   
   .editor {
     min-height: 300px;
+    width: 100%;
     cursor: text;
     margin-top: 20px;
   }
